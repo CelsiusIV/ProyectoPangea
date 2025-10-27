@@ -1,0 +1,25 @@
+
+<button mat-dialog-close="" style="align-self: flex-end">
+    <mat-icon fontIcon="close"/>
+</button>
+<h2 mat-dialog-title>Acceso</h2>
+<mat-dialog-content>
+    <h3> Usuario y contraseña</h3>
+    <p>
+        <mat-form-field>
+            <mat-label>Usuario</mat-label>
+            <input matInput placeholder="Usuario">
+            <mat-icon matSuffix fontIcon="person"></mat-icon>
+        </mat-form-field>
+    </p>
+    <p>
+        <mat-form-field>
+            <mat-label>Contraseña</mat-label>
+            <input matInput placeholder="Contraseña">
+            <mat-icon matSuffix fontIcon="key"></mat-icon>
+        </mat-form-field>
+    </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary">Login</button>
+</mat-dialog-actions>
