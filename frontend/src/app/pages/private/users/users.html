@@ -1,1 +1,32 @@
-<p>users works!</p>
+<div id="listadoUsuarios">Aqui se listan los usuarios</div>
+
+<h3>Nuevo usuario</h3>
+<form>
+    <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Nombre">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Apellidos</mat-label>
+        <input matInput placeholder="Apellidos">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Año nacimiento</mat-label>
+        <input matInput placeholder="Año nacimiento">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Select</mat-label>
+        <mat-select>
+            <mat-option value="one">Primera opción</mat-option>
+            <mat-option value="two">Segunda opción</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Enviar</button>
+</form>
