@@ -62,34 +62,43 @@
           </a>
         </div>
         <div id="zonaAdmin">
-        <mat-divider></mat-divider>
+          <mat-divider></mat-divider>
 
-        <h3 mat-subheader>Zona de administracion</h3>
+          <h3 mat-subheader>Zona de profesorado</h3>
 
-        <a mat-list-item routerLink="/privado/horarios" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            calendar_month
-          </mat-icon>
-          <p mat-line> Horarios </p>
-        </a>
-        <a mat-list-item routerLink="/privado/usuarios" routerLinkActive="active">
-          <mat-icon mat-list-icon>
-            people
-          </mat-icon>
-          <p mat-line> Usuarios </p>
-        </a>
-</div>
-</mat-nav-list>
+          <a mat-list-item routerLink="/privado/horarios" routerLinkActive="active">
+            <mat-icon mat-list-icon>
+              calendar_month
+            </mat-icon>
+            <p mat-line> Horarios </p>
+          </a>
+          <a mat-list-item routerLink="/privado/usuarios" routerLinkActive="active">
+            <mat-icon mat-list-icon>
+              people
+            </mat-icon>
+            <p mat-line> Usuarios </p>
+          </a>
 
-</mat-sidenav>
+          <mat-divider></mat-divider>
 
-<!-- Main content -->
-<mat-sidenav-content class="sidenav-content">
+          <a mat-list-item routerLink="/privado/admin" routerLinkActive="active">
+            <mat-icon mat-list-icon>
+              people
+            </mat-icon>
+            <p mat-line> Administracion </p>
+          </a>
+        </div>
+      </mat-nav-list>
+
+    </mat-sidenav>
+
+    <!-- Main content -->
+    <mat-sidenav-content class="sidenav-content">
 
 
-  <router-outlet />
+      <router-outlet />
 
-</mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 
 </div>

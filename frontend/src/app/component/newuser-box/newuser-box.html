@@ -1,0 +1,65 @@
+<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+    <mat-icon fontIcon="close" />
+</button>
+<h2 mat-dialog-title>Nuevo Usuario</h2>
+
+<form>
+    <mat-dialog-content>
+        <h3>Introduzca usuario y contraseña</h3>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Usuario</mat-label>
+                <input matInput placeholder="Usuario" required [(ngModel)]="userData.username" name="username">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Contraseña</mat-label>
+                <input matInput placeholder="Contraseña" type="password" required [(ngModel)]="userData.username" name="username">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Nombre" required [(ngModel)]="userData.first_name" name="first_name">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Apellidos</mat-label>
+                <input matInput placeholder="Apellidos" [(ngModel)]="userData.last_name" name="last_name">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Año nacimiento</mat-label>
+                <input matInput placeholder="Año nacimiento" [(ngModel)]="userData.birth_year" name="birth_year">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Telefono</mat-label>
+                <input matInput placeholder="Telefono" required [(ngModel)]="userData.phone" name="phone">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" required [(ngModel)]="userData.email" name="email">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Rol</mat-label>
+                <mat-select [(ngModel)]="userData.role" name="role">
+                    <mat-option value="alumno">Alumno</mat-option>
+                    <mat-option value="profesor">Profesor</mat-option>
+                    <mat-option value="registrado">Registrado</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="true">Añadir</button>
+    </mat-dialog-actions>
+</form>
