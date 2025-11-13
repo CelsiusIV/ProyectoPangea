@@ -1,18 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { User } from '../../../service/user';
-import { MatTableModule } from '@angular/material/table';
-import { MatIcon } from '@angular/material/icon';
+import { UserService } from '../../../service/user';
 import { MatDialog } from '@angular/material/dialog';
 import { NewuserBox } from '../../../component/newuser-box/newuser-box';
+import { User } from '../../../shared/models/user.interface';
+import { UserTable } from "../../../component/user-table/user-table";
+
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatTableModule,MatIcon],
+  imports: [CommonModule, UserTable],
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
@@ -22,20 +19,19 @@ export class Users implements OnInit {
     this.dialog.open(NewuserBox);
   }
 
-  users: any[] = []; // Variable para guardar el listado de usuarios
-  loading = true; // Para mostrar un spinner mientras carga
-  displayedColumns: string[] = ['id','username', 'first_name', 'birth_year', 'email', 'phone', 'is_active','borrar'];
+  users: User[] = []; 
+  loading = true; 
+
   dataSource = this.users;
-  constructor(private user: User) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.getUsersList();
   }
 
   getUsersList(): void {
-    this.user.getUsers().subscribe({
+    this.userService.getUsers().subscribe({
       next: (response) => {
-        // Asumiendo que Laravel devuelve: { status: true, data: [...] }
         if (response.status) {
           this.users = response.data;
         }
@@ -45,7 +41,6 @@ export class Users implements OnInit {
       error: (error) => {
         console.error('Error al obtener usuarios:', error);
         this.loading = false;
-        // Manejar errores (ej: mostrar un mensaje al usuario)
       }
     });
   }

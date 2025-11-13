@@ -17,7 +17,7 @@ export class AuthService {
     });
   }
 }*/
-export class User {
+export class UserService {
 
   private apiURL = 'http://127.0.0.1:8080/users';
   constructor(private http: HttpClient) { }
