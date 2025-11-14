@@ -5,7 +5,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatIcon } from '@angular/material/icon';
-import { DataSource } from '@angular/cdk/collections';
 import { User } from '../../shared/models/user.interface';
 
 @Component({
@@ -17,6 +16,6 @@ import { User } from '../../shared/models/user.interface';
 export class UserTable {
 
   @Input() dataSource: User[] = [];
-  displayedColumns: string[] = ['id', 'username', 'first_name', 'birth_year', 'email', 'phone', 'is_active', 'borrar'];
+  displayedColumns: string[] = ['username', 'first_name', 'last_name', 'birth_year', 'email', 'phone', 'is_active', 'borrar'];
 
 }

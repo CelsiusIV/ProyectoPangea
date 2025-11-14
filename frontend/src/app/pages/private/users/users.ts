@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../../service/user';
+import { UserService } from '../../../service/user-service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewuserBox } from '../../../component/newuser-box/newuser-box';
 import { User } from '../../../shared/models/user.interface';
