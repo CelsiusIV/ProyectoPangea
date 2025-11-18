@@ -16,6 +16,6 @@ import { User } from '../../shared/models/user.interface';
 export class UserTable {
 
   @Input() dataSource: User[] = [];
-  displayedColumns: string[] = ['username', 'first_name', 'last_name', 'birth_year', 'email', 'phone', 'is_active', 'borrar'];
+  displayedColumns: string[] = ['username', 'first_name', 'last_name', 'birth_date', 'email', 'phone', 'is_active', 'borrar'];
 
 }

@@ -32,10 +32,7 @@ export class Users implements OnInit {
   getUsersList(): void {
     this.userService.getUsers().subscribe({
       next: (response) => {
-        if (response.status) {
-          this.users = response.data;
-        }
-        this.dataSource = this.users;
+        this.dataSource = response.data;
         this.loading = false;
       },
       error: (error) => {

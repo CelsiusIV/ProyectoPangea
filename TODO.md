@@ -4,3 +4,4 @@
 - [ ] poner el listado de usuarios como componente aparte
 - [ ] poner el onSubmit de nweuser-box en su padre users.ts
 - [ ] Arreglar IFs
+- [ ] POoner carpeta de servicios en shared

@@ -19,7 +19,7 @@ export class AuthService {
 }*/
 export class UserService {
 
-  private apiURL = 'http://127.0.0.1:8080/users';
+  private apiURL = 'http://127.0.0.1:8080/api/users';
   constructor(private http: HttpClient) { }
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

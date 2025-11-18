@@ -3,9 +3,8 @@
 
     <div *ngIf="loading" class="loading">Cargando usuarios...</div>
 
-
-    <div *ngIf="!loading && users.length > 0" class="user-cards">
-
+    
+    <div *ngIf="!loading && users" class="user-cards">
         <button mat-raised-button (click)="openDialog()" color="primary">Añadir nuevo usuario</button>
         
         <app-user-table [dataSource]="dataSource"></app-user-table>
