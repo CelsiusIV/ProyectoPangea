@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name')->nullable();
-            $table->integer('birth_year')->nullable();
+            $table->integer('birth_date')->nullable();
             $table->string('phone');
             $table->string('email')->unique();
             $table->foreignId('role_id')->default(4)->constrained();

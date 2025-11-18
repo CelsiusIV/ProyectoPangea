@@ -27,7 +27,6 @@ class UserFactory extends Factory
             'username' => fake()->unique()->userName(), // Genera un nombre de usuario único
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'birth_year' => fake()->numberBetween(1970, 2005),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'is_active' => fake()->boolean(),
