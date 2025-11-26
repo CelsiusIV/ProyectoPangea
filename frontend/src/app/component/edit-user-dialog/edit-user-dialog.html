@@ -1,11 +1,24 @@
+<!--<mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>Shiba Inu</mat-card-title>
+            <mat-card-subtitle>Small</mat-card-subtitle>
+            <img mat-card-sm-image src="https://material.angular.dev/assets/img/examples/shiba2.jpg">
+        </mat-card-title-group>
+    </mat-card-header>
+    <mat-card-content>-->
 <button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
-<h2 mat-dialog-title>Nuevo Usuario</h2>
-
-<form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+<h2 mat-dialog-title>Editar</h2>
+<form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <h3>Introduzca usuario y contraseña</h3>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>ID</mat-label>
+                <input matInput placeholder="ID" formControlName="id" name="id" >
+            </mat-form-field>
+        </p>
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Usuario</mat-label>
@@ -15,7 +28,8 @@
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
-                <input matInput placeholder="Contraseña" type="password" required formControlName="password" name="username">
+                <input matInput placeholder="Contraseña" type="password" required formControlName="password"
+                    name="username">
             </mat-form-field>
         </p>
         <p>
@@ -32,7 +46,7 @@
         </p>
         <p>
             <mat-form-field appearance="outline">
-                <mat-label>Fecha de Nacimiento</mat-label>
+                <mat-label>Año nacimiento</mat-label>
                 <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
             </mat-form-field>
         </p>
@@ -50,16 +64,25 @@
         </p>
         <p>
             <mat-form-field appearance="outline">
+                <mat-label>Active?</mat-label>
+                <input matInput placeholder="is_active" required formControlName="is_active" name="is_active">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
                 <mat-select formControlName="role" name="role">
                     <mat-option value="alumno">Alumno</mat-option>
                     <mat-option value="profesor">Profesor</mat-option>
-                    <mat-option value="registrado" >Registrado</mat-option> 
+                    <mat-option value="registrado">Registrado</mat-option> <!--Poner esto por defecto-->
                 </mat-select>
             </mat-form-field>
         </p>
+
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-raised-button color="primary" type="submit"  mat-dialog-close [disabled]="newUserForm.invalid">Añadir</button>
+        <button mat-raised-button color="primary" type="submit">Editar</button>
     </mat-dialog-actions>
 </form>
+<!--    </mat-card-content>
+</mat-card>-->

@@ -1,15 +1,10 @@
 <div id="listadoUsuarios">
     <h2>Listado de Usuarios</h2>
 
-    <div *ngIf="loading" class="loading">Cargando usuarios...</div>
+    @if (!loading && users){
+    <button mat-raised-button (click)="openDialog()" color="primary">Añadir nuevo usuario</button>
 
-    
-    <div *ngIf="!loading && users" class="user-cards">
-        <button mat-raised-button (click)="openDialog()" color="primary">Añadir nuevo usuario</button>
-        
-        <app-user-table [dataSource]="dataSource"></app-user-table>
-    </div>
+    <app-user-table [users]="users"></app-user-table>
+    }
 
-  
 </div>
-

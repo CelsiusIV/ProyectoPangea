@@ -13,16 +13,16 @@ import { UserTable } from "../../../component/user-table/user-table";
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
+
 export class Users implements OnInit {
-   readonly dialog = inject(MatDialog);
+  readonly dialog = inject(MatDialog);
   openDialog(): void {
     this.dialog.open(NewuserBox);
   }
 
-  users: User[] = []; 
-  loading = true; 
+  users: User[] = [];
+  loading = true;
 
-  dataSource = this.users;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
@@ -32,7 +32,7 @@ export class Users implements OnInit {
   getUsersList(): void {
     this.userService.getUsers().subscribe({
       next: (response) => {
-        this.dataSource = response.data;
+        this.users = response.data;
         this.loading = false;
       },
       error: (error) => {

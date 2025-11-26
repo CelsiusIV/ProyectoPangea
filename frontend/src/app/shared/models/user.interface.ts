@@ -2,9 +2,9 @@ export interface User {
     id: number;
     username: string;
     password: string;
-    name: string;
-    lastname?: string;
-    birthyear?: number;
+    first_name: string;
+    last_name: string;
+    birth_date: Date;
     email: string;
     phone: number;
     is_active: boolean;

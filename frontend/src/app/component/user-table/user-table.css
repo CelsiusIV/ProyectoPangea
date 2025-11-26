@@ -1,14 +1,4 @@
-input{
-  text-align: center; 
-  line-height: normal; 
-  color: black;
-  border: none;
-  outline: none;
-  background-color: transparent;
-}
-
-tr{
-    text-align: center;
-    line-height: normal; 
-    color: rgb(216, 157, 157);
+.is_Active{
+    background-color: rgb(233, 179, 179);
+    color: rgb(165, 32, 32);
 }
