@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
-use App\Models\Role;
+use App\Http\Requests\TypeClassRequest;
+use App\Models\TypeClass;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class TypeClassController extends Controller
 {
-    /**
+       /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Role::all()->toResourceCollection();
+        return TypeClass::all()->toResourceCollection();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleRequest $request)
+    public function store(TypeClassRequest $request)
     {
-        $role= $request->validated();
-        Role::create($role);
+        $typeClass= $request->validated();
+        TypeClass::create($typeClass);
     }
 
     /**
@@ -31,18 +31,18 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return Role::findOrFail($id)->toResource();
+        return TypeClass::findOrFail($id)->toResource();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleRequest $request, string $id)
+    public function update(TypeClassRequest $request, string $id)
     {
-        $role = Role::findOrFail($id);
+        $typeClass = TypeClass::findOrFail($id);
         $updateData = $request->validated();
-        $role->update($updateData);
-        return response()->json($role,200);
+        $typeClass->update($updateData);
+        return response()->json($typeClass,200);
     }
 
     /**
@@ -50,6 +50,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        Role::destroy($id);
+        TypeClass::destroy($id);
     }
 }

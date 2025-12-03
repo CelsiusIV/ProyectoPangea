@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('users_id')->constrained();
             $table->foreignId('type_of_classes_id')->constrained();
             $table->date('paymentDate');

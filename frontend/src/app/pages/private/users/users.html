@@ -2,7 +2,7 @@
     <h2>Listado de Usuarios</h2>
 
     @if (!loading && users){
-    <button mat-raised-button (click)="openDialog()" color="primary">Añadir nuevo usuario</button>
+    <button mat-raised-button (click)="newUser()" color="primary">Añadir nuevo usuario</button>
 
     <app-user-table [users]="users"></app-user-table>
     }

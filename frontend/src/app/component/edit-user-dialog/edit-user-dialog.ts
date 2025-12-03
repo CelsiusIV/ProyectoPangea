@@ -20,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class EditUserDialog {
   user: User;
-  editUserForm : FormGroup;
+  editUserForm: FormGroup;
+
 
   constructor(
     private userService: UserService,
@@ -43,25 +44,10 @@ export class EditUserDialog {
     });
   }
 
-
-  /* ngOnInit() {
-     this.userService.getUser(this.userId).subscribe({
-       next: (user: User) => {
-         console.log('Datos del usuario cargados:', user);
-         //this.editUserForm.patchValue(user);
- 
-       },
-       error: (error) => {
-         console.error('Error al cargar datos del usuario:', error);
-         this.dialogRef.close();
-       }
-     })
-   }*/
   onSubmit() {
     if (this.editUserForm.valid) {
       this.userService.put(this.user.id, this.editUserForm.value).subscribe({
         next: (response) => {
-
           console.log('Formulario enviado con éxito:', response);
         },
         error: (error) => {

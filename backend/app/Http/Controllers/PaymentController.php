@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
-use App\Models\Role;
+use App\Http\Requests\PaymentRequest;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class PaymentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Role::all()->toResourceCollection();
+        return Payment::all()->toResourceCollection();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleRequest $request)
+    public function store(PaymentRequest $request)
     {
-        $role= $request->validated();
-        Role::create($role);
+        $payment = $request->validated();
+        Payment::create($payment);
     }
 
     /**
@@ -31,18 +31,18 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return Role::findOrFail($id)->toResource();
+        return Payment::findOrFail($id)->toResource();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $role = Role::findOrFail($id);
+        $payment = Payment::finOrFail($id);
         $updateData = $request->validated();
-        $role->update($updateData);
-        return response()->json($role,200);
+        $payment->update($updateData);
+        return response()->json($payment, 200);
     }
 
     /**
@@ -50,6 +50,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        Role::destroy($id);
+        Payment::destroy($id);
     }
 }

@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoleRequest;
-use App\Models\Role;
+use App\Http\Requests\ClassRequest;
 use Illuminate\Http\Request;
 
-class RoleController extends Controller
+class ClassesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Role::all()->toResourceCollection();
+        return Classes::all()->toResourceCollection();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoleRequest $request)
+    public function store(ClassRequest $request)
     {
-        $role= $request->validated();
-        Role::create($role);
+        $class = $request->validated();
+        Classes::create($class);
     }
 
     /**
@@ -31,18 +31,18 @@ class RoleController extends Controller
      */
     public function show(string $id)
     {
-        return Role::findOrFail($id)->toResource();
+        return Classes::findOrFail($id)->roResource();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleRequest $request, string $id)
+    public function update(ClassRequest $request, string $id)
     {
-        $role = Role::findOrFail($id);
+        $class = Classes::findOrFail($id);
         $updateData = $request->validated();
-        $role->update($updateData);
-        return response()->json($role,200);
+        $class->update($updateData);
+        return response()->json($class, 200);
     }
 
     /**
@@ -50,6 +50,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        Role::destroy($id);
+        Classes::destroy($id);
     }
 }

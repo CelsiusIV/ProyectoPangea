@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -19,11 +21,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'username', 
-        'first_name', 
-        'last_name', 
-        'birth_date', 
-        'phone', 
+        'username',
+        'first_name',
+        'last_name',
+        'birth_date',
+        'phone',
         'email',
         'is_active',
         'password',
@@ -51,7 +53,16 @@ class User extends Authenticatable
         ];
     }
 
-    public function role(): HasOne{
-        return $this->hasOne(Role::class);
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function bookingclass(): HasMany
+    {
+        return $this->hasMany(BookingClass::class);
+    }
+     public function payment(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 }

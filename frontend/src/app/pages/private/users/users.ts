@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../../service/user-service';
 import { MatDialog } from '@angular/material/dialog';
 import { NewuserBox } from '../../../component/newuser-box/newuser-box';
-import { User } from '../../../shared/models/user.interface';
+import { Role, User } from '../../../shared/models/user.interface';
 import { UserTable } from "../../../component/user-table/user-table";
+import { RoleService } from '../../../service/role-service';
 
 
 @Component({
@@ -16,17 +17,28 @@ import { UserTable } from "../../../component/user-table/user-table";
 
 export class Users implements OnInit {
   readonly dialog = inject(MatDialog);
-  openDialog(): void {
-    this.dialog.open(NewuserBox);
+  roleNames: Role[] = [];
+
+  newUser(): void {
+    this.dialog.open(NewuserBox, { data: { roles: this.roleNames } });
   }
 
   users: User[] = [];
   loading = true;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private roleService: RoleService) { }
 
   ngOnInit(): void {
     this.getUsersList();
+    this.roleService.getRoles().subscribe({
+      next: (response) => {
+        this.roleNames = response.data;
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+
   }
 
   getUsersList(): void {

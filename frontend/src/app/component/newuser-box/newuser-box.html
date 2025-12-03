@@ -15,7 +15,8 @@
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
-                <input matInput placeholder="Contraseña" type="password" required formControlName="password" name="username">
+                <input matInput placeholder="Contraseña" type="password" required formControlName="password"
+                    name="username">
             </mat-form-field>
         </p>
         <p>
@@ -52,14 +53,15 @@
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
                 <mat-select formControlName="role" name="role">
-                    <mat-option value="alumno">Alumno</mat-option>
-                    <mat-option value="profesor">Profesor</mat-option>
-                    <mat-option value="registrado" >Registrado</mat-option> 
+                    @for(role of roleNames ; track role.id){
+                    <mat-option [value]="role">{{role.role_name}}</mat-option>
+                    }@empty {<li>There are no items.</li>}
                 </mat-select>
             </mat-form-field>
         </p>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-raised-button color="primary" type="submit"  mat-dialog-close [disabled]="newUserForm.invalid">Añadir</button>
+        <button mat-raised-button color="primary" type="submit" mat-dialog-close
+            [disabled]="newUserForm.invalid">Añadir</button>
     </mat-dialog-actions>
 </form>

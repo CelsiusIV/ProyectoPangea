@@ -13,5 +13,5 @@ export interface User {
 
 export interface Role{
     id: number;
-    rolename: string;
+    role_name: string;
 }
