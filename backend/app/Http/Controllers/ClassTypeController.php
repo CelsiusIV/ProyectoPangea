@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ClassTypeRequest;
 use App\Http\Requests\TypeClassRequest;
-use App\Models\TypeClass;
-use Illuminate\Http\Request;
+use App\Models\ClassType;
 
-class TypeClassController extends Controller
+class ClassTypeController extends Controller
 {
        /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return TypeClass::all()->toResourceCollection();
+        return ClassType::all()->toResourceCollection();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TypeClassRequest $request)
+    public function store(ClassTypeRequest $request)
     {
         $typeClass= $request->validated();
-        TypeClass::create($typeClass);
+        ClassType::create($typeClass);
     }
 
     /**
@@ -31,15 +31,15 @@ class TypeClassController extends Controller
      */
     public function show(string $id)
     {
-        return TypeClass::findOrFail($id)->toResource();
+        return ClassType::findOrFail($id)->toResource();
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(TypeClassRequest $request, string $id)
+    public function update(ClassTypeRequest $request, string $id)
     {
-        $typeClass = TypeClass::findOrFail($id);
+        $typeClass = ClassType::findOrFail($id);
         $updateData = $request->validated();
         $typeClass->update($updateData);
         return response()->json($typeClass,200);
@@ -50,6 +50,6 @@ class TypeClassController extends Controller
      */
     public function destroy(string $id)
     {
-        TypeClass::destroy($id);
+        ClassType::destroy($id);
     }
 }

@@ -11,7 +11,8 @@ class Classes extends Model
     protected $fillable = [
         'beginDate',
         'endDate',
-        'maxStudents'
+        'maxStudents',
+        'class_type_id'
     ];
 
     public function bookingclass(): HasMany
@@ -19,7 +20,7 @@ class Classes extends Model
         return $this->hasMany(BookingClass::class);
     }
 
-    public function typeofclass(): BelongsTo{
-        return $this->belongsTo(TypeClass::class);
+    public function classType(): BelongsTo{
+        return $this->belongsTo(ClassType::class);
     }
 }

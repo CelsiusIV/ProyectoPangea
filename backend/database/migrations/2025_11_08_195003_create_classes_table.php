@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dateTime('beginDate');
             $table->dateTime('endDate');
             $table->integer('maxStudents')->default(5);
-            $table->foreignId('type_of_classes_id')->constrained();
+            $table->foreignId('class_type_id')->constrained();
             $table->timestamps();
         });
     }

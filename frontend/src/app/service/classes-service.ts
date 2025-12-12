@@ -3,16 +3,17 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class RoleService {
-  private apiURL = 'http://127.0.0.1:8080/api/roles';
+export class ClassesService {
+
+  private apiURL = 'http://127.0.0.1:8080/api/classes';
   constructor(private http: HttpClient) { }
-  getRoles(): Observable<any> {
+  getClasses(): Observable<any> {
     return this.http.get(`${this.apiURL}`);
   }
 
-  getRole(id: number): Observable<any> {
+  getClass(id: number): Observable<any> {
     return this.http.get(`${this.apiURL}/${id}`)
   }
 

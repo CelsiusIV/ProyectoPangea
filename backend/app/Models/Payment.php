@@ -20,6 +20,6 @@ class Payment extends Model
     
    public function typeclass(): BelongsTo
     {
-        return $this->belongsTo(TypeClass::class);
+        return $this->belongsTo(ClassType::class);
     }
 }

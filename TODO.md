@@ -6,4 +6,4 @@
 - [ ] Arreglar IFs
 - [ ] POoner carpeta de servicios en shared
 - [ ] En user service cambiar el getUsers por get
-- [ ] 
+- [ ] Arreglar el edit-user-dialog

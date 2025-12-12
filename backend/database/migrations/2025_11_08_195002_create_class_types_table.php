@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_of_classes', function (Blueprint $table) {
+        Schema::create('class_types', function (Blueprint $table) {
             $table->id();
             $table->string('className');
             $table->integer('classLimit')->nullable();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_of_classes');
+        Schema::dropIfExists('class_types');
     }
 };

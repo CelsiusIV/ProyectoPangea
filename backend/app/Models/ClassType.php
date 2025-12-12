@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class TypeClass extends Model
+class ClassType extends Model
 {
     use HasFactory;
 
-    protected $table = 'type_of_classes';
+    protected $table = 'class_types'; // QUITARLO POR CONVENCION NOSEQUE
     
     protected $fillable = [
         'className',

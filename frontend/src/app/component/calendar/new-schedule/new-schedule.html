@@ -1,0 +1,41 @@
+<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+    <mat-icon fontIcon="close" />
+</button>
+<h2 mat-dialog-title>Programar nueva clase</h2>
+
+<form [formGroup]="newScheduleForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha y hora de inicio</mat-label>
+                <input matInput type="datetime-local" placeholder="FechaInicio" required formControlName="beginDate" name="beginDate">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Fecha y hora de fin</mat-label>
+                <input matInput type="datetime-local" placeholder="FechaFin" formControlName="endDate" name="endDate">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Máximo de alumnos Permitidos</mat-label>
+                <input matInput placeholder="MaxAlumnos" formControlName="maxStudents" name="maxStudents">
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo de clase</mat-label>
+                <mat-select formControlName="class_type_id" name="class_type_id">
+                    @for(typeClass of typeClassNames ; track typeClass.id){
+                    <mat-option [value]="typeClass.id">{{typeClass.className}}</mat-option>
+                    }@empty {<li>There are no items.</li>}
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit" mat-dialog-close
+            [disabled]="newScheduleForm.invalid">Añadir</button>
+    </mat-dialog-actions>
+</form>

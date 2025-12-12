@@ -12,7 +12,7 @@ class ClassRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,9 +23,10 @@ class ClassRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'beginDate' => 'required | ' . Rule::date()->format('Y-m-d'),
-            'endDate' => 'required | ' . Rule::date()->format('Y-m-d'),
-            'maxStudents' => 'required | integer'
+            'beginDate' => 'required | date_format:Y-m-d\TH:i',
+            'endDate' => 'required |  date_format:Y-m-d\TH:i',
+            'maxStudents' => 'required | integer',
+            'class_type_id' => 'required | integer'
         ];
     }
 }

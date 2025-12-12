@@ -7,7 +7,6 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../service/user-service';
-import { RoleService } from '../../service/role-service';
 import { Role } from '../../shared/models/user.interface';
 import { CommonModule } from '@angular/common';
 
