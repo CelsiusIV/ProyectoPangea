@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('booking_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('users_id')->constrained();
-            $table->foreignId('classes_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('class_id')->constrained();
             $table->boolean('attendance')->default(false);
             $table->timestamps();
         });

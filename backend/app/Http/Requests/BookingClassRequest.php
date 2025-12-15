@@ -11,7 +11,7 @@ class BookingClassRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,6 +22,8 @@ class BookingClassRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required',
+            'class_id' => 'required',
             'attendance' => 'required |boolean'
         ];
     }

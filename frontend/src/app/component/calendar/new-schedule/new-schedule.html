@@ -8,14 +8,17 @@
         <p>
             <mat-form-field appearance="outline">
                 <mat-label>Fecha y hora de inicio</mat-label>
-                <input matInput type="datetime-local" placeholder="FechaInicio" required formControlName="beginDate" name="beginDate">
+                <input matInput type="datetime-local" placeholder="FechaInicio" required formControlName="beginDate"
+                    name="beginDate">
             </mat-form-field>
         </p>
         <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Fecha y hora de fin</mat-label>
-                <input matInput type="datetime-local" placeholder="FechaFin" formControlName="endDate" name="endDate">
-            </mat-form-field>
+            <mat-radio-group type="datetime-local" placeholder="Duracion" formControlName="duracion" name="duracion">
+                <mat-label>Duración</mat-label>
+                <mat-radio-button value=2>2 horas</mat-radio-button>
+                <mat-radio-button value=4>4 horas</mat-radio-button>
+                <mat-radio-button value=6>6 horas</mat-radio-button>
+            </mat-radio-group>
         </p>
         <p>
             <mat-form-field appearance="outline">

@@ -17,7 +17,7 @@ class Classes extends Model
 
     public function bookingclass(): HasMany
     {
-        return $this->hasMany(BookingClass::class);
+        return $this->hasMany(BookingClass::class, 'class_id');
     }
 
     public function classType(): BelongsTo{

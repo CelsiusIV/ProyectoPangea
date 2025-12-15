@@ -3,14 +3,16 @@ import { Classes, ClassType } from '../../shared/models/classes.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { formatDate} from 'date-fns';
+import { formatDate } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { provideCalendar, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView, CalendarPreviousViewDirective, CalendarTodayDirective,
- CalendarNextViewDirective, CalendarMonthViewComponent, CalendarDatePipe, DateAdapter } from 'angular-calendar';
+import {
+  provideCalendar, CalendarEvent, CalendarEventTimesChangedEvent, CalendarView, CalendarPreviousViewDirective, CalendarTodayDirective,
+  CalendarNextViewDirective, CalendarMonthViewComponent, CalendarDatePipe, DateAdapter
+} from 'angular-calendar';
 import { EventColor } from 'calendar-utils';
 import { FormsModule } from '@angular/forms';
-import { provideFlatpickrDefaults} from 'angularx-flatpickr';
+import { provideFlatpickrDefaults } from 'angularx-flatpickr';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NewSchedule } from './new-schedule/new-schedule';
 import { ClassesService } from '../../service/classes-service';
@@ -18,6 +20,7 @@ import { ClassTypeService } from '../../service/class-type-service';
 import { EditEvent } from './edit-event/edit-event';
 import { MatButtonModule } from "@angular/material/button";
 import { MatIcon } from "@angular/material/icon";
+import { ListUsersInClass } from './list-users-in-class/list-users-in-class';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -72,7 +75,6 @@ export class Calendar {
     this.classTypeService.getClassTypes().subscribe({
       next: (response) => {
         this.classTypeName = response.data;
-        console.log(this.classTypeName);
       },
       error: (error) => {
         console.log(error);
@@ -81,10 +83,13 @@ export class Calendar {
 
   }
 
+
   getSchedulesList(): void {
     this.classesService.getClasses().subscribe({
       next: (response) => {
         this.schedules = response.data;
+
+        this.events = [];
         for (let schedule of this.schedules) {
           let eventColor;
           switch (schedule.class_type.id) {
@@ -102,14 +107,14 @@ export class Calendar {
           this.events.push({
             start: new Date(schedule.beginDate),
             end: new Date(schedule.endDate),
-            title:schedule.class_type.className + " " + formatDate(schedule.beginDate, "HH:mm"),
+            title: schedule.class_type.className + " " + formatDate(schedule.beginDate, "HH:mm"),
             color: eventColor,
             id: schedule.id,
-            meta: { maxStudents: schedule.maxStudents, classTypeID: schedule.class_type.id}
+            meta: { maxStudents: schedule.maxStudents, classTypeID: schedule.class_type.id }
           })
-          
+
         }
-        
+
         this.refresh.next();
       },
       error: (error) => {
@@ -117,6 +122,8 @@ export class Calendar {
       }
     });
   }
+
+
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
@@ -151,13 +158,41 @@ export class Calendar {
   handleEvent(event: CalendarEvent): void {
     this.dialog.open(EditEvent, { data: { event, classType: this.classTypeName } });
   }
- 
-  addEvent(): void {
-    this.dialog.open(NewSchedule, { data: { classType: this.classTypeName } });
+  showList(event: CalendarEvent): void {
+    this.dialog.open(ListUsersInClass, { data: { event } });
+  }
+
+  addEvent(event: any): void {
+    const dialogRef = this.dialog.open(NewSchedule, { data: { event, classType: this.classTypeName } });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.created) {
+        this.getSchedulesList();
+      }
+    });
+
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
+    const eventID: number = Number(eventToDelete.id);
+    if (confirm('¿Estás seguro de que deseas eliminar esta clase?')) {
+      if (eventID !== undefined) {
+        this.classesService.delete(eventID).subscribe({
+          next: (response) => {
+            console.log(`Clase eliminada correctamente.`, response);
+            this.getSchedulesList();
+          },
+          error: (error) => {
+            console.error(`Error al eliminar la clase:`, error);
+          }
+        })
+      } else {
+        console.error('Error: El evento no tiene un ID válido para la actualización.');
+      }
+    } else {
+      console.warn('Ha habido un error.');
+    }
+
   }
 
   setView(view: CalendarView) {

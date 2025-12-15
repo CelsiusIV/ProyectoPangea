@@ -30,6 +30,7 @@
     "@angular/material": "^20.2.10",
     "@angular/platform-browser": "^20.3.15",
     "@angular/router": "^20.3.15",
+    "@fortawesome/fontawesome-free": "^7.1.0",
     "@ng-bootstrap/ng-bootstrap": "^19.0.1",
     "@popperjs/core": "^2.11.8",
     "angular-calendar": "^0.32.0",

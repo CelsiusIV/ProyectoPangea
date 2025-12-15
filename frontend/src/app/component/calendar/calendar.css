@@ -8,33 +8,49 @@
 }
 
 .cal-day-number {
-  margin-left: 25px; 
+  margin-left: 25px;
   font-weight: bold;
   display: inline-block;
 }
+
 .event-container {
-    position: relative; 
-    display: flex;      
-    align-items: center;
-    overflow: hidden; 
-    width: 100%;
-    height: 30px; 
-}
-.delete-btn {
-    position: absolute;
-    height: 100%;
-    top: 0;
-    right: 0;
-    width: 30px; 
-    visibility: hidden; 
-    opacity: 0;  
-    transition: all 0.2s ease-in-out;
-    margin: 1px;
-    border: none;
-    line-height: 28px; 
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  width: 100%;
+  height: 30px;
 }
 
-.event-container:hover .delete-btn {
-    visibility: visible;
-    opacity: 1;        
+.delete-btn {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  width: 30px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  padding: 0;
+  border: none;
+  line-height: 28px;
+}
+
+.edit-btn {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 30px;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+  padding: 0;
+  border: none;
+  line-height: 28px;
+  left: 0;
+}
+
+.event-container:hover .delete-btn, .event-container:hover .edit-btn {
+  visibility: visible;
+  opacity: 1;
 }

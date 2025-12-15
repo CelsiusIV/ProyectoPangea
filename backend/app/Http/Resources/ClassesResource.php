@@ -14,12 +14,13 @@ class ClassesResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-          return [
+        return [
             'id' => $this->id,
             'beginDate' => $this->beginDate,
             'endDate' => $this->endDate,
             'maxStudents' => $this->maxStudents,
-            'class_type' => new ClassTypeResource($this->classType)
+            'class_type' => new ClassTypeResource($this->classType),
+            'bookingclass' => BookingClassResource::collection($this->whenLoaded('bookingclass'))
         ];
     }
 }

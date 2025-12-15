@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassRequest;
-use Illuminate\Http\Request;
+use App\Http\Resources\ClassesResource;
 
 class ClassController extends Controller
 {
@@ -31,7 +31,8 @@ class ClassController extends Controller
      */
     public function show(string $id)
     {
-        return Classes::findOrFail($id)->roResource();
+        $class= Classes::with('bookingclass')->findOrFail($id);
+        return new ClassesResource($class);
     }
 
     /**

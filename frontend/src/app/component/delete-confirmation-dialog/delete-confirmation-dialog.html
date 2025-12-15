@@ -1,0 +1,14 @@
+<h3 mat-dialog-title>Confirmar borrado</h3>
+<mat-dialog-content>
+    <p>{{ data.message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="close(false)">
+        Cancelar
+    </button>
+
+    <button mat-raised-button color="warn" (click)="close(true)">
+        <mat-icon>delete</mat-icon>
+        Eliminar
+    </button>
+</mat-dialog-actions>

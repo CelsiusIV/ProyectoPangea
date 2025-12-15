@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\BookingClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingClassRequest;
-use Illuminate\Http\Request;
 
 class BookingClassController extends Controller
 {
@@ -37,9 +36,9 @@ class BookingClassController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookingClass $request, string $id)
+    public function update(BookingClassRequest $request, string $id)
     {
-        $bookClass = BookingClass::finOrFail($id);
+        $bookClass = BookingClass::findOrFail($id);
         $updateData = $request->validated();
         $bookClass->update($updateData);
         return response()->json($bookClass,200);
