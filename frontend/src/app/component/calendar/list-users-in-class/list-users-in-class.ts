@@ -48,7 +48,7 @@ export class ListUsersInClass {
   toggleAttendance(user: any) {
     const status = !user.attendance;
     this.bookingService.put(user.bookingID, { user_id: user.userID, class_id: user.classID, attendance: status }).subscribe({
-      next: () => { console.log('Asistencia actualizada'), this.getUsersBookingList(); },
+      next: () => {this.getUsersBookingList(); },
       error: (err) => console.error('Error actualizando asistencia', err)
     });
   }
@@ -57,8 +57,7 @@ export class ListUsersInClass {
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
         this.bookingService.delete(user.bookingID).subscribe({
-          next: (response) => {
-            console.log(`Se ha eliminado la reserva`, response);
+          next: () => {
             this.getUsersBookingList();
           },
           error: (error) => {
@@ -87,7 +86,6 @@ export class ListUsersInClass {
       }
     this.classService.getClass(eventID).subscribe({
         next: (response) => {
-          console.log('Formulario enviado con éxito:', response);
           this.users = response.data.bookingclass.map((b: any) => ({
             bookingID: b.id,
             userID: b.user.id,
@@ -98,7 +96,7 @@ export class ListUsersInClass {
           this.getUserList();
         },
         error: (error) => {
-          console.log('El formulario no es válido.', error);
+          console.error('El formulario no es válido.', error);
           this.users = [];
         },
         complete: () =>
@@ -116,8 +114,7 @@ export class ListUsersInClass {
       attendance: false
     }
     this.bookingService.post(bookingJson).subscribe({
-      next: (response) => {
-        console.log('Reserva añadida');
+      next: () => {
         this.getUsersBookingList();
       },
       error: (error) => {

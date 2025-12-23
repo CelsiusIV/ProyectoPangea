@@ -1,10 +1,17 @@
 <div id="listadoUsuarios">
     <h2>Listado de Usuarios</h2>
-
-    @if (!loading && users){
-    <button mat-raised-button (click)="newUser()" color="primary">Añadir nuevo usuario</button>
-
-    <app-user-table [users]="users"></app-user-table>
-    }
+    <button mat-button color="primary" (click)="newUser()">Nuevo usuario</button>
+    <mat-form-field>
+        <mat-label>Filtrado</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="usuario" #input>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Filtro Rol</mat-label>
+        <mat-select (selectionChange)="applyRoleFilter($event.value)">
+            <mat-option value="">Todos</mat-option>
+            <mat-option *ngFor="let role of roleNames" [value]="role.id">{{ role.role_name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <app-user-table [users]="users" [roleNames]="roleNames" (refresh)="getUsersList()"></app-user-table>
 
 </div>

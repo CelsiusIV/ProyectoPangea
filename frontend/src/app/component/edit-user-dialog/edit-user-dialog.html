@@ -1,74 +1,60 @@
 <button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
-<h2 mat-dialog-title>Editar</h2>
+<h2 mat-dialog-title>Editar Usuario</h2>
+<p> ID : {{user.id}}</p>
+
 <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>ID</mat-label>
-                <input matInput placeholder="ID" formControlName="id" name="id" >
-            </mat-form-field>
-        </p>
-        <p>
+        <div>
             <mat-form-field appearance="outline">
                 <mat-label>Usuario</mat-label>
                 <input matInput placeholder="Usuario" required formControlName="username" name="username">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
-                <input matInput placeholder="Contraseña" type="password" required formControlName="password"
-                    name="username">
+                <input matInput placeholder="Contraseña" type="password" formControlName="password" name="username">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input matInput placeholder="Nombre" required formControlName="first_name" name="first_name">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Apellidos</mat-label>
                 <input matInput placeholder="Apellidos" formControlName="last_name" name="last_name">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Año nacimiento</mat-label>
                 <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" required formControlName="email" name="email">
             </mat-form-field>
-        </p>
-        <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Active?</mat-label>
-                <input matInput placeholder="is_active" required formControlName="is_active" name="is_active">
-            </mat-form-field>
-        </p>
-        <p>
+
+            <mat-checkbox placeholder="is_active" formControlName="is_active" name="is_active">
+                ¿Activo?
+            </mat-checkbox>
+
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
-                <mat-select formControlName="role" name="role">
-                    <mat-option value="alumno">Alumno</mat-option>
-                    <mat-option value="profesor">Profesor</mat-option>
-                    <mat-option value="registrado">Registrado</mat-option> <!--Poner esto por defecto-->
+                <mat-select formControlName="role_id" name="role">
+                    @for(role of roleNames ; track role.id){
+                    <mat-option [value]="role.id">{{role.role_name}}</mat-option>
+                    }@empty {<li>There are no items.</li>}
                 </mat-select>
             </mat-form-field>
-        </p>
+        </div>
 
     </mat-dialog-content>
     <mat-dialog-actions>

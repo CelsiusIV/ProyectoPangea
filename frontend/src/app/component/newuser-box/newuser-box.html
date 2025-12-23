@@ -6,59 +6,52 @@
 <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
         <h3>Introduzca usuario y contraseña</h3>
-        <p>
+        <div class="formGrid">
             <mat-form-field appearance="outline">
                 <mat-label>Usuario</mat-label>
                 <input matInput placeholder="Usuario" required formControlName="username" name="username">
             </mat-form-field>
-        </p>
-        <p>
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput placeholder="Contraseña" type="password" required formControlName="password"
                     name="username">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>
                 <input matInput placeholder="Nombre" required formControlName="first_name" name="first_name">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Apellidos</mat-label>
                 <input matInput placeholder="Apellidos" formControlName="last_name" name="last_name">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Fecha de Nacimiento</mat-label>
                 <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Telefono</mat-label>
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" required formControlName="email" name="email">
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
-                <mat-select formControlName="role" name="role">
+                <mat-select formControlName="role_id" name="role">
                     @for(role of roleNames ; track role.id){
-                    <mat-option [value]="role">{{role.role_name}}</mat-option>
+                    <mat-option [value]="role.id">{{role.role_name}}</mat-option>
                     }@empty {<li>There are no items.</li>}
                 </mat-select>
             </mat-form-field>
-        </p>
+
+        </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit" mat-dialog-close

@@ -24,13 +24,14 @@ class UserRequest extends FormRequest
     {
         return [
             'username' => 'required|string',
-            'password' => 'required|string|min:8',
+            'password' => 'nullable|string|min:8',
             'first_name' => 'required|string',
             'last_name' => 'nullable | string',
             'birth_date' => 'nullable | ' . Rule::date()->format('Y-m-d'),
-            // meter is_active
+            'is_active' => 'boolean',
             'email' => 'required', //|email:rfc,dns',
-            'phone' => 'required|string'
+            'phone' => 'required|string',
+            'role_id' => 'required'
         ];
     }
 }

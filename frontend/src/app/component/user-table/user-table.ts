@@ -1,15 +1,17 @@
-import { Component, inject, input, Input, OnInit, output } from '@angular/core';
+import { Component, inject, input, output, ViewChild } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIcon } from '@angular/material/icon';
 import { Role, User } from '../../shared/models/user.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { EditUserDialog } from '../edit-user-dialog/edit-user-dialog';
 import { UserService } from '../../service/user-service';
 import { CommonModule } from '@angular/common';
+import { DeleteConfirmationDialog } from '../delete-confirmation-dialog/delete-confirmation-dialog';
+import { WarningDialog } from '../warning-dialog/warning-dialog';
 
 @Component({
   selector: 'app-user-table',
@@ -17,35 +19,40 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-table.html',
   styleUrl: './user-table.css'
 })
-export class UserTable implements OnInit{
-
+export class UserTable {
   refresh = output<void>();
-  users = input.required<User[]>();
+  users = input.required<MatTableDataSource<User>>();
+  roleNames = input.required<Role[]>();
   displayedColumns: string[] = ['username', 'first_name', 'last_name', 'email', 'phone', 'role', 'actions'];
 
-  ngOnInit(){
-    console.log(this.users);
-  }
 
   readonly dialog = inject(MatDialog)
   editUser(user: User) {
-    this.dialog.open(EditUserDialog, { data: { user } });
-    this.refresh.emit();
+    const dialogEdit = this.dialog.open(EditUserDialog, { data: { user, roleNames: this.roleNames() } });
+    dialogEdit.afterClosed().subscribe(result => {
+      if (result?.created){
+        this.refresh.emit();
+      }
+    })
+
   }
 
   constructor(private userService: UserService) { }
   deleteUser(id: number) {
-    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-      this.userService.delete(id).subscribe({
-        next: (response) => {
-          console.log(`Usuario con ID ${id} eliminado correctamente.`, response);
-          this.refresh.emit();
-        },
-        error: (error) => {
-          console.error(`Error al eliminar usuario con ID ${id}:`, error);
-        }
-      });
-    }
+        const dialogDEL = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar este usuario?' } });
+    
+        dialogDEL.afterClosed().subscribe(confirmed => {
+          if (confirmed) {
+            this.userService.delete(id).subscribe({
+              next: () => {
+                this.refresh.emit();
+              },
+              error: (error) => {
+                this.dialog.open(WarningDialog, { data: { message: 'No se ha podido borrar el usuario, porque tiene clases reservadas o pagos realizados. Pruebe a desactivarlo.' } });
+              }
+            });
+          }
+        });
 
   }
 }

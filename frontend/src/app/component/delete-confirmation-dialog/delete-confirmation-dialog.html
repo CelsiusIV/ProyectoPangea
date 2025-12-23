@@ -3,11 +3,11 @@
     <p>{{ data.message }}</p>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="close(false)">
+    <button mat-button class="cancel-btn" (click)="close(false)">
         Cancelar
     </button>
 
-    <button mat-raised-button color="warn" (click)="close(true)">
+    <button mat-button class="delete-btn" (click)="close(true)">
         <mat-icon>delete</mat-icon>
         Eliminar
     </button>

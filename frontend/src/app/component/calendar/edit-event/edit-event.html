@@ -12,10 +12,12 @@
             </mat-form-field>
         </p>
         <p>
-            <mat-form-field appearance="outline">
-                <mat-label>Fecha y hora de fin</mat-label>
-                <input matInput type="datetime-local" placeholder="FechaFin" formControlName="endDate" name="endDate">
-            </mat-form-field>
+            <mat-radio-group type="datetime-local" placeholder="Duracion" formControlName="duration" name="duration">
+                <mat-label>Duración</mat-label>
+                <mat-radio-button value=2>2 horas</mat-radio-button>
+                <mat-radio-button value=4>4 horas</mat-radio-button>
+                <mat-radio-button value=6>6 horas</mat-radio-button>
+            </mat-radio-group>
         </p>
         <p>
             <mat-form-field appearance="outline">
@@ -24,7 +26,7 @@
             </mat-form-field>
         </p>
         <p>
-        <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline">
                 <mat-label>Tipo de clase</mat-label>
                 <mat-select formControlName="class_type_id" name="class_type_id">
                     @for(typeClass of typeClassNames ; track typeClass.id){

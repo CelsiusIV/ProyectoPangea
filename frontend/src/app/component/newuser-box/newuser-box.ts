@@ -22,17 +22,18 @@ export class NewuserBox {
   roleNames: Role[] = [];
   newUserForm: FormGroup = this.#formBuilder.group({
     username: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
     first_name: ['', Validators.required],
     last_name: [''],
     birth_date: [''],
     phone: ['', Validators.required],
     email: ['', Validators.required],
-    role: [null as Role | null, Validators.required]
+    role_id: [null as Role | null, Validators.required]
   })
 
   constructor(
     private userService: UserService,
+    public dialogRef: MatDialogRef<NewuserBox>,
     @Inject(MAT_DIALOG_DATA) public data: { roles: Role[] }
   ) {
     this.roleNames = data.roles;
@@ -42,8 +43,8 @@ export class NewuserBox {
   onSubmit() {
     if (this.newUserForm.valid) {
       this.userService.post(this.newUserForm.value).subscribe({
-        next: (response) => {
-
+        next: () => {
+          this.dialogRef.close({ created: true });
           console.log('Formulario enviado con éxito:', this.newUserForm.value);
         },
         error: (error) => {

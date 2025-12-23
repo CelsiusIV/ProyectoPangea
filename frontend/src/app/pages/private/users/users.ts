@@ -6,11 +6,15 @@ import { NewuserBox } from '../../../component/newuser-box/newuser-box';
 import { Role, User } from '../../../shared/models/user.interface';
 import { UserTable } from "../../../component/user-table/user-table";
 import { RoleService } from '../../../service/role-service';
-
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, UserTable],
+  imports: [CommonModule, MatSelectModule, UserTable, MatFormFieldModule, MatInputModule, MatButton],
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
@@ -18,13 +22,20 @@ import { RoleService } from '../../../service/role-service';
 export class Users implements OnInit {
   readonly dialog = inject(MatDialog);
   roleNames: Role[] = [];
+  loading = true;
+  users = new MatTableDataSource<User>();
 
   newUser(): void {
-    this.dialog.open(NewuserBox, { data: { roles: this.roleNames } });
+    const dialogNew = this.dialog.open(NewuserBox, { data: { roles: this.roleNames } });
+    dialogNew.afterClosed().subscribe(result => {
+      console.log('Dialog result:', result);
+      if (result?.created) {
+        this.getUsersList();
+      }
+    })
   }
 
-  users: User[] = [];
-  loading = true;
+
 
   constructor(private userService: UserService, private roleService: RoleService) { }
 
@@ -44,7 +55,7 @@ export class Users implements OnInit {
   getUsersList(): void {
     this.userService.getUsers().subscribe({
       next: (response) => {
-        this.users = response.data;
+        this.users.data = [...response.data];
         this.loading = false;
       },
       error: (error) => {
@@ -53,4 +64,19 @@ export class Users implements OnInit {
       }
     });
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.users.filter = filterValue.trim().toLowerCase();
+  }
+  applyRoleFilter(roleId: number | '') {
+    if (!roleId) {
+      this.users.filter = '';
+    } else {
+      this.users.filterPredicate = (user: User, filter: string) =>
+        user.role.id.toString() === filter;
+      this.users.filter = roleId.toString();
+    }
+  }
+
 }
