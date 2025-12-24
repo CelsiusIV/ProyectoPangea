@@ -8,9 +8,9 @@
     </ng-container>
     <ng-container *ngIf="!loading && users.length > 0 ; else noUsers">
         <table mat-table [dataSource]="users">
-            <ng-container matColumnDef="username">
+            <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
-                <td mat-cell *matCellDef="let user"> {{user.username}}</td>
+                <td mat-cell *matCellDef="let user"> {{user.name}}</td>
             </ng-container>
             <ng-container matColumnDef="attendance">
                 <th mat-header-cell *matHeaderCellDef> Asistencia </th>

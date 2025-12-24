@@ -13,9 +13,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum'); */
 
-Route::apiResource('users',UserController::class);
-Route::apiResource('roles',RoleController::class);
-Route::apiResource('payments',PaymentsController::class);
-Route::apiResource('classes',ClassController::class);
-Route::apiResource('booking',BookingClassController::class);
-Route::apiResource('class_types',ClassTypeController::class);
+Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+    return ['token' => $token->plainTextToken];
+});
+
+Route::apiResource('users', UserController::class)->middleware('auth:sanctum');;
+Route::apiResource('roles', RoleController::class);
+Route::apiResource('payments', PaymentsController::class);
+Route::apiResource('classes', ClassController::class);
+Route::apiResource('booking', BookingClassController::class);
+Route::apiResource('class_types', ClassTypeController::class);

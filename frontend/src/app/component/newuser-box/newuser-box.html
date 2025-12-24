@@ -8,13 +8,14 @@
         <h3>Introduzca usuario y contraseña</h3>
         <div class="formGrid">
             <mat-form-field appearance="outline">
-                <mat-label>Usuario</mat-label>
-                <input matInput placeholder="Usuario" required formControlName="username" name="username">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" required formControlName="email" name="email">
             </mat-form-field>
+            
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput placeholder="Contraseña" type="password" required formControlName="password"
-                    name="username">
+                    name="password">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -36,12 +37,6 @@
                 <mat-label>Telefono</mat-label>
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" required formControlName="email" name="email">
-            </mat-form-field>
-
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
                 <mat-select formControlName="role_id" name="role">

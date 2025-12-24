@@ -24,13 +24,11 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->unique()->userName(), // Genera un nombre de usuario único
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'phone' => fake()->phoneNumber(),
             'email' => fake()->unique()->safeEmail(),
             'is_active' => fake()->boolean(),
-            // Clave 'password' (la que Laravel espera, hasheada)
             'password' => static::$password ??= Hash::make('password'),
         ];
     }

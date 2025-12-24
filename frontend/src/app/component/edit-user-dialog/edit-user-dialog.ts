@@ -33,7 +33,6 @@ export class EditUserDialog {
     this.roleNames = data.roleNames;
 
     this.editUserForm = new FormGroup({
-      username: new FormControl(this.user.username, Validators.required),
       password: new FormControl(''),
       first_name: new FormControl(this.user.first_name, Validators.required),
       last_name: new FormControl(this.user.last_name),

@@ -29,7 +29,7 @@ export class ListUsersInClass {
   event: CalendarEvent;
   users: any[] = [];
   userList: User[] = [];
-  displayedColumns: string[] = ['username', 'attendance', 'actions'];
+  displayedColumns: string[] = ['name', 'attendance', 'actions'];
   loading: boolean = true;
 
   readonly #formBuilder = inject(FormBuilder);
@@ -90,7 +90,7 @@ export class ListUsersInClass {
             bookingID: b.id,
             userID: b.user.id,
             classID: b.class.id,
-            username: b.user.first_name + " " + b.user.last_name,
+            name: b.user.first_name + " " + b.user.last_name,
             attendance: Boolean(b.attendance)
           }))
           this.getUserList();

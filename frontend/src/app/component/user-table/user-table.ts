@@ -23,7 +23,7 @@ export class UserTable {
   refresh = output<void>();
   users = input.required<MatTableDataSource<User>>();
   roleNames = input.required<Role[]>();
-  displayedColumns: string[] = ['username', 'first_name', 'last_name', 'email', 'phone', 'role', 'actions'];
+  displayedColumns: string[] = ['first_name', 'last_name', 'email', 'phone', 'role', 'actions'];
 
 
   readonly dialog = inject(MatDialog)

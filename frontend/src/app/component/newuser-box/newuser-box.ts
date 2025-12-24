@@ -21,7 +21,6 @@ export class NewuserBox {
   readonly #formBuilder = inject(FormBuilder);
   roleNames: Role[] = [];
   newUserForm: FormGroup = this.#formBuilder.group({
-    username: ['', Validators.required],
     password: ['', [Validators.required, Validators.minLength(8)]],
     first_name: ['', Validators.required],
     last_name: [''],

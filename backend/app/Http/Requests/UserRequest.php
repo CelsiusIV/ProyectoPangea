@@ -23,7 +23,6 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string',
             'password' => 'nullable|string|min:8',
             'first_name' => 'required|string',
             'last_name' => 'nullable | string',
