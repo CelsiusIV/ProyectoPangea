@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -24,7 +24,9 @@ class UserController extends Controller
     {
 
         $user = $request->validated();
-        User::create($user);
+        $userCreate = User::create($user);
+        $userCreate->assignRole('registrado');
+
     }
 
     /**
@@ -32,6 +34,10 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
+        $user = Auth::user();
+        if($user->hasRole('alumno')){
+            return User::findOrFail($user->id)->toResource();
+        }
         return User::findOrFail($id)->toResource();
     }
 

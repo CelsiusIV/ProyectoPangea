@@ -38,17 +38,12 @@ class BaseController extends Controller
      * @param int    $code           Código de error (por defecto 400)
      * @return JsonResponse
      */
-    public function sendError($message, $errorMessages = [], $code = 400): JsonResponse
+    public function sendError($message, $errorMessages, $code): JsonResponse
     {
         return response()->json([
-            'status'  => 'success',
-            'code'    => 200,
-            'message' => 'Conexión exitosa',
-            'resultado' => [
-                'status'  => 'danger',
-                'code'    => $code,
-                'message' => is_array($errorMessages) ? implode(' ', $errorMessages) : $message,
-            ],
-        ], 200);
+            'status'  => 'danger',
+            'code'    => $code,
+            'message' => is_array($errorMessages) ? implode(' ', $errorMessages) : $message,
+        ], $code);
     }
 }

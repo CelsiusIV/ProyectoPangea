@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasApiTokens;
+    use HasFactory, Notifiable, HasApiTokens, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -27,8 +28,7 @@ class User extends Authenticatable
         'phone',
         'email',
         'is_active',
-        'password',
-        'role_id'
+        'password'
     ];
 
     /**
@@ -37,7 +37,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password'
+        'password',
+        'remember_token'
     ];
 
     /**
@@ -53,10 +54,10 @@ class User extends Authenticatable
         ];
     }
 
-    public function role(): BelongsTo
+    /*public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
-    }
+    }*/
     public function bookingclass(): HasMany
     {
         return $this->hasMany(BookingClass::class);

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends BaseController
 {
@@ -15,12 +16,16 @@ class AuthController extends BaseController
         if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return $this->sendError('Credenciales incorrectas.', ['El email o la contraseña son incorrectos.'], 401);
         }
+        /** @var User $user */
         $user = Auth::user();
-        if ($user->status !== 1) {
+        if ($user->is_active !== 1) {
             return $this->sendError('Acceso denegado.', ['Su cuenta no está activa. Contacte al administrador.'], 403);
         }
-        $fullToken = $user->createToken('MyApp')->plainTextToken;
-        $token = explode('|', $fullToken)[1];
+        //$fullToken = $user->createToken('pangea')->plainTextToken;
+        //$token = explode('|', $fullToken)[1];
+        $token = $user->createToken('pangea')->plainTextToken;
+
+
         $expiresAt = now()->addHour();
         $user->tokens()->latest()->first()->update([
             'expires_at' => $expiresAt,
@@ -28,7 +33,7 @@ class AuthController extends BaseController
         $data = [
             'token' => $token,
             'expires_at' => $expiresAt->toDateTimeString(),
-            'name' => $user->name,
+            'name' => $user->first_name,
             'email' => $user->email
         ];
 
@@ -50,6 +55,6 @@ class AuthController extends BaseController
                 'message' => 'Sesión finalizada.',
             ]
         ];
-        return response()->json( $response, 200);
+        return response()->json($response, 200);
     }
 }
