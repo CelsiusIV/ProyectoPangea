@@ -10,27 +10,30 @@ import { Schedules } from './pages/private/schedules/schedules';
 import { Site } from './pages/private/site/site';
 import { Users } from './pages/private/users/users';
 import { Account } from './pages/private/account/account';
+import { Clases } from './pages/public/clases/clases';
 
 export const routes: Routes = [
     {
         path: '', component: Public,
         children: [
-            {path: 'home', component: Home},
+            { path: '', component: Home },
+            { path: 'clases', component: Clases },
             { path: 'informacion', component: Information },
             { path: 'nosotros', component: Aboutus },
             { path: 'contacto', component: Contact },
         ]
     },
 
-    { path: 'privado', component: Private,
+    {
+        path: 'privado', component: Private,
         children: [
-            {path: 'dashboard', component: Dashboard},
-            {path: 'horarios', component: Schedules},
-            {path: 'sitio', component:Site},
-            {path: 'usuarios', component:Users},
-            {path: 'cuenta', component:Account}
+            { path: 'dashboard', component: Dashboard },
+            { path: 'horarios', component: Schedules },
+            { path: 'sitio', component: Site },
+            { path: 'usuarios', component: Users },
+            { path: 'cuenta', component: Account }
 
         ]
-     },
+    },
     { path: '**', redirectTo: '' } /*Con esto si el usuario pone una ruta que no existe, lo lleva al inicio*/
 ];

@@ -1,0 +1,58 @@
+.divContenido {
+    display: flex;
+    align-items: end;
+    gap: 8rem;
+    padding: 2rem;
+    text-align: center;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.divContenido section {
+    flex: 1;
+    background-color: #ffe1ba;
+    padding: 2rem;
+    border-radius: 8px;
+
+}
+
+.divContenido section:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.divContenido h2 {
+    margin-bottom: 1rem;
+    color: #4a3728;
+}
+
+.divContenido p {
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.divInfoHome {
+    max-width: 70%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.divInfoHome section {
+    background-color: #faf7f4;
+    padding: 3rem;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.divInfoHome h2 {
+    color: #4a3728;
+    margin-bottom: 1rem;
+}
+
+.divInfoHome p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: #333;
+}

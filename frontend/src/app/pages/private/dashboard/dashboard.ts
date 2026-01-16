@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-//import { NotificationService } from 'src/app/core/services/notification.service';
-import { Title } from '@angular/platform-browser';
-//import { NGXLogger } from 'ngx-logger';
-//import { AuthenticationService } from 'src/app/core/services/auth.service';
+import { Calendar } from "../../../component/calendar/calendar";
+
 
 @Component({
   selector: 'app-dashbord',
-  imports: [MatIcon],
+  imports: [Calendar],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -15,19 +12,4 @@ import { Title } from '@angular/platform-browser';
 export class Dashboard {
   currentUser: any;
 
- /* constructor(private notificationService: NotificationService,
-    private authService: AuthenticationService,
-    private titleService: Title,
-    private logger: NGXLogger) {
-  }
-
-  ngOnInit() {
-    this.currentUser = this.authService.getCurrentUser();
-    this.titleService.setTitle('angular-material-template - Dashboard');
-    this.logger.log('Dashboard loaded');
-
-    setTimeout(() => {
-      this.notificationService.openSnackBar('Welcome!');
-    });
-  }*/
 }

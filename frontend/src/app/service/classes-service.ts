@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ClassesService {
 
-  private apiURL = 'http://127.0.0.1:8080/api/classes';
+  private apiURL = 'http://localhost:8080/api/classes';
   constructor(private http: HttpClient) { }
   getClasses(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

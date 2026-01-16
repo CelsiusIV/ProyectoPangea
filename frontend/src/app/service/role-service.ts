@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RoleService {
-  private apiURL = 'http://127.0.0.1:8080/api/roles';
+  private apiURL = 'http://localhost:8080/api/roles';
   constructor(private http: HttpClient) { }
   getRoles(): Observable<any> {
-    return this.http.get(`${this.apiURL}`);
+    return this.http.get(`${this.apiURL}`, {withCredentials: true});
   }
 
   getRole(id: number): Observable<any> {
-    return this.http.get(`${this.apiURL}/${id}`)
+    return this.http.get(`${this.apiURL}/${id}`, {withCredentials: true})
   }
 
   delete(id: number): Observable<any> {

@@ -1,5 +1,6 @@
 /* angular-cli file: src/styles.css */
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,4 +19,91 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+main {
+    height: 100%;
+    background-color: rgb(214, 142, 53);
+}
+
+
+.divCabecera {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.divCabecera img {
+    width: 90%;
+    height: 250px;
+    object-fit: cover;
+    margin-top: 15px;
+    border-radius: 12px;
+}
+
+.divCabecera::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.textoCabecera {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    z-index: 1;
+    text-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.textoCabecera h2 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.textoCabecera h4 {
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.divContenido {
+    display: flex;
+    align-items: end;
+    gap: 8rem;
+    padding: 2rem;
+    text-align: center;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+.btn-principal,
+.btn-secundario {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-principal {
+    background-color: white;
+    color: #8c6a4a;
+}
+
+.btn-principal:hover {
+    background-color: #f1e9e1;
+}
+
+.btn-secundario {
+    background-color: #8c6a4a;
+    color: white;
+}
+
+.btn-secundario:hover {
+    background-color: #73553a;
 }

@@ -5,11 +5,11 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\HandleCors;
 
-
 return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
-         $middleware->prepend(HandleCors::class);
-         $middleware->alias([
+        $middleware->statefulApi();
+        $middleware->prepend(HandleCors::class);
+        $middleware->alias([
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,

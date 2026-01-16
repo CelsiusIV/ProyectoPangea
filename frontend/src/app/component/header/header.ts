@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, MatAnchor] /*Al importarlo permite usarlo*/ /*Al importarlo permite usarlo*/,
+  imports: [RouterModule, MatAnchor],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })

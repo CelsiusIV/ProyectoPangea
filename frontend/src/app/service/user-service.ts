@@ -19,10 +19,11 @@ export class AuthService {
 }*/
 export class UserService {
 
-  private apiURL = 'http://127.0.0.1:8080/api/users';
+  private apiURL = 'http://localhost:8080/api/users';
   constructor(private http: HttpClient) { }
   getUsers(): Observable<any> {
-    return this.http.get(`${this.apiURL}`);
+    return this.http.get(`${this.apiURL}`, {withCredentials: true});
+    //return this.http.get('http://localhost:8080/api/debug-auth', {withCredentials: true});
   }
 
   getUser(id:number): Observable<any>{

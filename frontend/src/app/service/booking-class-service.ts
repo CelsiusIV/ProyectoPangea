@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class BookingClassService {
-  private apiURL = 'http://127.0.0.1:8080/api/booking';
+  private apiURL = 'http://localhost:8080/api/booking';
   constructor(private http: HttpClient) { }
   getBookings(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

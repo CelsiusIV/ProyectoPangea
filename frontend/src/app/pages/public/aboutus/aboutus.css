@@ -1,0 +1,62 @@
+.sobre-nosotros {
+  padding: 5rem 1.5rem;
+}
+
+.contenedor {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cabecera-seccion {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.cabecera-seccion h2 {
+  margin-bottom: 0.5rem;
+}
+
+.subtitulo {
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.bloque-academia p {
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+}
+
+.titulo-profesoras {
+  text-align: center;
+  margin: 4rem 0 2.5rem;
+}
+
+.profesoras {
+  display: flex;
+  gap: 3rem;
+}
+
+.profesora {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.profesora img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.info-profesora h4 {
+  margin-bottom: 0.5rem;
+}
+
+.info-profesora p {
+  margin-bottom: 0.8rem;
+  line-height: 1.6;
+}

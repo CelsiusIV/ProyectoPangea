@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassTypeService {
-  private apiURL = 'http://127.0.0.1:8080/api/class_types';
+  private apiURL = 'http://localhost:8080/api/class_types';
   constructor(private http: HttpClient) { }
   getClassTypes(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

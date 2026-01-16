@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-fpm AS php_dev
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 RUN docker-php-ext-install pdo pdo_mysql
 COPY . /var/www

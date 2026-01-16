@@ -3,25 +3,25 @@
 </button>
 <h2 mat-dialog-title>Acceso a zona privada</h2>
 
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
         <h3>Introduzca usuario y contraseña</h3>
         <p>
             <mat-form-field>
-                <mat-label>Usuario</mat-label>
-                <input matInput placeholder="Usuario" required>
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email" placeholder="Email" required>
                 <mat-icon matSuffix fontIcon="person"></mat-icon>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field>
                 <mat-label>Contraseña</mat-label>
-                <input matInput placeholder="Contraseña" type="password" required>
+                <input matInput formControlName="password"  placeholder="Contraseña" type="password" required>
                 <mat-icon matSuffix fontIcon="key"></mat-icon>
             </mat-form-field>
         </p>
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="true">Login</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
     </mat-dialog-actions>
 </form>

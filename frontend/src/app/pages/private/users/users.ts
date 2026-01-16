@@ -69,6 +69,7 @@ export class Users implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.users.filter = filterValue.trim().toLowerCase();
   }
+  
   applyRoleFilter(roleId: number | '') {
     if (!roleId) {
       this.users.filter = '';
