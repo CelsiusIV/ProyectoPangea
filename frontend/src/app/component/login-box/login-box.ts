@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../service/auth-service';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'loginBox',
@@ -21,12 +22,12 @@ export class LoginBox {
 
   })
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: () => {
-          console.log('Login realizado', this.loginForm.value);
+          this.router.navigate(['/privado']);
         },
         error: (error) => {
           console.log('No se ha podido realizar el login', error);

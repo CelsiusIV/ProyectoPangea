@@ -11,6 +11,7 @@ import { Site } from './pages/private/site/site';
 import { Users } from './pages/private/users/users';
 import { Account } from './pages/private/account/account';
 import { Clases } from './pages/public/clases/clases';
+import { authGuard } from './auth-guard';
 
 export const routes: Routes = [
     {
@@ -26,7 +27,9 @@ export const routes: Routes = [
 
     {
         path: 'privado', component: Private,
+        canActivate: [authGuard],
         children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: Dashboard },
             { path: 'horarios', component: Schedules },
             { path: 'sitio', component: Site },

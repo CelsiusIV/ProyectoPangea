@@ -1,52 +1,67 @@
 import { Component, ChangeDetectorRef, OnDestroy, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Subscription } from 'rxjs';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
-import { MatMenu } from '@angular/material/menu';
 import { MatSidenavContainer } from '@angular/material/sidenav';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatNavList } from '@angular/material/list';
 import { MatSidenavContent } from '@angular/material/sidenav';
 import { MatDivider } from '@angular/material/list';
-import { RouterOutlet, RouterLinkWithHref } from '@angular/router';
+import { RouterOutlet, RouterLinkWithHref, Router } from '@angular/router';
+import { AuthService } from '../../service/auth-service';
+import { LoginBox } from "../../component/login-box/login-box";
+import { App } from "../../app";
+import { Public } from "../public/public";
+import { ClassType } from '../../shared/models/classes.interface';
+import { ClassTypeService } from '../../service/class-type-service';
 
 
 @Component({
-  selector: 'app-private',
-  imports: [RouterOutlet, MatToolbar, MatIcon, MatMenu, MatSidenavContainer, MatSidenav, MatNavList, MatSidenavContent, MatDivider, RouterLinkWithHref],
-  templateUrl: './private.html',
-  styleUrl: './private.css'
+    selector: 'app-private',
+    imports: [CommonModule, RouterOutlet, MatToolbar, MatIcon, MatSidenavContainer, MatSidenav, MatNavList, MatSidenavContent, MatDivider, RouterLinkWithHref, LoginBox, App, Public],
+    templateUrl: './private.html',
+    styleUrl: './private.css'
 })
 
-export class Private  implements OnDestroy, AfterViewInit {
+export class Private implements OnDestroy, AfterViewInit {
 
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
-    showSpinner: boolean = false;
-    userName: string = "";
-    isAdmin: boolean = false;
-
-    private autoLogoutSubscription: Subscription = new Subscription;
+    isAuth = false;
 
     constructor(private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher) {
+        private media: MediaMatcher, public authService: AuthService, private router: Router) {
 
         this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        // tslint:disable-next-line: deprecation
         this.mobileQuery.addListener(this._mobileQueryListener);
     }
 
-
     ngOnDestroy(): void {
-        // tslint:disable-next-line: deprecation
         this.mobileQuery.removeListener(this._mobileQueryListener);
-        this.autoLogoutSubscription.unsubscribe();
     }
 
     ngAfterViewInit(): void {
         this.changeDetectorRef.detectChanges();
+    }
+
+    checkAuth() {
+        this.authService.sesionCheck().subscribe(response => {
+            this.isAuth = response;
+        });
+    }
+
+    logout() {
+        this.authService.logout().subscribe({
+            next: () => {
+                this.router.navigate(['/']);
+                console.log("sesion cerrada");
+            },
+            error: () => {
+                console.log("ERRROOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
+            }
+        });
     }
 }
 

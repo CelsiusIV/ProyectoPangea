@@ -29,7 +29,8 @@ class UserRequest extends FormRequest
             'birth_date' => 'nullable | ' . Rule::date()->format('Y-m-d'),
             'is_active' => 'boolean',
             'email' => 'required', //|email:rfc,dns',
-            'phone' => 'required|string'
+            'phone' => 'required|string',
+            'role_id' => 'required |integer'
         ];
     }
 }

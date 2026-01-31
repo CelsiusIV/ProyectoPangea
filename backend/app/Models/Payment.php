@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
    protected $fillable = [
+    'user_id',
+    'class_type_id',
     'paymentDate',
     'availableClasses'
    ];
@@ -18,7 +20,7 @@ class Payment extends Model
     }
 
     
-   public function typeclass(): BelongsTo
+   public function classType(): BelongsTo
     {
         return $this->belongsTo(ClassType::class);
     }

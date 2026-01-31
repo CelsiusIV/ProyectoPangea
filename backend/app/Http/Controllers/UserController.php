@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +27,6 @@ class UserController extends Controller
         $user = $request->validated();
         $userCreate = User::create($user);
         $userCreate->assignRole('registrado');
-
     }
 
     /**
@@ -35,7 +35,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = Auth::user();
-        if($user->hasRole('alumno')){
+        if ($user->hasRole('alumno')) {
             return User::findOrFail($user->id)->toResource();
         }
         return User::findOrFail($id)->toResource();
@@ -47,9 +47,23 @@ class UserController extends Controller
     public function update(UserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
-        $updateData = $request->validated();
+        $authUser = Auth::user();
+
+        if (!$authUser->hasAnyRole(['admin', 'profesor']) && $authUser->id != $user->id) {
+            abort(403, 'No tienes permiso para editar este perfil.');
+        }
+        //$updateData = $request->validated();
+        $updateData = $request->safe()->except(['role_id']);
 
         $user->update($updateData);
+        if ($request->has('role_id')) {
+            $user->syncRoles($request->role_id);
+        }
+        $role = $user->roles->first();
+        $user->setAttribute('role', $role ? [
+            'id' => $role->id,
+            'role_name' => $role->name // 
+        ] : null);
         return response()->json($user, 200);
     }
 

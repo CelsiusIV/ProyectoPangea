@@ -12,7 +12,7 @@ class PaymentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,8 @@ class PaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required |integer',
+            'class_type_id' => 'required |integer',
             'paymentDate' => 'required | ' . Rule::date()->format('Y-m-d'),
             'availableClasses'  => 'required | integer'
         ];

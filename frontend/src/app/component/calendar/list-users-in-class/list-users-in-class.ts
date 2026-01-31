@@ -1,7 +1,6 @@
 import { Component, inject, Inject, output } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogClose, MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
-import { ClassesService } from '../../../service/classes-service';
 import { CalendarEvent } from 'angular-calendar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,10 +12,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BookingClassService } from '../../../service/booking-class-service';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { UserService } from '../../../service/user-service';
 import { User } from '../../../shared/models/user.interface';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DeleteConfirmationDialog } from '../../delete-confirmation-dialog/delete-confirmation-dialog';
+import { AuthService } from '../../../service/auth-service';
+import { UserService } from '../../../service/user-service';
+import { PaymentService } from '../../../service/payment-service';
+import { Payments } from '../../../shared/models/classes.interface';
+import { WarningDialog } from '../../warning-dialog/warning-dialog';
 
 
 @Component({
@@ -27,16 +30,20 @@ import { DeleteConfirmationDialog } from '../../delete-confirmation-dialog/delet
 })
 export class ListUsersInClass {
   event: CalendarEvent;
-  users: any[] = [];
   userList: User[] = [];
+  allUserList: User[] = [];
   displayedColumns: string[] = ['name', 'attendance', 'actions'];
   loading: boolean = true;
+  amIBooked: boolean = false;
+  myBooking: any = null;
+  payments: Payments[] = [];
+
 
   readonly #formBuilder = inject(FormBuilder);
   newUserBooking: FormGroup = this.#formBuilder.group({
     userBooking: [null as User | null, Validators.required]
   })
-  constructor(private dialog: MatDialog, private userService: UserService, private classService: ClassesService, private bookingService: BookingClassService,
+  constructor(private dialog: MatDialog, private paymentService: PaymentService, private userService: UserService, private bookingService: BookingClassService, public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: { event: CalendarEvent }
   ) {
     this.event = data.event;
@@ -44,70 +51,86 @@ export class ListUsersInClass {
 
   ngOnInit(): void {
     this.getUsersBookingList();
+    const role = this.authService.currentUser()?.role?.role_name;
+    if (role !== 'admin' && role !== 'profesor') {
+      this.displayedColumns = ['name'];
+      this.newUserBooking.get('userBooking')?.clearValidators();
+      this.newUserBooking.get('userBooking')?.updateValueAndValidity();
+    }
   }
   toggleAttendance(user: any) {
     const status = !user.attendance;
-    this.bookingService.put(user.bookingID, { user_id: user.userID, class_id: user.classID, attendance: status }).subscribe({
-      next: () => {this.getUsersBookingList(); },
+    this.bookingService.put(user.bookingId, { user_id: user.id, class_id: user.classId, attendance: status }).subscribe({
+      next: () => { this.getUsersBookingList(); },
       error: (err) => console.error('Error actualizando asistencia', err)
     });
   }
-  deleteUserBooking(user: any) {
+  deleteUserBooking(bookingID: any) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar el usuario de esta reserva?' } });
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
-        this.bookingService.delete(user.bookingID).subscribe({
+        this.bookingService.delete(bookingID).subscribe({
           next: () => {
             this.getUsersBookingList();
           },
           error: (error) => {
-            console.error(`Error al eliminar la reserva`, error);
+            this.dialog.open(WarningDialog, { data: { message: error.error.message } });
           }
         });
       }
     });
   }
-  getUserList(): void {
-      const bookedIDs: number[] = this.users.map(u => u.userID);
-      this.userService.getUsers().subscribe({
-        next: (response) => {
-          this.userList = response.data.filter((u: User) => !bookedIDs.includes(u.id));
-        },
-        error: (error) => {
-          console.error('Error al obtener usuarios:', error);
-        }
-      });
-    }
-  getUsersBookingList(): void {
 
-      const eventID: number = Number(this.event.id);
-      if(!eventID) {
-        return console.error('Error: El evento no tiene un ID válido para la actualización.');
+  getUserList(): void {
+    const bookedIDs: number[] = this.userList.map(u => u.id);
+    this.userService.getUsers().subscribe({
+      next: (response) => {
+        this.allUserList = response.data.filter((u: User) => !bookedIDs.includes(u.id) && u.role.role_name == 'alumno');
+        const userListSelect = this.newUserBooking.get('userBooking');
+        if (this.allUserList.length === 0) {
+          userListSelect?.disable(); 
+        } else {
+          userListSelect?.enable();  
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener usuarios:', error);
       }
-    this.classService.getClass(eventID).subscribe({
-        next: (response) => {
-          this.users = response.data.bookingclass.map((b: any) => ({
-            bookingID: b.id,
-            userID: b.user.id,
-            classID: b.class.id,
-            name: b.user.first_name + " " + b.user.last_name,
-            attendance: Boolean(b.attendance)
-          }))
-          this.getUserList();
-        },
-        error: (error) => {
-          console.error('El formulario no es válido.', error);
-          this.users = [];
-        },
-        complete: () =>
-          this.loading = false
-      })
+    });
+  }
+  getUsersBookingList(): void {
+    const myId = this.authService.currentUser()?.id;
+    const eventID: number = Number(this.event.id);
+    if (!eventID) {
+      return console.error('Error: El evento no tiene un ID válido para la actualización.');
     }
+    this.bookingService.getBookingClass(eventID).subscribe({
+      next: (response) => {
+        this.userList = response.data.map((booking: any) => {
+          return {
+            ...booking.user,
+            bookingId: booking.id,
+            classId: booking.class.id,
+            attendance: booking.attendance
+          }
+        });
+        this.amIBooked = this.userList.some(user => user.id === myId);
+        this.myBooking = this.userList.find(user => user.id === myId);
+        this.getUserList();
+      },
+      error: (error) => {
+        console.error('El formulario no es válido.', error);
+        this.userList = [];
+      },
+      complete: () =>
+        this.loading = false
+    })
+  }
   onSubmit() {
-      if(this.newUserBooking.invalid) {
+    if (this.newUserBooking.invalid) {
       return;
     }
-    const selectedUser: User = this.newUserBooking.value.userBooking;
+    const selectedUser: User = this.newUserBooking.value.userBooking ?? this.authService.currentUser();
     const bookingJson = {
       user_id: selectedUser.id,
       class_id: Number(this.event.id),
@@ -118,7 +141,8 @@ export class ListUsersInClass {
         this.getUsersBookingList();
       },
       error: (error) => {
-        console.log('La reserva ha tenido un error: ', error);
+        this.dialog.open(WarningDialog, { data: { message: error.error.message } });
+
       }
 
     });

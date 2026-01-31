@@ -12,10 +12,14 @@ export class BookingClassService {
     return this.http.get(`${this.apiURL}`);
   }
 
-  getBooking(id:number): Observable<any>{
+  getBooking(id: number): Observable<any> {
     return this.http.get(`${this.apiURL}/${id}`)
   }
 
+  getBookingClass(id: number): Observable<any> {
+    return this.http.get(`http://localhost:8080/api/classes/${id}/bookings`, { withCredentials: true })
+  }
+  
   delete(id: number): Observable<any> {
     return this.http.delete(`${this.apiURL}/${id}`);
   }
@@ -34,4 +38,5 @@ export class BookingClassService {
       })
     });
   }
+
 }

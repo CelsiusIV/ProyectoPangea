@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
-use Illuminate\Http\Request;
+use App\Http\Resources\PaymentResource;
 
 class PaymentsController extends Controller
 {
@@ -15,6 +15,7 @@ class PaymentsController extends Controller
     public function index()
     {
         return Payment::all()->toResourceCollection();
+
     }
 
     /**
@@ -37,7 +38,7 @@ class PaymentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PaymentRequest $request, string $id)
     {
         $payment = Payment::finOrFail($id);
         $updateData = $request->validated();
@@ -51,5 +52,10 @@ class PaymentsController extends Controller
     public function destroy(string $id)
     {
         Payment::destroy($id);
+    }
+
+    public function userPayment(string $user_id){
+        $payments = Payment::where('user_id', $user_id)->orderBy('availableClasses', 'desc')->get();
+        return PaymentResource::collection($payments);
     }
 }

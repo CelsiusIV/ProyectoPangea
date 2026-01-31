@@ -35,11 +35,14 @@
         (click)="$event.stopPropagation(); showList(event)">
         {{ event.title }}
       </button>
+      @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name ===
+        'profesor'){
       <button class="btn btn-sm btn-danger delete-btn" (click)="$event.stopPropagation();deleteEvent(event)">
         <i class="fas fa-trash-alt"></i> </button>
 
       <button class="btn btn-sm  edit-btn" (click)="$event.stopPropagation();handleEvent(event)">
         <i class="fa-solid fa-pen-to-square"></i> </button>
+      }
     </div>
   </div>
 </ng-template>

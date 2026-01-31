@@ -1,1 +1,55 @@
-<p>account works!</p>
+<div class="micuentadiv">
+    <h1>Mi cuenta</h1>
+    <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEdit()">
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" required formControlName="email" name="email">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput placeholder="Contraseña" type="password" formControlName="password" name="password">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre" required formControlName="first_name" name="first_name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Apellidos</mat-label>
+            <input matInput placeholder="Apellidos" formControlName="last_name" name="last_name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Año nacimiento</mat-label>
+            <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Telefono</mat-label>
+            <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Editar</button>
+    </form>
+</div>
+<div class="pagosdiv">
+    <h1> Pagos </h1>
+
+    <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPay()">
+        <mat-form-field appearance="outline">
+            <mat-label>Tipo de clase a Pagar</mat-label>
+            <mat-select formControlName="classType_id" name="classType_id">
+                @for(classType of classNames ; track classType.id){
+                <mat-option [value]="classType.id">
+                    {{ classType.className }} ({{ classType.price }} €)
+                </mat-option>
+                }@empty {<li>There are no items.</li>}
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Pagar</button>
+    </form>
+
+
+    <h2> Historial pagos</h2>
+    <app-payment-table [payments]="payments"></app-payment-table>
+</div>

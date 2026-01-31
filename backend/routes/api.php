@@ -7,37 +7,61 @@ use App\Http\Controllers\ClassTypeController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Laravel\Sanctum\PersonalAccessToken;
 
 // LOGIN y LOGOUT
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
-
-// ACCESOS 
-Route::get('/debug-auth', function (\Illuminate\Http\Request $request) {
+Route::middleware('auth:sanctum')->get('/session-check', function () {
     return response()->json([
-        'session_driver' => config('session.driver'),
-        'session_domain' => config('session.domain'),
-        'sanctum_domains' => config('sanctum.stateful'),
-        'cookie_received' => $request->cookie('laravel_session'),
-        'origin_header' => $request->header('Origin'),
-        'host' => $request->getHost() . ':' . $request->getPort(),
-        'session_started' => $request->hasSession(), 
+        'authenticated' => true
     ]);
 });
+// ACCESOS 
+
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('users', UserController::class)->middleware('role:admin|profesor');
-    //Route::apiResource('users', UserController::class)->middleware('role:admin|profesor');
-    //Route::apiResource('users', UserController::class)->only('show')->middleware('role:alumno');
-    Route::apiResource('roles', RoleController::class)->middleware('role:admin|profesor');
-    Route::apiResource('payments', PaymentsController::class)->middleware('role:admin|profesor');;
-    Route::apiResource('classes', ClassController::class)->middleware('role:admin|profesor');
-    //Route::apiResource('classes', ClassController::class)->only('index', 'show')->middleware('role:alumno');
-    Route::apiResource('booking', BookingClassController::class)->middleware('role:admin|profesor|alumno');
-    Route::apiResource('class_types', ClassTypeController::class)->middleware('role:admin');
-    //Route::apiResource('class_types', ClassTypeController::class)->only('index', 'show')->middleware('role:profesor|alumno');
+    Route::get('/users/{user_id}/payments', [PaymentsController::class, 'userPayment']);
+    Route::get('/classes/{class_id}/bookings', [BookingClassController::class,'classBooking']);
+    Route::apiResource('users', UserController::class);
+    // =================================================================
+    // 2. ZONA CLASES (Classes)
+    // =================================================================
+
+    // A. Métodos de Lectura (Index, Show): Todos
+    Route::apiResource('classes', ClassController::class)
+        ->only(['index', 'show'])
+        ->middleware('role:alumno|admin|profesor');
+
+    // B. Métodos de Escritura (Store, Update, Delete): Solo Admin/Profe
+    Route::apiResource('classes', ClassController::class)
+        ->except(['index', 'show'])
+        ->middleware('role:admin|profesor');
+
+
+    // =================================================================
+    // 3. ZONA TIPOS DE CLASE (Class Types)
+    // =================================================================
+
+    Route::apiResource('class_types', ClassTypeController::class)
+        ->only(['index', 'show'])
+        ->middleware('role:profesor|alumno|admin');
+
+    Route::apiResource('class_types', ClassTypeController::class)
+        ->except(['index', 'show'])
+        ->middleware('role:admin');
+
+
+    // =================================================================
+    // 4. RESTO DE RUTAS
+    // =================================================================
+
+    Route::apiResource('roles', RoleController::class)
+        ->middleware('role:admin|profesor');
+
+    Route::apiResource('payments', PaymentsController::class)
+        ->middleware('role:admin|profesor|alumno');
+
+    Route::apiResource('booking', BookingClassController::class)
+        ->middleware('role:admin|profesor|alumno');
 });

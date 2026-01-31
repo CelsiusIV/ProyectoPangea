@@ -6,12 +6,13 @@
     <ng-container *ngIf="loading">
         <p>Cargando usuarios...</p>
     </ng-container>
-    <ng-container *ngIf="!loading && users.length > 0 ; else noUsers">
-        <table mat-table [dataSource]="users">
+    <ng-container *ngIf="!loading && userList.length > 0 ; else noUsers">
+        <table mat-table [dataSource]="userList">
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
-                <td mat-cell *matCellDef="let user"> {{user.name}}</td>
+                <td mat-cell *matCellDef="let user"> {{user.first_name}} {{user.last_name}}</td>
             </ng-container>
+
             <ng-container matColumnDef="attendance">
                 <th mat-header-cell *matHeaderCellDef> Asistencia </th>
                 <td mat-cell *matCellDef="let user">
@@ -22,7 +23,7 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let user">
-                    <button mat-icon-button color="warn" (click)="deleteUserBooking(user)">
+                    <button mat-icon-button color="warn" (click)="deleteUserBooking(user.bookingId)">
                         <mat-icon>delete</mat-icon>
                     </button>
                 </td>
@@ -36,8 +37,12 @@
     <ng-template #noUsers>
         <p>No hay alumnos inscritos en esta clase.</p>
     </ng-template>
+    @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name
+    ==='profesor'){
     <mat-accordion>
+
         <mat-expansion-panel hideToggle>
+
             <mat-expansion-panel-header>
                 Añadir nueva reserva
             </mat-expansion-panel-header>
@@ -45,16 +50,29 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <mat-select formControlName="userBooking" name="userBooking">
-                        @for (user of userList; track user.id) {
+                        @for (user of allUserList; track user.id) {
                         <mat-option [value]="user">
                             {{ user.first_name }} {{ user.last_name }}
                         </mat-option>
                         }
                     </mat-select>
+                    @if (allUserList.length === 0) {
+                    <mat-hint style="color: var(--mat-sys-error)">
+                        No hay usuarios disponibles
+                    </mat-hint>
+                    }
                 </mat-form-field>
-                <button mat-raised-button color="primary" type="submit">Añadir</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="allUserList.length==0">Añadir</button>
             </form>
-        </mat-expansion-panel>
-    </mat-accordion>
 
+        </mat-expansion-panel>
+
+    </mat-accordion>
+    }@else{
+    <form [formGroup]="newUserBooking" (ngSubmit)="onSubmit()">
+        <button mat-raised-button type="submit" [hidden]="amIBooked">Reservar</button>
+        <button mat-raised-button color="warn" type="button" [hidden]="!amIBooked"
+            (click)="deleteUserBooking(this.myBooking.bookingId)">Borrar Asistencia</button>
+    </form>
+    }
 </mat-dialog-content>

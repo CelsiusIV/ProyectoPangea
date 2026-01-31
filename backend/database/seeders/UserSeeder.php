@@ -17,34 +17,84 @@ class UserSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'User',
             'phone'=>'123456789',
-            'email' => 'admin@test.com',
+            'email' => 'admin@pangea.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('4dm1np4ng34'),
         ]);
 
         $admin->assignRole('admin');
         
         
-        $profesor=User::create([
-            'first_name' => 'Celia',
-            'last_name' => 'Serrano',
-            'phone'=>'12342354289',
-            'email' => 'celia@test.com',
+        $profesor1=User::create([
+            'first_name' => 'Lucia',
+            'last_name' => 'Sanchez',
+            'phone'=>'654821563',
+            'email' => 'lucia@pangea.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('pr0f31p4ng34'),
         ]);
 
-        $profesor->assignRole('profesor'); 
+        $profesor2=User::create([
+            'first_name' => 'Martina',
+            'last_name' => 'Rodriguez',
+            'phone'=>'625588899',
+            'email' => 'martina@pangea.com',
+            'is_active' => true,
+            'password' => Hash::make('pr0f32p4ng3a'),
+        ]);
 
-        $alumno=User::create([
+        $profesor1->assignRole('profesor'); 
+        $profesor2->assignRole('profesor'); 
+
+        $alumno1=User::create([
             'first_name' => 'Marina',
             'last_name' => 'Perez',
-            'phone'=>'4565354289',
+            'phone'=>'699831452',
             'email' => 'marina@test.com',
             'is_active' => true,
             'password' => Hash::make('password'),
         ]);
 
-        $alumno->assignRole('alumno'); 
+          $alumno2=User::create([
+            'first_name' => 'Sergio',
+            'last_name' => 'Castillo',
+            'phone'=>'658841253',
+            'email' => 'sergioc@test.com',
+            'is_active' => true,
+            'password' => Hash::make('password'),
+        ]);
+
+          $alumno3=User::create([
+            'first_name' => 'Cristina',
+            'last_name' => 'Aguilar',
+            'phone'=>'664789325',
+            'email' => 'cristinaa@test.com',
+            'is_active' => true,
+            'password' => Hash::make('password'),
+        ]);
+
+          $alumno4=User::create([
+            'first_name' => 'Anabel',
+            'last_name' => 'Mancilla',
+            'phone'=>'693256714',
+            'email' => 'anabel@test.com',
+            'is_active' => true,
+            'password' => Hash::make('password'),
+        ]);
+
+          $alumno5=User::create([
+            'first_name' => 'Marta',
+            'last_name' => 'Serrano',
+            'phone'=>'625874932',
+            'email' => 'martas@test.com',
+            'is_active' => true,
+            'password' => Hash::make('password'),
+        ]);
+
+        $alumno1->assignRole('alumno'); 
+        $alumno2->assignRole('alumno'); 
+        $alumno3->assignRole('alumno'); 
+        $alumno4->assignRole('alumno'); 
+        $alumno5->assignRole('alumno'); 
     }
 }

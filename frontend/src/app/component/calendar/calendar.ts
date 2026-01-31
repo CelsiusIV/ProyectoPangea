@@ -21,6 +21,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { ListUsersInClass } from './list-users-in-class/list-users-in-class';
 import { DeleteConfirmationDialog } from '../delete-confirmation-dialog/delete-confirmation-dialog';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
+import { AuthService } from '../../service/auth-service';
 
 const colors: Record<string, EventColor> = {
   red: {
@@ -70,7 +71,8 @@ export class Calendar {
   // Constructor y definicion de servicios
   constructor(
     private classesService: ClassesService,
-    private classTypeService: ClassTypeService
+    private classTypeService: ClassTypeService,
+    public authService: AuthService,
   ) { }
 
   @ViewChild('modalContent', { static: true }) modalContent!: TemplateRef<any>;
@@ -177,6 +179,10 @@ export class Calendar {
 
   // Abre un dialogo para añadir una nueva clase
   addEvent(event: any): void {
+    const role = this.authService.currentUser()?.role?.role_name;
+    if (role !== 'admin' && role !== 'profesor') {
+      return;
+    }
     const dialogRef = this.dialog.open(NewSchedule, { data: { event, classType: this.classTypeName } });
 
     dialogRef.afterClosed().subscribe(result => {
