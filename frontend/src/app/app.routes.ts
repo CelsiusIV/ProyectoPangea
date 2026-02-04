@@ -12,6 +12,7 @@ import { Users } from './pages/private/users/users';
 import { Account } from './pages/private/account/account';
 import { Clases } from './pages/public/clases/clases';
 import { authGuard } from './auth-guard';
+import { Administration } from './pages/private/administration/administration';
 
 export const routes: Routes = [
     {
@@ -31,10 +32,10 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: Dashboard },
-            { path: 'horarios', component: Schedules },
             { path: 'sitio', component: Site },
             { path: 'usuarios', component: Users },
-            { path: 'cuenta', component: Account }
+            { path: 'cuenta', component: Account },
+            { path: 'administracion', component: Administration}
 
         ]
     },

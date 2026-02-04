@@ -1,0 +1,19 @@
+.micuentadiv {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: rgb(255, 215, 162);
+}
+
+.micuentadiv form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.micuentadiv mat-form-field {
+    width: 100%;
+}

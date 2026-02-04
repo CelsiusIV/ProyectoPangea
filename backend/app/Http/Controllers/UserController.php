@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,7 +50,22 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $authUser = Auth::user();
 
-        if (!$authUser->hasAnyRole(['admin', 'profesor']) && $authUser->id != $user->id) {
+        $currentRoleId= $user->roles()->first()->id;
+        $newRoleId = $request->role_id;
+        $newRoleName = Role::where('id',$newRoleId)->value('name');
+        $isChangingRole= $newRoleId != $currentRoleId;
+
+        // Nadie puede aplicar el rol de admin, excepto el admin
+        if (!$authUser->hasRole('admin') && $isChangingRole && $newRoleName == "admin"){
+             abort(403, 'No puedes asignar el rol de admin');
+        }
+        // Nadie puede modificar su propio rol
+        if($isChangingRole && $authUser->id == $user->id){
+            abort(403, 'No puedes cambiar tu propio rol.');
+        }
+
+        // Solo pueden editar admin y profesor, profesor no puede editar a admin
+        if ((!$authUser->hasAnyRole(['admin', 'profesor']) && $authUser->id != $user->id) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
             abort(403, 'No tienes permiso para editar este perfil.');
         }
         //$updateData = $request->validated();
@@ -72,6 +88,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = User::findOrFail($id);
+        $authUser = Auth::user();
+
+        // Solo pueden borrar usuarios los admin y profesores. Los profesores no pueden borrar a los admins.
+        if ((!$authUser->hasAnyRole(['admin', 'profesor']) ) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
+            abort(403, 'No tienes permiso para editar este perfil.');
+        }
         User::destroy($id);
     }
 }

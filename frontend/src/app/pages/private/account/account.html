@@ -1,55 +1,72 @@
-<div class="micuentadiv">
-    <h1>Mi cuenta</h1>
-    <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEdit()">
-        <mat-form-field appearance="outline">
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" required formControlName="email" name="email">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Contraseña</mat-label>
-            <input matInput placeholder="Contraseña" type="password" formControlName="password" name="password">
-        </mat-form-field>
+<mat-tab-group animationDuration="0ms">
+    <mat-tab label="Mi Cuenta">
+        <div class="micuentadiv">
+            <h1>Mi cuenta</h1>
+            <form [formGroup]="editUserForm" (ngSubmit)="onSubmitEdit()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Email" required formControlName="email" name="email">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput placeholder="Contraseña" type="password" formControlName="password" name="password">
+                </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" required formControlName="first_name" name="first_name">
-        </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput placeholder="Nombre" required formControlName="first_name" name="first_name">
+                </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Apellidos</mat-label>
-            <input matInput placeholder="Apellidos" formControlName="last_name" name="last_name">
-        </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Apellidos</mat-label>
+                    <input matInput placeholder="Apellidos" formControlName="last_name" name="last_name">
+                </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Año nacimiento</mat-label>
-            <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
-        </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Año nacimiento</mat-label>
+                    <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
+                </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Telefono</mat-label>
-            <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Editar</button>
-    </form>
-</div>
-<div class="pagosdiv">
-    <h1> Pagos </h1>
+                <mat-form-field appearance="outline">
+                    <mat-label>Telefono</mat-label>
+                    <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
+                </mat-form-field>
+                <button class="btn-principal" type="submit">Editar</button>
+            </form>
+        </div>
+    </mat-tab>
+    <mat-tab label="Pagos">
+        <div class="pagosdiv">
+            <h1> Pagos </h1>
 
-    <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPay()">
-        <mat-form-field appearance="outline">
-            <mat-label>Tipo de clase a Pagar</mat-label>
-            <mat-select formControlName="classType_id" name="classType_id">
-                @for(classType of classNames ; track classType.id){
-                <mat-option [value]="classType.id">
-                    {{ classType.className }} ({{ classType.price }} €)
-                </mat-option>
-                }@empty {<li>There are no items.</li>}
-            </mat-select>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit">Pagar</button>
-    </form>
+            <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPay()">
+                <mat-form-field appearance="outline">
+                    <mat-label>Tipo de clase a Pagar</mat-label>
+                    <mat-select formControlName="classType_id" name="classType_id">
+                        @for(classType of classNames ; track classType.id){
+                        <mat-option [value]="classType.id">
+                            {{ classType.className }} ({{ classType.price }} €)
+                        </mat-option>
+                        }@empty {<li>There are no items.</li>}
+                    </mat-select>
+                </mat-form-field>
+                <button class="btn-principal" color="primary" type="submit">Pagar</button>
+            </form>
 
 
-    <h2> Historial pagos</h2>
-    <app-payment-table [payments]="payments"></app-payment-table>
-</div>
+            <h2> Historial pagos</h2>
+            <h3> Clases pendientes de consumir</h3>
+            @if(paymentsPending.data.length == 0){
+            No tienes clases pendientes de consumir.
+            }@else{
+            <app-payment-table [payments]="paymentsPending"></app-payment-table>
+            }
+            <h3> Histórico de pagos</h3>
+            @if(paymentsHistory.data.length == 0){
+            No tienes pagos con clases realizadas.
+            }@else{
+            <app-payment-table [payments]="paymentsHistory"></app-payment-table>
+            }
+        </div>
+    </mat-tab>
+</mat-tab-group>

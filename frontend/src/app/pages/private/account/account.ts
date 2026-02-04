@@ -14,11 +14,12 @@ import { ClassTypeService } from '../../../service/class-type-service';
 import { PaymentService } from '../../../service/payment-service';
 import { PaymentTable } from "../../../component/payment-table/payment-table";
 import { MatTableDataSource } from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
 
 
 @Component({
   selector: 'app-edit-user-dialog',
-  imports: [MatCheckboxModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule, PaymentTable],
+  imports: [MatTabsModule, MatCheckboxModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule, PaymentTable],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })
@@ -30,6 +31,8 @@ export class Account {
   classNames: ClassType[] = [];
   classLimit: number = 0;
   payments = new MatTableDataSource<Payments>();
+  paymentsPending = new MatTableDataSource<Payments>();
+  paymentsHistory = new MatTableDataSource<Payments>();
 
   constructor(
     private userService: UserService, public authService: AuthService, private classTypeService: ClassTypeService, private paymentService: PaymentService
@@ -53,14 +56,13 @@ export class Account {
 
   ngOnInit(): void {
     this.getPaymentList(this.user.id);
-
   }
 
   getClassList() {
-    const activeClass: number[] = this.payments.data.filter(p=>p.availableClasses>0).map(p=> p.class_type.id);
+    const activeClass: number[] = this.paymentsPending.data.map(p => p.class_type.id);
     this.classTypeService.getClassTypes().subscribe({
       next: (response) => {
-        this.classNames = response.data.filter((classes: ClassType) => !activeClass.includes(classes.id) );
+        this.classNames = response.data.filter((classes: ClassType) => !activeClass.includes(classes.id));
       },
       error: (error) => {
         console.log(error);
@@ -70,7 +72,8 @@ export class Account {
   getPaymentList(id: number) {
     this.paymentService.getUserPayment(id).subscribe({
       next: (response) => {
-        this.payments.data = [...response.data];
+        this.paymentsPending.data = [...response.data].filter(p => p.availableClasses > 0);
+        this.paymentsHistory.data = [...response.data].filter(p => p.availableClasses == 0);
         this.getClassList();
       },
       error: (error) => {
@@ -121,7 +124,6 @@ export class Account {
           }
           this.paymentService.post(paymentJson).subscribe({
             next: () => {
-              console.log('Formulario enviado con éxito');
               this.getPaymentList(this.user.id);
             },
             error: (error) => {

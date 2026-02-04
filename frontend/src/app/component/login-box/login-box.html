@@ -6,7 +6,13 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
         <h3>Introduzca usuario y contraseña</h3>
+        @if(errorLogin){
+        <mat-hint style="color: var(--mat-sys-error)">
+            Usuario o contraseña incorrectos. Pruebe de nuevo.
+        </mat-hint>
+        }
         <p>
+
             <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email" placeholder="Email" required>
@@ -16,12 +22,17 @@
         <p>
             <mat-form-field>
                 <mat-label>Contraseña</mat-label>
-                <input matInput formControlName="password"  placeholder="Contraseña" type="password" required>
+                <input matInput formControlName="password" placeholder="Contraseña" type="password" required>
                 <mat-icon matSuffix fontIcon="key"></mat-icon>
             </mat-form-field>
         </p>
+
     </mat-dialog-content>
     <mat-dialog-actions>
-        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+        <span matTooltip="Completa los datos para continuar" [matTooltipDisabled]="!loginForm.invalid">
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
+        </span>
+
     </mat-dialog-actions>
 </form>

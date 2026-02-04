@@ -1,9 +1,46 @@
+/*.navbar-container {
+  background-color: rgb(238, 159, 94);
+}*/
+
+.sidenav {
+   background-color:rgb(221, 184, 136);
+   color: rgb(92, 76, 56);
+}
+
+.logo {
+  height: 80px;
+  /* ajusta según tu logo */
+  width: auto;
+}
+
+mat-nav-list a[mat-list-item] {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  gap: 14px;
+  padding: 14px 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+a.active {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--primary-color, #3f51b5);
+}
+
+#zonaAdmin {
+  margin-top: 20px;
+}
+
+
 .navbar-spacer {
   flex: 1 1 auto;
 }
 
 .navbar {
   z-index: 2;
+  background-color:rgb(221, 184, 136);
 }
 
 .navbar-brand {
@@ -21,22 +58,15 @@
   right: 0;
 }
 
-.navbar-is-mobile .navbar {
-  position: fixed;
-  z-index: 2;
-}
-
 .navbar-sidenav-container {
   flex: 1;
 }
 
-.navbar-is-mobile .navbar-sidenav-container {
-  flex: 1 0 auto;
-}
 
 mat-sidenav {
-  max-width: 200px ;
-  border-right: 1px solid #a5cfff;
+  max-width: 200px;
+  border-right: none;
+
 }
 
 
@@ -45,11 +75,24 @@ mat-sidenav {
 }
 
 a.mat-list-item.active {
-  background: rgba(0, 0, 0, .04);
+  background-color: rgba(0, 0, 0, .04);
   text-decoration: none;
 }
 
 #push-bottom {
   position: absolute;
   bottom: 0;
+}
+
+.sidenav-content {
+  background-color:rgb(196, 153, 98);
+  padding: 20px;
+}
+
+.logout-btn {
+  padding: clamp(0.3rem, 1vw, 0.6rem) clamp(0.8rem, 2vw, 1.2rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
