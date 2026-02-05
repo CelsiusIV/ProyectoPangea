@@ -26,8 +26,21 @@ class UserController extends Controller
     {
 
         $user = $request->validated();
+        $newRoleId = $request->role_id;
+        $roleIdRegistrado = Role::where('name', 'registrado')->value('id');
+        $roleIdAdmin = Role::where('name', 'admin')->value('id');
+        if (Auth::check()) {
+            $authUser = Auth::user();
+            if (!$authUser->hasRole('admin') && $newRoleId == $roleIdAdmin) {
+                abort(403, 'No puedes asignar el rol de admin');
+            }
+            $roleToAssign = $newRoleId;
+        } else {
+            unset($user['role_id']);
+            $roleToAssign = $roleIdRegistrado;
+        }
         $userCreate = User::create($user);
-        $userCreate->assignRole('registrado');
+        $userCreate->assignRole($roleToAssign);
     }
 
     /**
@@ -50,17 +63,17 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $authUser = Auth::user();
 
-        $currentRoleId= $user->roles()->first()->id;
+        $currentRoleId = $user->roles()->first()->id;
         $newRoleId = $request->role_id;
-        $newRoleName = Role::where('id',$newRoleId)->value('name');
-        $isChangingRole= $newRoleId != $currentRoleId;
+        $newRoleName = Role::where('id', $newRoleId)->value('name');
+        $isChangingRole = $newRoleId != $currentRoleId;
 
         // Nadie puede aplicar el rol de admin, excepto el admin
-        if (!$authUser->hasRole('admin') && $isChangingRole && $newRoleName == "admin"){
-             abort(403, 'No puedes asignar el rol de admin');
+        if (!$authUser->hasRole('admin') && $isChangingRole && $newRoleName == "admin") {
+            abort(403, 'No puedes asignar el rol de admin');
         }
         // Nadie puede modificar su propio rol
-        if($isChangingRole && $authUser->id == $user->id){
+        if ($isChangingRole && $authUser->id == $user->id) {
             abort(403, 'No puedes cambiar tu propio rol.');
         }
 
@@ -92,7 +105,7 @@ class UserController extends Controller
         $authUser = Auth::user();
 
         // Solo pueden borrar usuarios los admin y profesores. Los profesores no pueden borrar a los admins.
-        if ((!$authUser->hasAnyRole(['admin', 'profesor']) ) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
+        if ((!$authUser->hasAnyRole(['admin', 'profesor'])) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
             abort(403, 'No tienes permiso para editar este perfil.');
         }
         User::destroy($id);

@@ -1,0 +1,86 @@
+/* Contenedor principal para dar un poco de aire si es necesario */
+.login-container {
+    position: relative;
+    /* Necesario para posicionar la X de cerrar */
+    padding-top: 10px;
+}
+
+/* El botón de cerrar (X) flotando arriba a la derecha */
+.close-btn {
+    position: absolute;
+    top: -15px;
+    /* Ajusta según el padding de tu dialog */
+    right: -10px;
+    z-index: 10;
+    color: #666;
+}
+
+/* Título centrado y con más peso */
+h2[mat-dialog-title] {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+/* Subtítulo o instrucciones */
+h3 {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/* Inputs al 100% de ancho */
+mat-form-field {
+    width: 100%;
+    margin-bottom: 5px;
+    /* Espacio entre inputs */
+}
+
+/* Mensaje de error más visible */
+.error-msg {
+    color: #f44336;
+    /* Color de error estándar de Material */
+    background-color: #ffebee;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+/* Botón de login ancho y llamativo */
+.login-btn {
+    width: 100%;
+    padding: 8px 0;
+    font-size: 1.1rem;
+}
+
+
+/* Ajuste del contenedor de acciones */
+mat-dialog-actions {
+    flex-direction: column;
+    padding: 20px 24px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.register-prompt a {
+    color: #a78a4e;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 5px;
+    transition: all 0.2s ease;
+}
+
+.register-prompt a:hover {
+    color: #685631;
+    text-decoration: underline;
+}

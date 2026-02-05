@@ -16,14 +16,18 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         $user = Auth::user();
-
-        if ($user->hasRole('alumno') && $user->id !== $this->id ) {
+        $role = $this->roles->first();
+        
+        if ($user->hasRole('alumno') && $user->id !== $this->id) {
             return [
                 'first_name' => $this->first_name,
-                'last_name' => $this->last_name
+                'last_name' => $this->last_name,
+                'role' => $role ? [
+                    'role_name' => $role->name,
+                ] : null,
             ];
         }
-        $role = $this->roles->first();
+
         return [
             'id' => $this->id,
             'first_name' => $this->first_name,

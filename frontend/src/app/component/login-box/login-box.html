@@ -1,4 +1,4 @@
-<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+<button mat-icon-button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Acceso a zona privada</h2>
@@ -8,7 +8,7 @@
         <h3>Introduzca usuario y contraseña</h3>
         @if(errorLogin){
         <mat-hint style="color: var(--mat-sys-error)">
-            Usuario o contraseña incorrectos. Pruebe de nuevo.
+            Usuario o contraseña incorrectos.
         </mat-hint>
         }
         <p>
@@ -33,6 +33,11 @@
 
             <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
         </span>
+
+        <div class="register-prompt">
+            ¿No tienes cuenta? 
+            <a (click)="navegarARegistro()">Regístrate aquí</a>
+        </div>
 
     </mat-dialog-actions>
 </form>

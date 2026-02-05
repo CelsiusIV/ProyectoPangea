@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Resources\PaymentResource;
 use App\Models\ClassType;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentsController extends Controller
 {
@@ -24,7 +27,8 @@ class PaymentsController extends Controller
     public function store(PaymentRequest $request)
     {
         $payment = $request->validated();
-        
+        $user = User::find($payment['user_id']);
+        $roleIdAlumno = Role::where('name', 'alumno')->value('id');
         $hasPending = Payment::where('user_id', $payment['user_id'])
             ->where('availableClasses', '>', 0)->where('class_type_id',$payment['class_type_id'])
             ->exists();
@@ -45,6 +49,10 @@ class PaymentsController extends Controller
                 'message' => 'No puedes contratar más de una clase de prueba'
             ], 422);
 
+        }
+
+        if ($user->hasRole('registrado')) {
+            $user->syncRoles($roleIdAlumno);
         }
 
         Payment::create($payment);

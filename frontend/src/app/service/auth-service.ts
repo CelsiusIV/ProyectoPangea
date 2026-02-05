@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { User } from '../shared/models/user.interface';
+import { UserService } from './user-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private baseUrl = 'http://localhost:8080';
-
-  // Usamos una Signal para tener reactividad instantánea en toda la app
+  private userService = inject(UserService);
   public currentUser: WritableSignal<User | null> = signal(null);
 
   constructor(private http: HttpClient) {
@@ -54,4 +54,18 @@ export class AuthService {
       catchError(() => of(false))
     );
   };
+
+  refreshUser(): Observable<any> {
+    const userId = this.currentUser()?.id;
+    if (!userId) {
+      return throwError(() => new Error('No hay usuario en sesión para actualizar'));
+    }
+    return this.userService.getUser(userId).pipe(
+      tap((response) => {
+        const freshUser = response.data || response;
+        this.saveUserToStorage(freshUser);
+      })
+    );
+
+  }
 }

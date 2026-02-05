@@ -19,11 +19,17 @@ Route::middleware('auth:sanctum')->get('/session-check', function () {
     ]);
 });
 // ACCESOS 
+// Se permite crear usuario a cualquiera, para permitir el registro
+Route::post('/users', [UserController::class, 'store']);
 
+// Accesos que requieren autenticacion
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/{user_id}/payments', [PaymentsController::class, 'userPayment']);
-    Route::get('/classes/{class_id}/bookings', [BookingClassController::class,'classBooking']);
-    Route::apiResource('users', UserController::class);
+    Route::get('/classes/{class_id}/bookings', [BookingClassController::class, 'classBooking']);
+    //Route::apiResource('users', UserController::class);
+    Route::apiResource('users', UserController::class)
+        ->except(['store'])
+        ->middleware('role:admin|profesor|alumno');
     // =================================================================
     // 2. ZONA CLASES (Classes)
     // =================================================================
@@ -31,7 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // A. Métodos de Lectura (Index, Show): Todos
     Route::apiResource('classes', ClassController::class)
         ->only(['index', 'show'])
-        ->middleware('role:alumno|admin|profesor');
+        ->middleware('role:alumno|admin|profesor|registrado');
 
     // B. Métodos de Escritura (Store, Update, Delete): Solo Admin/Profe
     Route::apiResource('classes', ClassController::class)
@@ -45,7 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('class_types', ClassTypeController::class)
         ->only(['index', 'show'])
-        ->middleware('role:profesor|alumno|admin');
+        ->middleware('role:profesor|alumno|admin |registrado');
 
     Route::apiResource('class_types', ClassTypeController::class)
         ->except(['index', 'show'])
@@ -59,8 +65,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('roles', RoleController::class)
         ->middleware('role:admin|profesor');
 
-    Route::apiResource('payments', PaymentsController::class)
-        ->middleware('role:admin|profesor|alumno');
+    Route::apiResource('payments', PaymentsController::class);
 
     Route::apiResource('booking', BookingClassController::class)
         ->middleware('role:admin|profesor|alumno');

@@ -14,7 +14,7 @@ import { ClassTypeService } from '../../../service/class-type-service';
 import { PaymentService } from '../../../service/payment-service';
 import { PaymentTable } from "../../../component/payment-table/payment-table";
 import { MatTableDataSource } from '@angular/material/table';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @Component({
@@ -125,6 +125,14 @@ export class Account {
           this.paymentService.post(paymentJson).subscribe({
             next: () => {
               this.getPaymentList(this.user.id);
+              this.authService.refreshUser().subscribe({
+                next: () => {
+                },
+                error: (err) => {
+                  console.error('Error al refrescar:', err);
+                }
+              });;
+
             },
             error: (error) => {
               console.log('El formulario no es válido.', error);

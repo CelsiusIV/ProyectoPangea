@@ -174,6 +174,10 @@ export class Calendar {
 
   // Abre un dialogo para ver los usuarios apuntados a una clase
   showList(event: CalendarEvent): void {
+    const role = this.authService.currentUser()?.role?.role_name;
+    if (role == 'registrado') {
+      return;
+    }
     this.dialog.open(ListUsersInClass, { data: { event } });
   }
 

@@ -1,17 +1,17 @@
-<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+<button mat-icon-button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Nuevo Usuario</h2>
 
 <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <h3>Introduzca usuario y contraseña</h3>
+        <h3>Rellene los datos</h3>
         <div class="formGrid">
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" required formControlName="email" name="email">
             </mat-form-field>
-            
+
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput placeholder="Contraseña" type="password" required formControlName="password"
@@ -37,6 +37,7 @@
                 <mat-label>Telefono</mat-label>
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
+            @if(this.authService.currentUser()){
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>
                 <mat-select formControlName="role_id" name="role">
@@ -45,11 +46,12 @@
                     }@empty {<li>There are no items.</li>}
                 </mat-select>
             </mat-form-field>
+            }
 
         </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit" mat-dialog-close
-            [disabled]="newUserForm.invalid">Añadir</button>
+            [disabled]="newUserForm.invalid">Registrar</button>
     </mat-dialog-actions>
 </form>

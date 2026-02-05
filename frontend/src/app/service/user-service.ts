@@ -20,7 +20,7 @@ export class UserService {
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiURL}/${id}`);
+    return this.http.delete(`${this.apiURL}/${id}`, {withCredentials: true});
   }
 
   post(data: any): Observable<any> {
