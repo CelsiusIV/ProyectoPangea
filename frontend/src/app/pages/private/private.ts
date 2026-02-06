@@ -56,10 +56,8 @@ export class Private implements OnDestroy, AfterViewInit {
         this.authService.logout().subscribe({
             next: () => {
                 this.router.navigate(['/']);
-                console.log("sesion cerrada");
             },
             error: () => {
-                console.log("ERRROOOOOOOOOOOOOOOOOOOOOOOOOOOOR");
             }
         });
     }

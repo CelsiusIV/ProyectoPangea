@@ -2,11 +2,9 @@
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Editar Usuario</h2>
-<p> ID : {{user.id}}</p>
-
 <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <div>
+        <div  class="formGrid">
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" required formControlName="email" name="email">

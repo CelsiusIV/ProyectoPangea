@@ -5,21 +5,22 @@
 
 <form [formGroup]="editClassForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <mat-form-field appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" required formControlName="className" name="className">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Limite de alumnos</mat-label>
-            <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
-        </mat-form-field>
+        <div class="formGrid">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Nombre" required formControlName="className" name="className">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Limite de alumnos</mat-label>
+                <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Precio</mat-label>
-            <input matInput placeholder="Precio en € " required formControlName="price" name="price">
-        </mat-form-field>
-        <mat-slide-toggle formControlName="is_available" name="is_available">Activo</mat-slide-toggle>
-
+            <mat-form-field appearance="outline">
+                <mat-label>Precio</mat-label>
+                <input matInput placeholder="Precio en € " required formControlName="price" name="price">
+            </mat-form-field>
+            <mat-slide-toggle formControlName="is_available" name="is_available">Activo</mat-slide-toggle>
+        </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit">Editar</button>

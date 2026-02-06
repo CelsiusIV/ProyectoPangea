@@ -62,7 +62,7 @@ export class ListUsersInClass {
     const status = !user.attendance;
     this.bookingService.put(user.bookingId, { user_id: user.id, class_id: user.classId, attendance: status }).subscribe({
       next: () => { this.getUsersBookingList(); },
-      error: (err) => console.error('Error actualizando asistencia', err)
+      error: (error) => this.dialog.open(WarningDialog, { data: { message: 'Error actualizando la asistencia: ' + error.error.message } })
     });
   }
   deleteUserBooking(bookingID: any) {
@@ -93,8 +93,7 @@ export class ListUsersInClass {
           userListSelect?.enable();  
         }
       },
-      error: (error) => {
-        console.error('Error al obtener usuarios:', error);
+      error: () => {
       }
     });
   }
@@ -102,7 +101,7 @@ export class ListUsersInClass {
     const myId = this.authService.currentUser()?.id;
     const eventID: number = Number(this.event.id);
     if (!eventID) {
-      return console.error('Error: El evento no tiene un ID válido para la actualización.');
+      return ;
     }
     this.bookingService.getBookingClass(eventID).subscribe({
       next: (response) => {
@@ -118,8 +117,7 @@ export class ListUsersInClass {
         this.myBooking = this.userList.find(user => user.id === myId);
         this.getUserList();
       },
-      error: (error) => {
-        console.error('El formulario no es válido.', error);
+      error: () => {
         this.userList = [];
       },
       complete: () =>

@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-       // return User::all()->toResourceCollection();
+        // return User::all()->toResourceCollection();
         $users = User::with([
             'payment' => function ($query) {
                 $query->withTrashed();
@@ -43,7 +43,9 @@ class UserController extends Controller
         if (Auth::check()) {
             $authUser = Auth::user();
             if (!$authUser->hasRole('admin') && $newRoleId == $roleIdAdmin) {
-                abort(403, 'No puedes asignar el rol de admin');
+                return response()->json([
+                'message' => 'No puedes asignar el rol de admin'
+            ], 403);
             }
             $roleToAssign = $newRoleId;
         } else {
@@ -81,16 +83,22 @@ class UserController extends Controller
 
         // Nadie puede aplicar el rol de admin, excepto el admin
         if (!$authUser->hasRole('admin') && $isChangingRole && $newRoleName == "admin") {
-            abort(403, 'No puedes asignar el rol de admin');
+            return response()->json([
+                'message' => 'No puedes asignar el rol de admin'
+            ], 403);
         }
         // Nadie puede modificar su propio rol
         if ($isChangingRole && $authUser->id == $user->id) {
-            abort(403, 'No puedes cambiar tu propio rol.');
+            return response()->json([
+                'message' => 'No puedes cambiar tu propio rol.'
+            ], 403);
         }
 
         // Solo pueden editar admin y profesor, profesor no puede editar a admin
         if ((!$authUser->hasAnyRole(['admin', 'profesor']) && $authUser->id != $user->id) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
-            abort(403, 'No tienes permiso para editar este perfil.');
+            return response()->json([
+                'message' => 'No tienes permiso para editar este perfil.'
+            ], 403);
         }
         //$updateData = $request->validated();
         $updateData = $request->safe()->except(['role_id']);
@@ -117,7 +125,9 @@ class UserController extends Controller
 
         // Solo pueden borrar usuarios los admin y profesores. Los profesores no pueden borrar a los admins.
         if ((!$authUser->hasAnyRole(['admin', 'profesor'])) || ($authUser->hasRole('profesor') && $user->hasRole('admin'))) {
-            abort(403, 'No tienes permiso para editar este perfil.');
+            return response()->json([
+                'message' => 'No tienes permiso para editar este perfil.'
+            ], 403);
         }
         User::destroy($id);
     }

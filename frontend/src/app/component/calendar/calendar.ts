@@ -85,8 +85,8 @@ export class Calendar {
       next: (response) => {
         this.classTypeName = response.data.filter((type: any) => type.is_available == 1);
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+  
       }
     })
 
@@ -124,8 +124,8 @@ export class Calendar {
 
         this.refresh.next();
       },
-      error: (error) => {
-        console.error('Error al obtener horarios:', error);
+      error: () => {
+
       }
     });
   }

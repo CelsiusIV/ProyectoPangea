@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
 import { UserService } from '../../../service/user-service';
 import { MatInputModule } from '@angular/material/input';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -15,6 +15,7 @@ import { PaymentService } from '../../../service/payment-service';
 import { PaymentTable } from "../../../component/payment-table/payment-table";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { WarningDialog } from '../../../component/warning-dialog/warning-dialog';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class Account {
   payments = new MatTableDataSource<Payments>();
   paymentsPending = new MatTableDataSource<Payments>();
   paymentsHistory = new MatTableDataSource<Payments>();
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private userService: UserService, public authService: AuthService, private classTypeService: ClassTypeService, private paymentService: PaymentService
@@ -64,8 +66,8 @@ export class Account {
       next: (response) => {
         this.classNames = response.data.filter((classes: ClassType) => !activeClass.includes(classes.id));
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
+
       }
     })
   }
@@ -76,8 +78,8 @@ export class Account {
         this.paymentsHistory.data = [...response.data].filter(p => p.availableClasses == 0);
         this.getClassList();
       },
-      error: (error) => {
-        console.error('Error al obtener los pagos:', error);
+      error: () => {
+
       }
     })
   }
@@ -89,23 +91,20 @@ export class Account {
       }
       this.userService.put(this.user.id, payload).subscribe({
         next: (response) => {
-          console.log(response);
           this.authService.currentUser.set(response);
           localStorage.setItem('auth_user', JSON.stringify(response));
-          console.log('Formulario enviado con éxito:', response);
         },
         error: (error) => {
-          console.log(this.editUserForm.value);
-          console.log('El formulario no es válido.', error);
+          this.dialog.open(WarningDialog, { data: { message: 'Error al editar el perfil: ' + error.error.message } });
         }
       })
-    } else {
+    } /*else {
       Object.entries(this.editUserForm.controls).forEach(([key, control]) => {
         if (control.invalid) {
           console.warn(`Control inválido: ${key}`, control.errors, control.value);
         }
       });
-    }
+    }*/
   }
 
   onSubmitPay() {
@@ -128,19 +127,19 @@ export class Account {
               this.authService.refreshUser().subscribe({
                 next: () => {
                 },
-                error: (err) => {
-                  console.error('Error al refrescar:', err);
+                error: (error) => {
+                  this.dialog.open(WarningDialog, { data: { message: 'Error al realizar el pago: ' + error.error.message } });
                 }
               });;
 
             },
             error: (error) => {
-              console.log('El formulario no es válido.', error);
+              this.dialog.open(WarningDialog, { data: { message: 'Error al realizar el pago: ' + error.error.message } });
             }
           })
         },
         error: (error) => {
-          console.log('Ha habido un error al intentar hacer la peticion');
+          this.dialog.open(WarningDialog, { data: { message: 'Ha habido un error: ' + error.error.message } });
         }
       })
 

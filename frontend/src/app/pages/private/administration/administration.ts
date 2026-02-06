@@ -39,8 +39,7 @@ export class Administration {
       next: (response) => {
         this.classTypes.data = response.data;
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
       }
     })
   }
@@ -48,7 +47,6 @@ export class Administration {
     if (this.classTypeForm.valid) {
       this.classTypeService.post(this.classTypeForm.value).subscribe({
         next: () => {
-          console.log('Formulario enviado con éxito:', this.classTypeForm.value);
            this.getClassTypes();
         },
         error: (error) => {

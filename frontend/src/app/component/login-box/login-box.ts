@@ -51,7 +51,6 @@ export class LoginBox {
         },
         error: (error) => {
           this.errorLogin = true;
-          console.log('No se ha podido realizar el login', error);
         }
 
       })

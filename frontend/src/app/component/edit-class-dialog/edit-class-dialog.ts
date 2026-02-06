@@ -2,7 +2,7 @@ import { Component, Inject, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
-import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogActions, MatDialog } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ClassTypeService } from '../../service/class-type-service';
 import { ClassType } from '../../shared/models/classes.interface';
+import { WarningDialog } from '../warning-dialog/warning-dialog';
 @Component({
   selector: 'app-edit-class-dialog',
   imports: [MatCheckboxModule, MatFormFieldModule, MatSlideToggleModule, ReactiveFormsModule, MatDialogContent, MatDialogActions, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule],
@@ -21,6 +22,7 @@ export class EditClassDialog implements OnInit{
   classType: ClassType;
   readonly #formBuilder = inject(FormBuilder);
   editClassForm: FormGroup;
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private classTypeService: ClassTypeService, public dialogRef: MatDialogRef<EditClassDialog>,
@@ -48,17 +50,15 @@ export class EditClassDialog implements OnInit{
     if (this.editClassForm.valid) {
       const payload = { ...this.editClassForm.value };
       this.classTypeService.put(this.classType.id, payload).subscribe({
-        next: (response) => {
-          console.log('Formulario enviado con éxito:', response);
+        next: () => {
           this.dialogRef.close({ created: true });
         },
         error: (error) => {
-          console.log(this.editClassForm.value);
-          console.log('El formulario no es válido.', error);
+          this.dialog.open(WarningDialog, { data: { message: 'Error al editar la clase: ' + error.error.message } });
         }
       })
     } else {
-      this.editClassForm.markAllAsTouched(); // Marca los errores en rojo
+      this.editClassForm.markAllAsTouched();
     }
 
   }

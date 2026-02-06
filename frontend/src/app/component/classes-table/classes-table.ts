@@ -7,10 +7,11 @@ import { EditClassDialog } from '../edit-class-dialog/edit-class-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialog } from '../delete-confirmation-dialog/delete-confirmation-dialog';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-classes-table',
-  imports: [MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatTableModule, MatIcon],
+  imports: [MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatTableModule, MatIcon, MatIconButton],
   templateUrl: './classes-table.html',
   styleUrl: './classes-table.css',
 })

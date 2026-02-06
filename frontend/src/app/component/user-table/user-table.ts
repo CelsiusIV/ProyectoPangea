@@ -30,7 +30,7 @@ export class UserTable {
   editUser(user: User) {
     const dialogEdit = this.dialog.open(EditUserDialog, { data: { user, roleNames: this.roleNames() } });
     dialogEdit.afterClosed().subscribe(result => {
-      if (result?.created){
+      if (result?.created) {
         this.refresh.emit();
       }
     })
@@ -39,20 +39,20 @@ export class UserTable {
 
   constructor(private userService: UserService) { }
   deleteUser(id: number) {
-        const dialogDEL = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar este usuario?' } });
-    
-        dialogDEL.afterClosed().subscribe(confirmed => {
-          if (confirmed) {
-            this.userService.delete(id).subscribe({
-              next: () => {
-                this.refresh.emit();
-              },
-              error: (error) => {
-                this.dialog.open(WarningDialog, { data: { message: 'No se ha podido borrar el usuario, porque tiene clases reservadas o pagos realizados. Pruebe a desactivarlo.' } });
-              }
-            });
+    const dialogDEL = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar este usuario?' } });
+
+    dialogDEL.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.userService.delete(id).subscribe({
+          next: () => {
+            this.refresh.emit();
+          },
+          error: (error) => {
+            this.dialog.open(WarningDialog, { data: { message: 'Error al borrar el usuario: ' + error.error.message } });
           }
         });
+      }
+    });
 
   }
 }

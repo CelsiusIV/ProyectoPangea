@@ -1,4 +1,24 @@
-.example-card {
-  max-width: 400px;
-  margin-bottom: 8px;
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0 8px;
+}
+
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* RESPONSIVE: En móviles, todo a 1 columna */
+@media (max-width: 600px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+    }
 }

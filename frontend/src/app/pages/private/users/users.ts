@@ -29,7 +29,6 @@ export class Users implements OnInit {
   newUser(): void {
     const dialogNew = this.dialog.open(NewuserBox, { data: { roles: this.roleNames } });
     dialogNew.afterClosed().subscribe(result => {
-      console.log('Dialog result:', result);
       if (result?.created) {
         this.getUsersList();
       }
@@ -50,10 +49,8 @@ export class Users implements OnInit {
         } else {
           this.roleNames = response.data;
         }
-
       },
-      error: (error) => {
-        console.log(error);
+      error: () => {
       }
     })
 
@@ -65,8 +62,7 @@ export class Users implements OnInit {
         this.users.data = [...response.data];
         this.loading = false;
       },
-      error: (error) => {
-        console.error('Error al obtener usuarios:', error);
+      error: () => {
         this.loading = false;
       }
     });

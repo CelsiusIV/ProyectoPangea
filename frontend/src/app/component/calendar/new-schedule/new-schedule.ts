@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,6 +11,7 @@ import { ClassesService } from '../../../service/classes-service';
 import { ClassType } from '../../../shared/models/classes.interface';
 import { formatDate } from 'date-fns';
 import { MatRadioModule } from '@angular/material/radio';
+import { WarningDialog } from '../../warning-dialog/warning-dialog';
 
 @Component({
   selector: 'app-new-schedule',
@@ -23,6 +24,7 @@ export class NewSchedule {
   typeClassNames: ClassType[] = [];
   eventDay: any;
   newScheduleForm: FormGroup;
+  readonly dialog = inject(MatDialog);
 
   constructor(
     private classService: ClassesService,
@@ -56,7 +58,7 @@ export class NewSchedule {
           this.dialogRef.close({ created: true });
         },
         error: (error) => {
-          console.log('El formulario no es válido.', error);
+          this.dialog.open(WarningDialog, { data: { message: 'Error al crear la clase: ' + error.error.message } });
         }
 
       });

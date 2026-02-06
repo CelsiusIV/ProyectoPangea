@@ -1,8 +1,14 @@
-h3 {
-    font-size: 1.25rem;
-    text-align: center;
-    color: #d32f2f;
-    padding-top: 16px;
+.dialog-header {
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    margin-top: 1.4rem;
+    gap: 8px; 
+    color: #850404; 
+}
+
+.dialog-header mat-icon {
+    margin: 0; 
 }
 
 mat-dialog-content {

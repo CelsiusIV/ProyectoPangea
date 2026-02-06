@@ -60,11 +60,9 @@ export class NewuserBox {
       this.userService.post(payload).subscribe({
         next: () => {
           this.dialogRef.close({ created: true });
-          console.log('Formulario enviado con éxito:', payload);
         },
         error: (error) => {
           this.dialog.open(WarningDialog, { data: { message: 'Error al crear el usuario: ' + error.error.message } });
-          console.log(error);
         }
 
       });

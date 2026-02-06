@@ -66,25 +66,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
 
-  // --- AQUÍ VIENE EL CAMBIO ---
   
-  // En lugar de devolver next(authReq) directamente, le añadimos un pipe
+
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
       
-      // Si el servidor responde con 401 (Unauthorized)
       if (error.status === 401) {
-        console.warn('Sesión expirada detectada. Cerrando sesión local...');
-        
-        // 1. Limpiamos la sesión en el front
-        // Opción A: Si creaste el método cleanupLocalState()
-        // authService.cleanupLocalState(); 
-        
-        // Opción B: Si no lo creaste, hazlo manual aquí:
         authService.currentUser.set(null); 
         localStorage.removeItem('auth_user');
-
-        // 2. Redirigimos al login
         router.navigate(['/']);
       }
 

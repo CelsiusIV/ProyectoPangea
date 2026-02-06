@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
-import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatDialogContent, MatDialogActions, MatDialog } from '@angular/material/dialog';
 import { UserService } from '../../service/user-service';
 import { Role, User } from '../../shared/models/user.interface';
 import { MatInputModule } from '@angular/material/input';
@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker'; import { formatDate } from 'date-fns';
+import { WarningDialog } from '../warning-dialog/warning-dialog';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class EditUserDialog {
   user: User;
   editUserForm: FormGroup;
   roleNames: Role[] = [];
+  readonly dialog = inject(MatDialog);
 
 
   constructor(
@@ -57,20 +59,18 @@ export class EditUserDialog {
       }
       this.userService.put(this.user.id, payload).subscribe({
         next: (response) => {
-          console.log('Formulario enviado con éxito:', response);
           this.dialogRef.close({ created: true });
         },
         error: (error) => {
-          console.log(this.editUserForm.value);
-          console.log('El formulario no es válido.', error);
+          this.dialog.open(WarningDialog, { data: { message: 'Error editar el usuario: ' + error.error.message } });
         }
       })
-    } else {
+    } /*else {
       Object.entries(this.editUserForm.controls).forEach(([key, control]) => {
         if (control.invalid) {
           console.warn(`Control inválido: ${key}`, control.errors, control.value);
         }
       });
-    }
+    }*/
   }
 }

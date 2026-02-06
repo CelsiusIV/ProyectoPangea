@@ -26,6 +26,12 @@ main {
     background-color: rgb(214, 142, 53);
 }
 
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; 
+    padding-top: 1rem;
+}
 
 .divCabecera {
     position: relative;
