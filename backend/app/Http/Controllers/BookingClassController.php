@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingClassRequest;
 use App\Http\Resources\BookingClassResource;
 use App\Models\Classes;
+use App\Models\ClassType;
 use App\Models\Payment;
 
 class BookingClassController extends Controller
@@ -36,6 +37,21 @@ class BookingClassController extends Controller
     {
         $bookClass = $request->validated();
         $classSelected = Classes::findOrFail($bookClass['class_id']);
+        $pruebaClass = ClassType::where('className', 'prueba')->value('id');
+        $userClassPrueba = BookingClass::where('user_id', $bookClass['user_id'])->where('class_id');
+
+        // Comprobar si el usuario ya ha consumido una clase de prueba
+        if ($classSelected->class_type_id == $pruebaClass) {
+            $hasTakenTrial = BookingClass::where('user_id', $bookClass['user_id'])->whereHas('class', function ($query) use ($pruebaClass) {
+                $query->where('class_type_id', $pruebaClass);
+            })
+                ->exists();
+            if ($hasTakenTrial) {
+                return response()->json([
+                    'message' => 'Ya ha disfrutado de tu clase de prueba gratuita y no puede reservar otra.'
+                ], 422);
+            }
+        }
         // Comprobar si el usuario no está inscrito ya en la clase
         if (BookingClass::where('user_id', $bookClass['user_id'])->where('class_id', $classSelected->id)->count()) {
             return response()->json([

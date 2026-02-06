@@ -6,6 +6,7 @@ use App\Models\Classes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassRequest;
 use App\Http\Resources\ClassesResource;
+use App\Models\ClassType;
 
 class ClassController extends Controller
 {
@@ -15,8 +16,8 @@ class ClassController extends Controller
     public function index()
     {
 
-      //  return Classes::all()->toResourceCollection();
-         $classes = Classes::with(['classType' => function ($query) {
+        //  return Classes::all()->toResourceCollection();
+        $classes = Classes::with(['classType' => function ($query) {
             $query->withTrashed();
         }])->get();
 
@@ -29,6 +30,15 @@ class ClassController extends Controller
     public function store(ClassRequest $request)
     {
         $class = $request->validated();
+        $isAvailableClass = ClassType::where('id', $class['class_type_id'])->value("is_available");
+
+        // Comprobar si la clase esta activa
+        if ($isAvailableClass == 0) {
+            return response()->json([
+                'message' => 'Esta clase no está disponible'
+            ], 422);
+        }
+        
         Classes::create($class);
     }
 
@@ -37,7 +47,7 @@ class ClassController extends Controller
      */
     public function show(string $id)
     {
-        $class= Classes::with('bookingclass')->findOrFail($id);
+        $class = Classes::with('bookingclass')->findOrFail($id);
         return new ClassesResource($class);
     }
 

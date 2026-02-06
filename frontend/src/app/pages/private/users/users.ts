@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatButton } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { AuthService } from '../../../service/auth-service';
 
 @Component({
   selector: 'app-users',
@@ -37,13 +38,19 @@ export class Users implements OnInit {
 
 
 
-  constructor(private userService: UserService, private roleService: RoleService) { }
+  constructor(private userService: UserService, private roleService: RoleService, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.getUsersList();
     this.roleService.getRoles().subscribe({
       next: (response) => {
-        this.roleNames = response.data;
+        if (this.authService.currentUser()?.role?.role_name ===
+          'profesor') {
+          this.roleNames = response.data.filter((r: any) => r.role_name != "admin");
+        } else {
+          this.roleNames = response.data;
+        }
+
       },
       error: (error) => {
         console.log(error);
@@ -69,7 +76,7 @@ export class Users implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.users.filter = filterValue.trim().toLowerCase();
   }
-  
+
   applyRoleFilter(roleId: number | '') {
     if (!roleId) {
       this.users.filter = '';

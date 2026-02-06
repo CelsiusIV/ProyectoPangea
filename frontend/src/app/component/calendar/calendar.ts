@@ -83,7 +83,7 @@ export class Calendar {
     this.getSchedulesList();
     this.classTypeService.getClassTypes().subscribe({
       next: (response) => {
-        this.classTypeName = response.data;
+        this.classTypeName = response.data.filter((type: any) => type.is_available == 1);
       },
       error: (error) => {
         console.log(error);
