@@ -14,7 +14,13 @@ class ClassController extends Controller
      */
     public function index()
     {
-        return Classes::all()->toResourceCollection();
+
+      //  return Classes::all()->toResourceCollection();
+         $classes = Classes::with(['classType' => function ($query) {
+            $query->withTrashed();
+        }])->get();
+
+        return ClassesResource::collection($classes);
     }
 
     /**

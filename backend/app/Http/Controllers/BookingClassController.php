@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BookingClass;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingClassRequest;
+use App\Http\Resources\BookingClassResource;
 use App\Models\Classes;
 use App\Models\Payment;
 
@@ -15,7 +16,17 @@ class BookingClassController extends Controller
      */
     public function index()
     {
-        return BookingClass::all()->toResourceCollection();
+        // return BookingClass::all()->toResourceCollection();
+        $bookingClass = BookingClass::with([
+            'user' => function ($query) {
+                $query->withTrashed();
+            },
+            'class' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->get();
+
+        return BookingClassResource::collection($bookingClass);
     }
 
     /**
@@ -85,7 +96,6 @@ class BookingClassController extends Controller
             return response()->json([
                 'message' => 'No se puede borrar la reserva. Ya ha sido confirmada.'
             ], 422);
-
         }
 
         $classType = Classes::where('id', $bookClass['class_id'])->value('class_type_id');

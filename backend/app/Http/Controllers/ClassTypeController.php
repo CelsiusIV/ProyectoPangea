@@ -5,16 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassTypeRequest;
 use App\Http\Requests\TypeClassRequest;
+use App\Http\Resources\ClassTypeResource;
 use App\Models\ClassType;
 
 class ClassTypeController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return ClassType::all()->toResourceCollection();
+        // return ClassType::all()->toResourceCollection();
+        $classType = ClassType::with([
+            'classes' => function ($query) {
+                $query->withTrashed();
+            },
+            'payment' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->get();
+
+        return ClassTypeResource::collection($classType);
     }
 
     /**
@@ -22,7 +33,7 @@ class ClassTypeController extends Controller
      */
     public function store(ClassTypeRequest $request)
     {
-        $typeClass= $request->validated();
+        $typeClass = $request->validated();
         ClassType::create($typeClass);
     }
 
@@ -42,7 +53,7 @@ class ClassTypeController extends Controller
         $typeClass = ClassType::findOrFail($id);
         $updateData = $request->validated();
         $typeClass->update($updateData);
-        return response()->json($typeClass,200);
+        return response()->json($typeClass, 200);
     }
 
     /**

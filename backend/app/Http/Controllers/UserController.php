@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all()->toResourceCollection();
+       // return User::all()->toResourceCollection();
+        $users = User::with([
+            'payment' => function ($query) {
+                $query->withTrashed();
+            },
+            'bookingClass' => function ($query) {
+                $query->withTrashed();
+            }
+        ])->get();
+
+        return UserResource::collection($users);
     }
 
     /**

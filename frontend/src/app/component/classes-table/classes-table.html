@@ -4,7 +4,7 @@
         <td mat-cell *matCellDef="let classtypes"> {{classtypes.className}} </td>
     </ng-container>
     <ng-container matColumnDef="classLimit">
-        <th mat-header-cell *matHeaderCellDef> Limite de alumnos </th>
+        <th mat-header-cell *matHeaderCellDef> Límite de alumnos </th>
         <td mat-cell *matCellDef="let classtypes"> {{classtypes.classLimit}} </td>
     </ng-container>
     <ng-container matColumnDef="price">
@@ -13,7 +13,7 @@
     </ng-container>
 
     <ng-container matColumnDef="availableClasses">
-        <th mat-header-cell *matHeaderCellDef> Activo </th>
+        <th mat-header-cell *matHeaderCellDef> Activa </th>
         <td mat-cell *matCellDef="let classtypes"> @if (classtypes.is_available) {
             <mat-icon style="color: green;">check_circle</mat-icon>
         } @else {

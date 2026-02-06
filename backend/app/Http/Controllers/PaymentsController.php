@@ -18,7 +18,15 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        return Payment::all()->toResourceCollection();
+        //  return Payment::all()->toResourceCollection();
+        $payments = Payment::with(['classType' => function ($query) {
+            $query->withTrashed();
+        },
+        'user' => function ($query) {
+            $query->withTrashed();
+        }])->get();
+
+        return PaymentResource::collection($payments);
     }
 
     /**
@@ -30,25 +38,24 @@ class PaymentsController extends Controller
         $user = User::find($payment['user_id']);
         $roleIdAlumno = Role::where('name', 'alumno')->value('id');
         $hasPending = Payment::where('user_id', $payment['user_id'])
-            ->where('availableClasses', '>', 0)->where('class_type_id',$payment['class_type_id'])
+            ->where('availableClasses', '>', 0)->where('class_type_id', $payment['class_type_id'])
             ->exists();
 
         // No se puede pagar un tipo de clase cuando ese tipo aún tiene clases pendientes
         if ($hasPending) {
             return response()->json([
                 'message' => 'No puedes añadir un nuevo pago mientras tengas clases pendientes de consumir.'
-            ], 409); 
+            ], 409);
         }
 
-        $pruebaId= ClassType::where('className', "Prueba")->value("id");
+        $pruebaId = ClassType::where('className', "Prueba")->value("id");
         $hasPrueba = Payment::where('user_id', $payment['user_id'])->where('class_type_id', $pruebaId)->exists();
 
         // No puedes contratar más de una clase de prueba por usuario
-        if ($hasPrueba && $payment['class_type_id'] == $pruebaId){
-              return response()->json([
+        if ($hasPrueba && $payment['class_type_id'] == $pruebaId) {
+            return response()->json([
                 'message' => 'No puedes contratar más de una clase de prueba'
             ], 422);
-
         }
 
         if ($user->hasRole('registrado')) {
@@ -80,7 +87,15 @@ class PaymentsController extends Controller
 
     public function userPayment(string $user_id)
     {
-        $payments = Payment::where('user_id', $user_id)->orderBy('availableClasses', 'desc')->get();
+        /*   $payments = Payment::where('user_id', $user_id)->orderBy('availableClasses', 'desc')->get();
+        return PaymentResource::collection($payments);*/
+        $payments = Payment::with(['classType' => function ($query) {
+            $query->withTrashed();
+        }])
+            ->where('user_id', $user_id)
+            ->orderBy('availableClasses', 'desc')
+            ->get();
+
         return PaymentResource::collection($payments);
     }
 }

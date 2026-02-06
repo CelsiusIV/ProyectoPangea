@@ -17,14 +17,6 @@ class RoleController extends Controller
         return Role::all()->toResourceCollection();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(RoleRequest $request)
-    {
-        $role= $request->validated();
-        Role::create($role);
-    }
 
     /**
      * Display the specified resource.
@@ -45,11 +37,4 @@ class RoleController extends Controller
         return response()->json($role,200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        Role::destroy($id);
-    }
 }
