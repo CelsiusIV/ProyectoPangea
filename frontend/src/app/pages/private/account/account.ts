@@ -1,7 +1,7 @@
-import { Component, inject, numberAttribute } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { UserService } from '../../../service/user-service';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';

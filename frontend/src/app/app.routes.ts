@@ -6,8 +6,6 @@ import { Contact } from './pages/public/contact/contact';
 import { Private } from './pages/private/private';
 import { Public } from './pages/public/public';
 import { Dashboard } from './pages/private/dashboard/dashboard';
-import { Schedules } from './pages/private/schedules/schedules';
-import { Site } from './pages/private/site/site';
 import { Users } from './pages/private/users/users';
 import { Account } from './pages/private/account/account';
 import { Clases } from './pages/public/clases/clases';
@@ -32,7 +30,6 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: Dashboard },
-            { path: 'sitio', component: Site },
             { path: 'usuarios', component: Users },
             { path: 'cuenta', component: Account },
             { path: 'administracion', component: Administration}

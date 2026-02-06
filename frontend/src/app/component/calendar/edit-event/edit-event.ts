@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CalendarEvent } from 'angular-calendar';
 import { ClassesService } from '../../../service/classes-service';
-import { Classes, ClassType } from '../../../shared/models/classes.interface';
+import { ClassType } from '../../../shared/models/classes.interface';
 import { formatDate } from 'date-fns';
 import { MatRadioModule } from "@angular/material/radio";
 import { WarningDialog } from '../../warning-dialog/warning-dialog';

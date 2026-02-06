@@ -13,8 +13,7 @@ import { AuthService } from '../../service/auth-service';
 import { LoginBox } from "../../component/login-box/login-box";
 import { App } from "../../app";
 import { Public } from "../public/public";
-import { ClassType } from '../../shared/models/classes.interface';
-import { ClassTypeService } from '../../service/class-type-service';
+
 
 
 @Component({
