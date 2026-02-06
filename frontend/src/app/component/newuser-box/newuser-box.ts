@@ -10,12 +10,14 @@ import { UserService } from '../../service/user-service';
 import { Role } from '../../shared/models/user.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth-service';
-import { WarningDialog } from '../warning-dialog/warning-dialog';
+import { WarningDialog } from '../warning-dialog/warning-dialog'
+import { MatDatepickerModule } from '@angular/material/datepicker';import { formatDate } from 'date-fns';
+;
 
 
 @Component({
   selector: 'app-newuser-box',
-  imports: [MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
+  imports: [MatDatepickerModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
   templateUrl: './newuser-box.html',
   styleUrl: './newuser-box.css'
 })
@@ -51,10 +53,14 @@ export class NewuserBox {
 
   onSubmit() {
     if (this.newUserForm.valid) {
-      this.userService.post(this.newUserForm.value).subscribe({
+      const payload = { ...this.newUserForm.value };
+      if (payload.birth_date) {
+        payload.birth_date = formatDate(payload.birth_date, 'yyyy-MM-dd');
+      }
+      this.userService.post(payload).subscribe({
         next: () => {
           this.dialogRef.close({ created: true });
-          console.log('Formulario enviado con éxito:', this.newUserForm.value);
+          console.log('Formulario enviado con éxito:', payload);
         },
         error: (error) => {
           this.dialog.open(WarningDialog, { data: { message: 'Error al crear el usuario: ' + error.error.message } });

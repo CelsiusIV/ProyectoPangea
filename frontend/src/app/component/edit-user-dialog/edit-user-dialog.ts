@@ -11,11 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker'; import { formatDate } from 'date-fns';
 
 
 @Component({
   selector: 'app-edit-user-dialog',
-  imports: [MatSlideToggleModule, MatCheckboxModule, MatFormFieldModule, MatSelect, MatOption, ReactiveFormsModule, MatDialogContent, MatDialogActions, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule],
+  imports: [MatDatepickerModule, MatSlideToggleModule, MatCheckboxModule, MatFormFieldModule, MatSelect, MatOption, ReactiveFormsModule, MatDialogContent, MatDialogActions, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule],
   templateUrl: './edit-user-dialog.html',
   styleUrl: './edit-user-dialog.css'
 })
@@ -51,7 +52,10 @@ export class EditUserDialog {
       if (!payload.password) {
         delete payload.password;
       }
-      this.userService.put(this.user.id,payload).subscribe({
+      if (payload.birth_date) {
+        payload.birth_date = formatDate(payload.birth_date, 'yyyy-MM-dd');
+      }
+      this.userService.put(this.user.id, payload).subscribe({
         next: (response) => {
           console.log('Formulario enviado con éxito:', response);
           this.dialogRef.close({ created: true });

@@ -30,7 +30,15 @@
 
             <mat-form-field appearance="outline">
                 <mat-label>Fecha de Nacimiento</mat-label>
-                <input matInput placeholder="Año nacimiento" formControlName="birth_date" name="birth_date">
+                <input matInput [matDatepicker]="datepicker" formControlName="birth_date" name="birth_date" />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                    <mat-datepicker-actions>
+                        <button matButton matDatepickerCancel>Cancel</button>
+                        <button matButton="elevated" matDatepickerApply>Apply</button>
+                    </mat-datepicker-actions>
+                </mat-datepicker>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
