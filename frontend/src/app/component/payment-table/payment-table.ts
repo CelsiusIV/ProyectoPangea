@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { MatTableDataSource, MatTableModule, MatHeaderCellDef, MatCellDef, MatHeaderRowDef } from '@angular/material/table';
 import { Payments } from '../../shared/models/classes.interface';
-import { MatIcon } from "@angular/material/icon";
+
 
 @Component({
   selector: 'app-payment-table',

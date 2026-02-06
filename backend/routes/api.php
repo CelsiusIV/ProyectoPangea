@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('class_types', ClassTypeController::class)
         ->only(['index', 'show'])
-        ->middleware('role:profesor|alumno|admin |registrado');
+        ->middleware('role:profesor|alumno|admin|registrado');
 
     Route::apiResource('class_types', ClassTypeController::class)
         ->except(['index', 'show'])

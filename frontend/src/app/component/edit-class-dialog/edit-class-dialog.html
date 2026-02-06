@@ -1,15 +1,10 @@
-<div class="classesDiv">
-    <h1> Administracion de clases </h1>
+<button mat-icon-button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+    <mat-icon fontIcon="close" />
+</button>
+<h2 mat-dialog-title>Editar Clase</h2>
 
-    <h2> Tipos de clases actuales</h2>
-    @if(classTypes.data.length == 0){
-    No hay ninguna clase definida
-    }@else{
-    <app-classes-table [classTypes]="classTypes" (refresh)="getClassTypes()" ></app-classes-table>
-    }
-
-    <h2> Añadir nueva clase </h2>
-    <form [formGroup]="classTypeForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="editClassForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content>
         <mat-form-field appearance="outline">
             <mat-label>Nombre</mat-label>
             <input matInput placeholder="Nombre" required formControlName="className" name="className">
@@ -23,9 +18,10 @@
             <mat-label>Precio</mat-label>
             <input matInput placeholder="Precio en € " required formControlName="price" name="price">
         </mat-form-field>
-            <mat-slide-toggle formControlName="is_available" name="is_available">Activo</mat-slide-toggle>
-        <button class="btn-principal" color="primary" type="submit">Añadir</button>
-    </form>
+        <mat-slide-toggle formControlName="is_available" name="is_available">Activo</mat-slide-toggle>
 
-
-</div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-raised-button color="primary" type="submit">Editar</button>
+    </mat-dialog-actions>
+</form>

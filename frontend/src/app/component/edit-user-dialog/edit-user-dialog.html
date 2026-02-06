@@ -1,4 +1,4 @@
-<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+<button mat-icon-button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Editar Usuario</h2>
@@ -36,9 +36,7 @@
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
 
-            <mat-checkbox placeholder="is_active" formControlName="is_active" name="is_active">
-                ¿Activo?
-            </mat-checkbox>
+            <mat-slide-toggle formControlName="is_active" name="is_active">Activo</mat-slide-toggle>
 
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>

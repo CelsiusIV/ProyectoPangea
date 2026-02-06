@@ -4,7 +4,8 @@
 
 .sidenav {
    background-color:rgb(221, 184, 136);
-   color: rgb(92, 76, 56);
+   color: rgb(66, 55, 40);
+   border-radius: 0;
 }
 
 .logo {
@@ -85,7 +86,7 @@ a.mat-list-item.active {
 }
 
 .sidenav-content {
-  background-color:rgb(196, 153, 98);
+  background-color:rgb(241, 225, 203);
   padding: 20px;
 }
 
@@ -95,4 +96,16 @@ a.mat-list-item.active {
   align-items: center;
   justify-content: center;
   line-height: 1;
+}
+
+a[mat-list-item]:hover {
+  background-color: rgba(196, 153, 98);
+  color: rgb(196, 153, 98);
+  transition: all 0.3s ease; 
+}
+
+.active {
+  background-color: rgba(196, 153, 98) !important;
+  color: rgb(196, 153, 98);
+  border-left: 4px solid rgb(196, 153, 98);
 }

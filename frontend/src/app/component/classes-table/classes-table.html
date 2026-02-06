@@ -1,0 +1,37 @@
+<table mat-table [dataSource]="classTypes()">
+    <ng-container matColumnDef="className">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let classtypes"> {{classtypes.className}} </td>
+    </ng-container>
+    <ng-container matColumnDef="classLimit">
+        <th mat-header-cell *matHeaderCellDef> Limite de alumnos </th>
+        <td mat-cell *matCellDef="let classtypes"> {{classtypes.classLimit}} </td>
+    </ng-container>
+    <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Precio </th>
+        <td mat-cell *matCellDef="let classtypes"> {{classtypes.price}} €</td>
+    </ng-container>
+
+    <ng-container matColumnDef="availableClasses">
+        <th mat-header-cell *matHeaderCellDef> Activo </th>
+        <td mat-cell *matCellDef="let classtypes"> @if (classtypes.is_available) {
+            <mat-icon style="color: green;">check_circle</mat-icon>
+        } @else {
+            <mat-icon style="color: rgb(167, 17, 17);">cancel</mat-icon>
+        } </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let classType">
+            <button mat-icon-button color="warn" (click)="deleteClass(classType.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="editClassType(classType)">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

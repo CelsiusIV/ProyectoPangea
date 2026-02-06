@@ -11,7 +11,7 @@ class ClassTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ClassTypeRequest extends FormRequest
         return [
             'className' => 'required | string',
             'classLimit' => 'required | integer',
-            'price' => 'required | float',
+            'price' => 'required | numeric',
             'is_available' => 'required | boolean'
         ];
     }

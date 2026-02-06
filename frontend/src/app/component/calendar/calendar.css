@@ -1,3 +1,14 @@
+/* BOTONES */
+.btn-primary {
+  background-color: rgb(196, 153, 98);
+  border-color: rgb(107, 84, 54);
+
+}
+
+.btn {
+  color: rgb(0, 0, 0);
+}
+
 .custom-day-cell {
   position: relative;
   padding-top: 5px;
@@ -50,7 +61,8 @@
   left: 0;
 }
 
-.event-container:hover .delete-btn, .event-container:hover .edit-btn {
+.event-container:hover .delete-btn,
+.event-container:hover .edit-btn {
   visibility: visible;
   opacity: 1;
 }
