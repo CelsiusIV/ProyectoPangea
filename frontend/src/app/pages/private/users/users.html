@@ -5,6 +5,10 @@
         <mat-label>Filtrar usuarios</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ej.: admin" #input>
     </mat-form-field>
+    <button mat-icon-button color="accent" (click)="getUsersList()" type="button">
+        <mat-icon>refresh</mat-icon>
+    </button>
+
     <app-user-table [users]="users" [roleNames]="roleNames" (refresh)="getUsersList()"></app-user-table>
 
 </div>

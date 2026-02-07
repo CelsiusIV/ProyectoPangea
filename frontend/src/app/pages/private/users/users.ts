@@ -9,13 +9,14 @@ import { RoleService } from '../../../service/role-service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../../../service/auth-service';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-users',
-  imports: [CommonModule, MatSelectModule, UserTable, MatFormFieldModule, MatInputModule, MatButton],
+  imports: [CommonModule, MatSelectModule, UserTable, MatFormFieldModule, MatInputModule, MatButton, MatIcon, MatIconButton],
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
