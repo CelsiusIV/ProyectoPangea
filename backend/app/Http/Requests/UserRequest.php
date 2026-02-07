@@ -24,11 +24,11 @@ class UserRequest extends FormRequest
     {
         return [
             'password' => 'nullable|string|min:8',
-            'first_name' => 'required|string',
-            'last_name' => 'nullable | string',
+            'first_name' => 'required|string| max: 15',
+            'last_name' => 'nullable | string | max: 30',
             'birth_date' => 'nullable | ' . Rule::date()->format('Y-m-d'),
             'is_active' => 'boolean',
-            'email' => 'required', //|email:rfc,dns',
+            'email' => 'required|email',
             'phone' => 'required|string',
             'role_id' => 'nullable|integer'
         ];

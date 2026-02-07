@@ -66,3 +66,26 @@
   visibility: visible;
   opacity: 1;
 }
+
+@media (max-width: 800px) {
+
+  ::ng-deep .cal-month-view .cal-cell-row {
+    min-height: 60px; 
+  }
+
+  .event-container {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .delete-btn, .edit-btn {
+    display: none !important; 
+  }
+  
+  .cal-day-number {
+    font-size: 12px !important;
+    margin-bottom: 2px !important;
+  }
+}

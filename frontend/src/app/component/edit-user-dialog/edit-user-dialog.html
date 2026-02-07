@@ -2,9 +2,14 @@
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Editar Usuario</h2>
+@if(errorForm){
+<mat-hint class="matIntPrincipal" style="color: var(--mat-sys-error)">
+    {{errorMessage}}
+</mat-hint>
+}
 <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <div  class="formGrid">
+        <div class="formGrid">
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput placeholder="Email" required formControlName="email" name="email">
@@ -12,7 +17,13 @@
             <mat-form-field appearance="outline">
                 <mat-label>Contraseña</mat-label>
                 <input matInput placeholder="Contraseña" type="password" formControlName="password" name="password">
+                @if(errorPass){
+                <mat-hint style="color: var(--mat-sys-error)">
+                    {{errorPassMessage}}
+                </mat-hint>
+                }
             </mat-form-field>
+
 
             <mat-form-field appearance="outline">
                 <mat-label>Nombre</mat-label>

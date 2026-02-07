@@ -22,7 +22,7 @@ import { ListUsersInClass } from './list-users-in-class/list-users-in-class';
 import { DeleteConfirmationDialog } from '../delete-confirmation-dialog/delete-confirmation-dialog';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
 import { AuthService } from '../../service/auth-service';
-
+import { MatMenuModule } from '@angular/material/menu';
 const colors: Record<string, EventColor> = {
   red: {
     primary: '#ad2121',
@@ -55,7 +55,7 @@ const colors: Record<string, EventColor> = {
   ],
   templateUrl: './calendar.html',
   styleUrl: './calendar.css',
-  imports: [CommonModule, CalendarPreviousViewDirective, CalendarTodayDirective, CalendarNextViewDirective, CalendarMonthViewComponent, FormsModule, CalendarDatePipe, DatePipe, MatButtonModule],
+  imports: [MatMenuModule, CommonModule, CalendarPreviousViewDirective, CalendarTodayDirective, CalendarNextViewDirective, CalendarMonthViewComponent, FormsModule, CalendarDatePipe, DatePipe, MatButtonModule],
   providers: [
     provideFlatpickrDefaults(),
     provideCalendar({ provide: DateAdapter, useFactory: adapterFactory }),
@@ -86,7 +86,7 @@ export class Calendar {
         this.classTypeName = response.data.filter((type: any) => type.is_available == 1);
       },
       error: () => {
-  
+
       }
     })
 

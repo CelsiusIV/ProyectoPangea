@@ -11,13 +11,15 @@ import { Role } from '../../shared/models/user.interface';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../service/auth-service';
 import { WarningDialog } from '../warning-dialog/warning-dialog'
-import { MatDatepickerModule } from '@angular/material/datepicker';import { formatDate } from 'date-fns';
-;
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { formatDate } from 'date-fns';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 
 @Component({
   selector: 'app-newuser-box',
-  imports: [MatDatepickerModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
+  imports: [MatTooltipModule, MatDatepickerModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
   templateUrl: './newuser-box.html',
   styleUrl: './newuser-box.css'
 })
@@ -25,14 +27,18 @@ export class NewuserBox {
   readonly #formBuilder = inject(FormBuilder);
   readonly dialog = inject(MatDialog);
   roleNames: Role[] = [];
+  errorForm = false;
+  errorPass = false;
+  errorMessage = "";
+  errorPassMessage = "Mínimo 8 caracteres y 1 número";
   newUserForm: FormGroup = this.#formBuilder.group({
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[0-9]).*$')]],
     first_name: ['', Validators.required],
     last_name: [''],
     birth_date: [''],
     phone: ['', Validators.required],
-    email: ['', Validators.required],
-    role_id: [null as Role | null, Validators.required]
+    email: ['', [Validators.required, Validators.email]],
+    role_id: [4, Validators.required]
   })
 
   constructor(
@@ -66,6 +72,31 @@ export class NewuserBox {
         }
 
       });
+    } else {
+      this.errorForm = true;
+
+      const controls = this.newUserForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['pattern'] || errors['minlength'] || errors['email']) hasFormatError = true;
+        }
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorPass = false;
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorPass = true;
+        this.errorMessage = "La contraseña o el email no tienen un formato válido.";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
     };
   }
 }

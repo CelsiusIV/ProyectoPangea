@@ -2,15 +2,8 @@
     <h2>Listado de Usuarios</h2>
     <button class="btn-principal" color="primary" (click)="newUser()">Nuevo usuario</button>
     <mat-form-field>
-        <mat-label>Filtrado</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="usuario" #input>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Filtro Rol</mat-label>
-        <mat-select (selectionChange)="applyRoleFilter($event.value)">
-            <mat-option value="">Todos</mat-option>
-            <mat-option *ngFor="let role of roleNames" [value]="role.id">{{ role.role_name}}</mat-option>
-        </mat-select>
+        <mat-label>Filtrar usuarios</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej.: admin" #input>
     </mat-form-field>
     <app-user-table [users]="users" [roleNames]="roleNames" (refresh)="getUsersList()"></app-user-table>
 

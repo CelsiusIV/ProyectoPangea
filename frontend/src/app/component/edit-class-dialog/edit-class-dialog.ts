@@ -12,17 +12,23 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ClassTypeService } from '../../service/class-type-service';
 import { ClassType } from '../../shared/models/classes.interface';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
+
+
 @Component({
   selector: 'app-edit-class-dialog',
   imports: [MatCheckboxModule, MatFormFieldModule, MatSlideToggleModule, ReactiveFormsModule, MatDialogContent, MatDialogActions, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule],
   templateUrl: './edit-class-dialog.html',
   styleUrl: './edit-class-dialog.css',
 })
-export class EditClassDialog implements OnInit{
+export class EditClassDialog implements OnInit {
   classType: ClassType;
   readonly #formBuilder = inject(FormBuilder);
   editClassForm: FormGroup;
   readonly dialog = inject(MatDialog);
+  errorForm = false;
+  errorLimiteClases = false;
+  errorMessage = "";
+  errorLimiteClasesMessage = "Mínimo 1, máximo 8";
 
   constructor(
     private classTypeService: ClassTypeService, public dialogRef: MatDialogRef<EditClassDialog>,
@@ -30,7 +36,7 @@ export class EditClassDialog implements OnInit{
     this.classType = data.classType;
     this.editClassForm = this.#formBuilder.group({
       className: ['', Validators.required],
-      classLimit: ['', Validators.required],
+      classLimit: ['', [Validators.required, Validators.min(1), Validators.max(8)]],
       price: [''],
       is_available: ['']
     })
@@ -58,7 +64,29 @@ export class EditClassDialog implements OnInit{
         }
       })
     } else {
-      this.editClassForm.markAllAsTouched();
+      this.errorForm = true;
+
+      const controls = this.editClassForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['min'] || errors['max']) hasFormatError = true;
+        }
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorMessage = "Hay campos con formato inválido";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
+
     }
 
   }

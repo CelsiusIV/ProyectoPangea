@@ -26,6 +26,10 @@ export class EditUserDialog {
   editUserForm: FormGroup;
   roleNames: Role[] = [];
   readonly dialog = inject(MatDialog);
+  errorForm = false;
+  errorPass = false;
+  errorMessage = "";
+  errorPassMessage= "Mínimo 8 caracteres y 1 número";
 
 
   constructor(
@@ -37,12 +41,12 @@ export class EditUserDialog {
     this.roleNames = data.roleNames;
 
     this.editUserForm = new FormGroup({
-      password: new FormControl(''),
+      password: new FormControl('', [Validators.minLength(8), Validators.pattern('^(?=.*[0-9]).*$')]),
       first_name: new FormControl(this.user.first_name, Validators.required),
       last_name: new FormControl(this.user.last_name),
       birth_date: new FormControl<Date | null>(this.user.birth_date),
       phone: new FormControl<string | null>(this.user.phone, Validators.required),
-      email: new FormControl(this.user.email, Validators.required),
+      email: new FormControl(this.user.email, [Validators.required, Validators.email]),
       is_active: new FormControl<boolean>(this.user.is_active),
       role_id: new FormControl<number>(this.user.role.id, Validators.required)
     });
@@ -65,12 +69,32 @@ export class EditUserDialog {
           this.dialog.open(WarningDialog, { data: { message: 'Error editar el usuario: ' + error.error.message } });
         }
       })
-    } /*else {
-      Object.entries(this.editUserForm.controls).forEach(([key, control]) => {
-        if (control.invalid) {
-          console.warn(`Control inválido: ${key}`, control.errors, control.value);
+    } else {
+      this.errorForm = true;
+
+      const controls = this.editUserForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['pattern'] || errors['minlength'] || errors['email']) hasFormatError = true;
         }
-      });
-    }*/
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorPass = false;
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorPass = true;
+        this.errorMessage = "La contraseña o el email no tienen un formato válido.";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
+
+    }
   }
 }

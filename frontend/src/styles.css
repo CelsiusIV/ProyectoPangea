@@ -26,11 +26,20 @@ main {
     background-color: rgb(214, 142, 53);
 }
 
+.matIntPrincipal {
+    margin-left: 1.5rem;
+}
+
 .formGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem; 
+    gap: 1rem;
     padding-top: 1rem;
+}
+
+.menu-button {
+    display: none !important;
+    margin-right: 10px;
 }
 
 .divCabecera {
@@ -94,7 +103,7 @@ main {
     font-size: clamp(0.8rem, 1.5vw, 1rem);
     text-decoration: none;
     transition: all 0.3s ease;
-    
+
 }
 
 .btn-principal {
@@ -118,26 +127,45 @@ main {
 /* ESTILOS ANGULAR MATERIAL*/
 /* TABS */
 .mdc-tab--active .mdc-tab__text-label {
-  color: black !important;
-  font-weight: 600;
-}
-.mdc-tab__text-label {
-  color: #444 !important;
-}
-.mdc-tab-indicator__content--underline {
-  border-color: black !important;
-}
-.mat-mdc-tab-header {
-  background-color:rgb(221, 184, 136) !important;
+    color: black !important;
+    font-weight: 600;
 }
 
-/* INPUTS */ 
+.mdc-tab__text-label {
+    color: #444 !important;
+}
+
+.mdc-tab-indicator__content--underline {
+    border-color: black !important;
+}
+
+.mat-mdc-tab-header {
+    background-color: rgb(221, 184, 136) !important;
+}
+
+/* INPUTS */
 .mdc-notched-outline__leading,
 .mdc-notched-outline__notch,
 .mdc-notched-outline__trailing {
-  border-color: black !important;
+    border-color: black !important;
 }
 
 .mdc-floating-label--float-above {
-  color: black !important; /* cuando está arriba */
+    color: black !important;
+    /* cuando está arriba */
+}
+
+
+/** RECURSIVO **/
+@media (max-width: 600px) {
+    .formGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .menu-button {
+        display: inline-block !important;
+
+    }
+
 }

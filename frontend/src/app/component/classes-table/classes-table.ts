@@ -8,10 +8,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationDialog } from '../delete-confirmation-dialog/delete-confirmation-dialog';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
 import { MatIconButton } from '@angular/material/button';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 @Component({
   selector: 'app-classes-table',
-  imports: [MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatTableModule, MatIcon, MatIconButton],
+  imports: [MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatTableModule, MatIcon, MatIconButton, MatFormFieldModule],
   templateUrl: './classes-table.html',
   styleUrl: './classes-table.css',
 })

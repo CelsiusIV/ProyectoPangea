@@ -9,8 +9,15 @@
     <ng-container *ngIf="!loading && userList.length > 0 ; else noUsers">
         <table mat-table [dataSource]="userList">
             <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Nombre Completo </th>
-                <td mat-cell *matCellDef="let user"> {{user.first_name}} {{user.last_name}}</td>
+                <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                <td mat-cell *matCellDef="let user">
+                    @if (user.first_name == null) {
+                    <span>Usuario eliminado</span>
+                    } @else {
+                    {{ user.first_name }} {{ user.last_name }}
+                    }
+
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="attendance">
@@ -62,7 +69,8 @@
                     </mat-hint>
                     }
                 </mat-form-field>
-                <button mat-raised-button color="primary" type="submit" [disabled]="allUserList.length==0">Añadir</button>
+                <button mat-raised-button color="primary" type="submit"
+                    [disabled]="allUserList.length==0">Añadir</button>
             </form>
 
         </mat-expansion-panel>

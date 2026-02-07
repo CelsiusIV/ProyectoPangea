@@ -28,6 +28,10 @@ export class EditEvent {
   dateBegin: string;
   readonly dialog = inject(MatDialog);
   duration?: number;
+  errorForm = false;
+  errorAlumnos = false;
+  errorMessage = "";
+  errorAlumnosMessage = "Mínimo 1, máximo 20";
 
 
   constructor(
@@ -44,7 +48,7 @@ export class EditEvent {
     this.editEventForm = this.#formBuilder.group({
       beginDate: [this.dateBegin, Validators.required],
       duration: [this.duration?.toString(), Validators.required],
-      maxStudents: [this.event.meta.maxStudents, Validators.required],
+      maxStudents: [this.event.meta.maxStudents, [Validators.required, Validators.min(1), Validators.max(20)]],
       class_type_id: [this.event.meta.classTypeID, Validators.required]
     });
   }
@@ -74,7 +78,31 @@ export class EditEvent {
         this.dialog.open(WarningDialog, { data: { message: 'Error, ID no válido' } });
       }
     } else {
-      this.dialog.open(WarningDialog, { data: { message: 'Error en el formulario' } });
-    }
+      this.errorForm = true;
+
+      const controls = this.editEventForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['min'] || errors['max']) hasFormatError = true;
+        }
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorAlumnos=false;
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorAlumnos=true;
+        this.errorMessage = "Hay campos con formato inválido";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
+    };
   }
 }
+

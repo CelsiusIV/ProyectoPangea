@@ -41,7 +41,7 @@
 
             <form [formGroup]="paymentForm" (ngSubmit)="onSubmitPay()">
                 <mat-form-field appearance="outline">
-                    <mat-label>Tipo de clase a Pagar</mat-label>
+                    <mat-label>Tipo de clase</mat-label>
                     <mat-select formControlName="classType_id" name="classType_id">
                         @for(classType of classNames ; track classType.id){
                         <mat-option [value]="classType.id">

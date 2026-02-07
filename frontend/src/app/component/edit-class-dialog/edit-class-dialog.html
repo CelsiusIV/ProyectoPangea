@@ -2,7 +2,11 @@
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Editar Clase</h2>
-
+@if(errorForm){
+<mat-hint class="matIntPrincipal" style="color: var(--mat-sys-error)">
+    {{errorMessage}}
+</mat-hint>
+}
 <form [formGroup]="editClassForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
         <div class="formGrid">
@@ -13,6 +17,11 @@
             <mat-form-field appearance="outline">
                 <mat-label>Limite de alumnos</mat-label>
                 <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
+                @if(errorLimiteClases){
+                <mat-hint style="color: var(--mat-sys-error)">
+                    {{errorLimiteClasesMessage}}
+                </mat-hint>
+                }
             </mat-form-field>
 
             <mat-form-field appearance="outline">

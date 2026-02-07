@@ -1,0 +1,33 @@
+.formGrid {
+    grid-template-columns: 1fr;
+}
+
+
+.radio-group-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.custom-label {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+mat-radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+
+
+mat-dialog-content {
+  overflow-x: hidden !important; /* A veces el diálogo de Material lo fuerza */
+  max-width: 100%;
+}

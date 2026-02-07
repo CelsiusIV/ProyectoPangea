@@ -1,0 +1,14 @@
+
+h1 {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  margin-top: 2.5rem; 
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+mat-form-field {
+  width: 100%;
+}

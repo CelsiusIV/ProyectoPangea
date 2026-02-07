@@ -1,31 +1,41 @@
-<button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
+<button mat-icon-button mat-dialog-close="" style="margin: 10px; align-self: flex-end">
     <mat-icon fontIcon="close" />
 </button>
-<h2 mat-dialog-title>Editar</h2>
+<h2 mat-dialog-title>Editar Clase</h2>
+@if(errorForm){
+<mat-hint class="matIntPrincipal" style="color: var(--mat-sys-error)">
+    {{errorMessage}}
+</mat-hint>
+}
 <form [formGroup]="editEventForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
-        <p>
+        <div class="formGrid">
             <mat-form-field appearance="outline">
                 <mat-label>Fecha y hora de inicio</mat-label>
                 <input matInput type="datetime-local" placeholder="FechaInicio" required formControlName="beginDate"
                     name="beginDate">
+                <mat-hint>
+                    DD/MM/YYYY, HH:mm
+                </mat-hint>
             </mat-form-field>
-        </p>
-        <p>
-            <mat-radio-group type="datetime-local" placeholder="Duracion" formControlName="duration" name="duration">
-                <mat-label>Duración</mat-label>
-                <mat-radio-button value=2>2 horas</mat-radio-button>
-                <mat-radio-button value=4>4 horas</mat-radio-button>
-                <mat-radio-button value=6>6 horas</mat-radio-button>
-            </mat-radio-group>
-        </p>
-        <p>
+            <div class="radio-group-container">
+                <label class="custom-label">Duración en horas</label>
+                <mat-radio-group formControlName="duration">
+                    <mat-radio-button value="2">2</mat-radio-button>
+                    <mat-radio-button value="4">4</mat-radio-button>
+                    <mat-radio-button value="6">6</mat-radio-button>
+                </mat-radio-group>
+            </div>
             <mat-form-field appearance="outline">
                 <mat-label>Máximo de alumnos Permitidos</mat-label>
                 <input matInput placeholder="MaxAlumnos" formControlName="maxStudents" name="maxStudents">
+                @if(errorAlumnos){
+                <mat-hint style="color: var(--mat-sys-error)">
+                    {{errorAlumnosMessage}}
+                </mat-hint>
+                }
             </mat-form-field>
-        </p>
-        <p>
+
             <mat-form-field appearance="outline">
                 <mat-label>Tipo de clase</mat-label>
                 <mat-select formControlName="class_type_id" name="class_type_id">
@@ -34,7 +44,8 @@
                     }@empty {<li>There are no items.</li>}
                 </mat-select>
             </mat-form-field>
-        </p>
+
+        </div>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-raised-button color="primary" type="submit">Editar</button>

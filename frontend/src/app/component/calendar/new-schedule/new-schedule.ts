@@ -12,10 +12,11 @@ import { ClassType } from '../../../shared/models/classes.interface';
 import { formatDate } from 'date-fns';
 import { MatRadioModule } from '@angular/material/radio';
 import { WarningDialog } from '../../warning-dialog/warning-dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-new-schedule',
-  imports: [MatRadioModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
+  imports: [MatTooltipModule, MatRadioModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatSelectModule, ReactiveFormsModule, CommonModule],
   templateUrl: './new-schedule.html',
   styleUrl: './new-schedule.css',
 })
@@ -25,6 +26,9 @@ export class NewSchedule {
   eventDay: any;
   newScheduleForm: FormGroup;
   readonly dialog = inject(MatDialog);
+  errorForm = false;
+  errorMessage = "";
+  errorAlumnosMessage = "Mínimo 1, máximo 20";
 
   constructor(
     private classService: ClassesService,
@@ -35,9 +39,9 @@ export class NewSchedule {
 
     this.newScheduleForm = this.#formBuilder.group({
       beginDate: [this.eventDay, Validators.required],
-      duracion: ['2', Validators.required],
-      maxStudents: [5, Validators.required],
-      class_type_id: ['', Validators.required]
+      duration: ['2', Validators.required],
+      maxStudents: [10, [Validators.required, Validators.min(1), Validators.max(20)]],
+      class_type_id: [1, Validators.required]
     })
   }
 
@@ -45,7 +49,7 @@ export class NewSchedule {
     if (this.newScheduleForm.valid) {
       const startDate: Date = new Date(this.newScheduleForm.value.beginDate);
       const endDate = new Date(startDate);
-      endDate.setHours(endDate.getHours() + Number(this.newScheduleForm.value.duracion));
+      endDate.setHours(endDate.getHours() + Number(this.newScheduleForm.value.duration));
 
       const scheduleJson = {
         beginDate: formatDate(startDate, "yyyy-MM-dd'T'HH:mm"),
@@ -62,6 +66,29 @@ export class NewSchedule {
         }
 
       });
+    } else {
+      this.errorForm = true;
+
+      const controls = this.newScheduleForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['min'] || errors['max']) hasFormatError = true;
+        }
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorMessage = "Hay campos con formato inválido";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
     };
   }
 }

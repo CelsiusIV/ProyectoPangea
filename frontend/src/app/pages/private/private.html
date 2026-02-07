@@ -1,6 +1,9 @@
 <div class="navbar-container">
 
   <mat-toolbar class="navbar" color="primary">
+    <button mat-icon-button class="menu-button" (click)="snav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
     <h1>
       Zona Privada de {{ authService.currentUser()?.first_name }}
     </h1>
@@ -14,7 +17,8 @@
 
   <mat-sidenav-container class="navbar-sidenav-container">
     <!-- Side nav -->
-    <mat-sidenav #snav mode="side" [opened]="true" fixedTopGap="56" class="sidenav">
+    <mat-sidenav #snav mode="side" [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches"
+      [fixedInViewport]="mobileQuery.matches" fixedTopGap="56" class="sidenav">
 
       <mat-nav-list>
         <div id="zonaComun">
@@ -26,7 +30,7 @@
 
           </a>
 
-          <a mat-list-item routerLink="/privado/dashboard" routerLinkActive="active" >
+          <a mat-list-item routerLink="/privado/dashboard" routerLinkActive="active">
             <mat-icon mat-list-icon>
               calendar_today
             </mat-icon>

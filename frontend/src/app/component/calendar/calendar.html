@@ -22,7 +22,8 @@
 <div>
   <mwl-calendar-month-view [viewDate]="viewDate" [events]="events" [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="addEvent($event.day)"
-    (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="showList($event.event)" [cellTemplate]="customCellTemplate" />
+    (eventTimesChanged)="eventTimesChanged($event)" (eventClicked)="showList($event.event)"
+    [cellTemplate]="customCellTemplate" />
 
 </div>
 <ng-template #customCellTemplate let-day="day">
@@ -31,18 +32,22 @@
   </div>
   <div class="cal-events mt-1 mb-1 ">
     <div *ngFor="let event of day.events" class="event-container">
-      <button class="btn btn-sm  w-100" [style.backgroundColor]="event.color?.primary" style="color: white;"
-        (click)="$event.stopPropagation(); showList(event)">
-        {{ event.title }}
+      <button [matMenuTriggerFor]="menu" class="btn btn-sm  w-100" [style.backgroundColor]="event.color?.primary"
+        style="color: white;">
+        <span class="d-none d-md-inline">{{ event.title }}</span>
       </button>
-      @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name ===
+      <mat-menu #menu="matMenu">
+        @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name ===
         'profesor'){
-      <button class="btn btn-sm btn-danger delete-btn" (click)="$event.stopPropagation();deleteEvent(event)">
-        <i class="fas fa-trash-alt"></i> </button>
+        <button mat-menu-item class="btn btn-sm btn-danger delete-btn" (click)="$event.stopPropagation();deleteEvent(event)">
+          <i class="fas fa-trash-alt"></i> </button>
 
-      <button class="btn btn-sm  edit-btn" (click)="$event.stopPropagation();handleEvent(event)">
-        <i class="fa-solid fa-pen-to-square"></i> </button>
-      }
+        <button mat-menu-item class="btn btn-sm  edit-btn" (click)="$event.stopPropagation();handleEvent(event)">
+          <i class="fa-solid fa-pen-to-square"></i> </button>
+        }
+        <button mat-menu-item>Item 1</button>
+        <button mat-menu-item>Item 2</button>
+      </mat-menu>
     </div>
   </div>
 </ng-template>

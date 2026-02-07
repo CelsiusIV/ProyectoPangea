@@ -73,14 +73,4 @@ export class Users implements OnInit {
     this.users.filter = filterValue.trim().toLowerCase();
   }
 
-  applyRoleFilter(roleId: number | '') {
-    if (!roleId) {
-      this.users.filter = '';
-    } else {
-      this.users.filterPredicate = (user: User, filter: string) =>
-        user.role.id.toString() === filter;
-      this.users.filter = roleId.toString();
-    }
-  }
-
 }

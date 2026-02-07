@@ -5,26 +5,31 @@
     @if(classTypes.data.length == 0){
     No hay ninguna clase definida
     }@else{
-    <app-classes-table [classTypes]="classTypes" (refresh)="getClassTypes()" ></app-classes-table>
+    <app-classes-table [classTypes]="classTypes" (refresh)="getClassTypes()"></app-classes-table>
     }
 
     <h2> Añadir nueva clase </h2>
     <form [formGroup]="classTypeForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline">
-            <mat-label>Nombre</mat-label>
-            <input matInput placeholder="Nombre" required formControlName="className" name="className">
-        </mat-form-field>
-        <mat-form-field appearance="outline">
-            <mat-label>Límite de alumnos</mat-label>
-            <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
-        </mat-form-field>
+        <div class="formGrid">
+            <mat-form-field appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput placeholder="Nombre" required formControlName="className" name="className">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Límite de clases</mat-label>
+                <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
+                <mat-hint>
+                 {{errorLimiteClasesMessage}}
+                </mat-hint>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Precio €</mat-label>
-            <input matInput placeholder="Precio en € " required formControlName="price" name="price">
-        </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Precio €</mat-label>
+                <input matInput placeholder="Precio en € " required formControlName="price" name="price">
+            </mat-form-field>
             <mat-slide-toggle formControlName="is_available" name="is_available">Activo</mat-slide-toggle>
-        <button class="btn-principal" color="primary" type="submit">Añadir</button>
+            <button class="btn-principal" color="primary" type="submit">Añadir</button>
+        </div>
     </form>
 
 

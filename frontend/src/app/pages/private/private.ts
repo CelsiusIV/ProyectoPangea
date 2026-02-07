@@ -10,15 +10,12 @@ import { MatSidenavContent } from '@angular/material/sidenav';
 import { MatDivider } from '@angular/material/list';
 import { RouterOutlet, RouterLinkWithHref, Router } from '@angular/router';
 import { AuthService } from '../../service/auth-service';
-import { LoginBox } from "../../component/login-box/login-box";
-import { App } from "../../app";
-import { Public } from "../public/public";
-
+import { MatButtonModule } from "@angular/material/button";
 
 
 @Component({
     selector: 'app-private',
-    imports: [CommonModule, RouterOutlet, MatToolbar, MatIcon, MatSidenavContainer, MatSidenav, MatNavList, MatSidenavContent, MatDivider, RouterLinkWithHref, LoginBox, App, Public],
+    imports: [CommonModule, RouterOutlet, MatToolbar, MatIcon, MatSidenavContainer, MatSidenav, MatNavList, MatSidenavContent, MatDivider, RouterLinkWithHref, MatButtonModule],
     templateUrl: './private.html',
     styleUrl: './private.css'
 })
@@ -32,13 +29,13 @@ export class Private implements OnDestroy, AfterViewInit {
     constructor(private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher, public authService: AuthService, private router: Router) {
 
-        this.mobileQuery = this.media.matchMedia('(max-width: 1000px)');
+        this.mobileQuery = this.media.matchMedia('(max-width: 800px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-        this.mobileQuery.addListener(this._mobileQueryListener);
+        this.mobileQuery.addEventListener('change', this._mobileQueryListener);
     }
 
     ngOnDestroy(): void {
-        this.mobileQuery.removeListener(this._mobileQueryListener);
+        this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
     }
 
     ngAfterViewInit(): void {
