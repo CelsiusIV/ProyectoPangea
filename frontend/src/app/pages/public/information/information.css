@@ -1,5 +1,6 @@
+/* Sección General */
 .sobre-ceramica {
-  padding: 5rem 1.5rem;
+  padding: 6rem 1.5rem;
 }
 
 .contenedor {
@@ -7,55 +8,108 @@
   margin: 0 auto;
 }
 
-.cabecera-seccion {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.subtitulo {
-  color: #666;
-}
-
+/* Introducción */
 .bloque-intro {
-  max-width: 800px;
-  margin: 0 auto 3rem;
+  max-width: 750px;
+  margin: 0 auto 5rem;
   text-align: center;
 }
 
-/* Artículos en vertical */
+.bloque-intro p {
+  font-size: 1.2rem;
+  color: #5d4a3c;
+  line-height: 1.8;
+  font-style: italic;
+}
+
+/* Contenedor de Bloques */
 .bloques-ceramica {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 6rem;
 }
 
-/* Cada artículo como flex para alternar imagen y texto */
+/* Artículos Individuales */
 .bloque {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 4rem;
 }
 
 .bloque:nth-child(even) {
   flex-direction: row-reverse;
 }
 
+/* Imágenes */
 .bloque img {
-  width: 45%;
-  height: 250px;
+  width: 50%;
+  height: 350px; 
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(74, 55, 40, 0.1);
+  transition: transform 0.4s ease;
 }
 
-/* Texto dentro del bloque */
+.bloque:hover img {
+  transform: scale(1.02);
+}
+
+/* Contenedor de Texto */
 .bloque div {
-  width: 55%;
+  width: 50%;
 }
 
-.bloque div h3 {
-  margin-bottom: 0.5rem;
+.bloque h3 {
+  font-size: 1.8rem;
+  color: #4a3728;
+  margin-bottom: 1.2rem;
+  position: relative;
+  display: inline-block;
 }
 
-.bloque div p {
-  line-height: 1.6;
+/* Línea decorativa bajo el título */
+.bloque h3::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background-color: #b98e64; 
+  margin-top: 8px;
+  border-radius: 2px;
+}
+
+.bloque:nth-child(even) h3::after {
+  margin-left: auto; 
+}
+
+.bloque:nth-child(even) div {
+  text-align: right;
+}
+
+.bloque p {
+  line-height: 1.8;
+  color: #6a5a4e;
+  font-size: 1.05rem;
+}
+
+/* --- Responsividad (Móviles y Tablets) --- */
+
+@media (max-width: 900px) {
+  .bloque, .bloque:nth-child(even) {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .bloque:nth-child(even) div {
+    text-align: center;
+  }
+
+  .bloque img, .bloque div {
+    width: 100%; 
+  }
+
+  .bloque h3::after {
+    margin: 8px auto 0;
+  }
 }

@@ -1,17 +1,9 @@
-/*.navbar-container {
-  background-color: rgb(238, 159, 94);
-}*/
+
 
 .sidenav {
    background-color:rgb(221, 184, 136);
    color: rgb(66, 55, 40);
    border-radius: 0;
-}
-
-.logo {
-  height: 80px;
-  /* ajusta según tu logo */
-  width: auto;
 }
 
 mat-nav-list a[mat-list-item] {

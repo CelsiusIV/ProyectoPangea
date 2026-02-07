@@ -33,14 +33,7 @@ export class LoginBox {
   ) { }
   navegarARegistro() {
     this.dialogRef.close();
-    this.dialog.open(NewuserBox, {
-      width: 'auto', // O el ancho que prefieras, ej: '400px'
-
-      // ESTO ES CRÍTICO: Tu NewuserBox espera esto en el constructor
-      data: {
-        roles: [] // <--- Aquí deberías pasar los roles reales si quieres que el select funcione
-      }
-    });
+    this.dialog.open(NewuserBox);
   }
   onSubmit() {
     if (this.loginForm.valid) {

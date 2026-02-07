@@ -1,69 +1,51 @@
-.divContact {
-  max-width: 75%;
-  margin: 4rem auto;
-  padding: 3rem;
-}
-
-.divContact > h2 {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem;
-  color: #4a3728;
-}
-
-.divContact > p {
-  max-width: 800px;
-  margin: 0 auto 4rem;
-  text-align: center;
-  line-height: 1.7;
-  color: #333;
-}
-
-.divContactInfo,
-.divContactFomulario {
-  background-color: #f5f5f5;
-  padding: 2.5rem;
-  border-radius: 12px;
-}
-
+/* --- Estructura Base --- */
 .divContact {
   display: grid;
+  max-width: 1100px; 
+  margin: 0 auto;
+  padding: 4rem 2rem;
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     "intro intro"
     "info form";
   gap: 3rem;
+  align-items: start;
 }
 
-.divContact > h2,
 .divContact > p {
   grid-area: intro;
+  max-width: 850px;
+  margin: 0 auto 3rem;
+  text-align: center;
+  line-height: 1.8;
+  color: #5d4a3c;
+  font-size: 1.1rem;
 }
 
-.divContactInfo {
-  grid-area: info;
-}
-
+.divContactInfo,
 .divContactFomulario {
-  grid-area: form;
+  background-color: #fdfaf8; 
+  padding: 2.5rem;
+  border-radius: 20px;
+  border: 1px solid #eeeae6;
+  box-shadow: 0 10px 30px rgba(74, 55, 40, 0.05);
 }
 
 .divContactInfo h2 {
-  font-size: 1.3rem;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
   color: #4a3728;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .divContactInfo h2:first-child {
   margin-top: 0;
 }
 
-.divContactInfo p {
-  margin-bottom: 0.5rem;
-  line-height: 1.5;
-}
-
+/* --- Formulario --- */
 .formContacto {
   display: flex;
   flex-direction: column;
@@ -71,27 +53,45 @@
 
 .formContacto label {
   font-weight: 600;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   color: #4a3728;
+  font-size: 0.95rem;
 }
 
 .formContacto input,
 .formContacto textarea {
-  margin-bottom: 1.5rem;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  margin-bottom: 1.2rem;
+  padding: 0.9rem; 
+  border-radius: 10px;
+  border: 1px solid #dcd3cb;
+  background-color: #fff;
   font-family: inherit;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
-.formContacto input:focus,
-.formContacto textarea:focus {
-  outline: none;
-  border-color: #8c6a4a;
-  box-shadow: 0 0 0 2px rgba(140, 106, 74, 0.2);
-}
 
-.formContacto textarea {
-  resize: vertical;
+/* --- Responsividad (Móviles y Tablets) --- */
+
+@media (max-width: 800px) {
+  .divContact {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "info"
+      "form";
+    gap: 2rem;
+    margin: 0 auto;
+  }
+
+  .divContact>p {
+    text-align: left;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .divContactInfo,
+  .divContactFomulario {
+    padding: 1.8rem;
+  }
 }

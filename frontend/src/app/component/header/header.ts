@@ -1,20 +1,29 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
-import { MatAnchor } from "@angular/material/button";
 import { LoginBox } from '../login-box/login-box';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../service/auth-service';
+import { MatIcon } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-header',
-  imports: [RouterModule, MatAnchor],
+  imports: [RouterModule, MatIcon, MatButtonModule],
   templateUrl: './header.html',
   styleUrl: './header.css'
 })
 export class Header {
   readonly dialog = inject(MatDialog);
   isAuth = false;
+  menuOpen = false;
 
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+
+  closeMenu() {
+    this.menuOpen = false;
+  }
   constructor(public authService: AuthService, private router: Router) { };
 
   checkAuthStatus(): void {

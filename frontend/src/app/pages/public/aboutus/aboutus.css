@@ -60,3 +60,14 @@
   margin-bottom: 0.8rem;
   line-height: 1.6;
 }
+
+/* --- Responsividad (Móviles y Tablets) --- */
+
+@media (max-width: 900px) {
+
+
+  .profesoras {
+    margin: 8px auto 0;
+    flex-direction: column;
+  }
+}

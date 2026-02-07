@@ -1,12 +1,16 @@
 <header>
-    <img src="img\logo.png" alt="Logo" />
-    <nav>
+    <img class="logoPC" src="img\logo.png" alt="Logo" />
+    <img class="logoMovil" src="img\logoLetras.png" alt="Logo" />
+    <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <nav class="menu-desplegable" [class.active]="menuOpen">
         <!-- Sustituimos el href por routerLink para evitar el recargado de pagina-->
-        <a routerLink="/home">Inicio</a>
-        <a routerLink="/clases">Clases</a>
-        <a routerLink="/informacion">Sobre la Ceramica</a>
-        <a routerLink="/nosotros">Nosotros</a>
-        <a routerLink="/contacto">Contactanos</a>
-        <button class="btn-secundario" (click)="checkAuthStatus()"> Acceder a Zona Privada </button>
+        <a routerLink="/home" (click)="closeMenu()">Inicio</a>
+        <a routerLink="/clases" (click)="closeMenu()">Clases</a>
+        <a routerLink="/informacion" (click)="closeMenu()">Sobre la Ceramica</a>
+        <a routerLink="/nosotros" (click)="closeMenu()">Nosotros</a>
+        <a routerLink="/contacto" (click)="closeMenu()">Contáctanos</a>
+        <button class="btn-secundario" (click)="checkAuthStatus()" (click)="closeMenu()">Zona Privada</button>
     </nav>
 </header>
