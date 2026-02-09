@@ -1,13 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { apiConstants } from '../consts/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClassesService {
 
-  private apiURL = 'http://localhost:8080/api/classes';
+  private apiURL = `${environment.apiDomain}/${apiConstants.CLASSES}`;
   constructor(private http: HttpClient) { }
   getClasses(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

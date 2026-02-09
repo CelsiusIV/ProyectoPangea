@@ -3,7 +3,7 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { User } from '../shared/models/user.interface';
 import { UserService } from './user-service';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { apiConstants } from '../consts/api';
 
 @Injectable({
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/logout`, {}, { withCredentials: true }
+    return this.http.post(`${this.baseUrl}/api/${apiConstants.LOGOUT}`, {}, { withCredentials: true }
     ).pipe(
       tap(() => {
         this.currentUser.set(null);

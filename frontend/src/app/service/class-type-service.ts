@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
+import { apiConstants } from '../consts/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClassTypeService {
-  private apiURL = 'http://localhost:8080/api/class_types';
+  private apiURL = `${environment.apiDomain}/${apiConstants.CLASS_TYPES}`;
   constructor(private http: HttpClient) { }
   getClassTypes(): Observable<any> {
     return this.http.get(`${this.apiURL}`);

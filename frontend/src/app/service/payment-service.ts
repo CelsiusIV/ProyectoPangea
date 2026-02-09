@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { apiConstants } from '../consts/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaymentService {
-  private apiURL = 'http://localhost:8080/api/payments';
+  private apiURL = `${environment.apiDomain}/${apiConstants.PAYMENTS}`;
   constructor(private http: HttpClient) { }
   getPayments(): Observable<any> {
     return this.http.get(`${this.apiURL}`, { withCredentials: true });
