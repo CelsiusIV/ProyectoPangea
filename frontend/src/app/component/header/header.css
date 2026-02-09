@@ -23,7 +23,7 @@ nav a:hover {
 header {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 1rem 2rem;
     background-color: rgb(196, 152, 95);
@@ -40,6 +40,10 @@ nav {
 /* --- Responsividad (Móviles y Tablets) --- */
 
 @media (max-width: 600px) {
+
+    header{
+        justify-content: space-between;
+    }
     .hamburger {
         display: block;
 
