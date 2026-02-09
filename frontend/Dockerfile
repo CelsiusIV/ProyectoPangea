@@ -17,6 +17,9 @@ WORKDIR /app
 # Dev Node image
 FROM node_base AS node_dev
 
+COPY --link --chmod=755 docker/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+ENTRYPOINT ["docker-entrypoint"]
+
 USER ${USER_ID}:${GROUP_ID}
 
 CMD [ "npm", "run",  "start", "--", "--host", "0.0.0.0" ]

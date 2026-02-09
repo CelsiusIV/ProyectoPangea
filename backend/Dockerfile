@@ -8,4 +8,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN install-php-extensions xdebug @composer
 
+COPY --link --chmod=755 docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+ENTRYPOINT ["docker-entrypoint"]
+
 CMD ["php-fpm"]
