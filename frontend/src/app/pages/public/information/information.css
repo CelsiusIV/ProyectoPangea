@@ -94,7 +94,7 @@
 
 /* --- Responsividad (Móviles y Tablets) --- */
 
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .bloque, .bloque:nth-child(even) {
     flex-direction: column;
     gap: 2rem;

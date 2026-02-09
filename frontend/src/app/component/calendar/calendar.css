@@ -67,7 +67,7 @@
   opacity: 1;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 600px) {
 
   ::ng-deep .cal-month-view .cal-cell-row {
     min-height: 60px; 

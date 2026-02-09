@@ -73,7 +73,7 @@
 
 /* --- Responsividad (Móviles y Tablets) --- */
 
-@media (max-width: 800px) {
+@media (max-width: 600px) {
   .divContact {
     grid-template-columns: 1fr;
     grid-template-areas:
