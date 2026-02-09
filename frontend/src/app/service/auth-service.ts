@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { User } from '../shared/models/user.interface';
 import { UserService } from './user-service';
+import { environment } from '../../environments/environment.development';
+import { apiConstants } from '../consts/api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = environment.apiDomain;
   private userService = inject(UserService);
   public currentUser: WritableSignal<User | null> = signal(null);
 
@@ -20,9 +22,10 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
+    console.log(this.baseUrl);
     return this.http.get(`${this.baseUrl}/sanctum/csrf-cookie`, { withCredentials: true }).pipe(
       switchMap(() =>
-        this.http.post<any>(`${this.baseUrl}/api/login`, credentials, { withCredentials: true })
+        this.http.post<any>(`${this.baseUrl}/api/${apiConstants.LOGIN}`, credentials, { withCredentials: true })
       ),
       tap((response) => {
         const userToSave = response.resultado?.data;

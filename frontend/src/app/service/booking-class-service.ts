@@ -9,11 +9,11 @@ export class BookingClassService {
   private apiURL = 'http://localhost:8080/api/booking';
   constructor(private http: HttpClient) { }
   getBookings(): Observable<any> {
-    return this.http.get(`${this.apiURL}`);
+    return this.http.get(`${this.apiURL}/api/booking`);
   }
 
   getBooking(id: number): Observable<any> {
-    return this.http.get(`${this.apiURL}/${id}`)
+    return this.http.get(`${this.apiURL}/api/booking/${id}`)
   }
 
   getBookingClass(id: number): Observable<any> {
@@ -21,18 +21,18 @@ export class BookingClassService {
   }
   
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiURL}/${id}`);
+    return this.http.delete(`${this.apiURL}/api/booking/${id}`);
   }
 
   post(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}`, data, {
+    return this.http.post<any>(`${this.apiURL}/api/booking`, data, {
       headers: new HttpHeaders({
         'accept': 'application/json'
       })
     });
   }
   put(id: number, data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/${id}`, data, {
+    return this.http.put<any>(`${this.apiURL}/api/booking/${id}`, data, {
       headers: new HttpHeaders({
         'accept': 'application/json'
       })
