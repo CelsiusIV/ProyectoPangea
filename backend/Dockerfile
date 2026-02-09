@@ -6,7 +6,7 @@ WORKDIR /var/www
 RUN chown -R www-data:www-data /var/www
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-RUN install-php-extensions xdebug @composer
+RUN install-php-extensions @composer
 
 COPY --link --chmod=755 docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 ENTRYPOINT ["docker-entrypoint"]
