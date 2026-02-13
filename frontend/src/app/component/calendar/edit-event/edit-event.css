@@ -28,6 +28,6 @@ mat-radio-group {
 
 
 mat-dialog-content {
-  overflow-x: hidden !important; /* A veces el diálogo de Material lo fuerza */
+  overflow-x: hidden !important; 
   max-width: 100%;
 }

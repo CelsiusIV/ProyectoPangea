@@ -17,26 +17,34 @@ import { MatInput } from '@angular/material/input';
   styleUrl: './administration.css',
 })
 export class Administration {
+  // Variables
   readonly #formBuilder = inject(FormBuilder);
   readonly dialog = inject(MatDialog);
   errorForm = false;
   errorMessage = "";
   errorLimiteClasesMessage = "Mínimo 1, máximo 8";
   classTypes = new MatTableDataSource<ClassType>();
+
+  // Formulario de tipo de clase
   classTypeForm: FormGroup = this.#formBuilder.group({
     className: ['', Validators.required],
     classLimit: ['', [Validators.required, Validators.min(1), Validators.max(8)]],
     price: [''],
     is_available: [1]
   })
+
+  // Constructor
   constructor(
     private classTypeService: ClassTypeService,
   ) {
   }
+
+  // Funcion que ejecuta acciones al inicio del componente
   ngOnInit() {
     this.getClassTypes();
   }
 
+  // Obtiene los tipos de clase
   getClassTypes() {
     this.classTypeService.getClassTypes().subscribe({
       next: (response) => {
@@ -46,6 +54,8 @@ export class Administration {
       }
     })
   }
+
+  // Submit de la edicion de tipo de clase
   onSubmit() {
     if (this.classTypeForm.valid) {
       this.classTypeService.post(this.classTypeForm.value).subscribe({
@@ -58,6 +68,7 @@ export class Administration {
 
       });
     } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
       this.errorForm = true;
 
       const controls = this.classTypeForm.controls;

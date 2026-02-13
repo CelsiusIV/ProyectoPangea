@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClassTypeRequest;
-use App\Http\Requests\TypeClassRequest;
 use App\Http\Resources\ClassTypeResource;
 use App\Models\ClassType;
 
@@ -15,7 +14,6 @@ class ClassTypeController extends Controller
      */
     public function index()
     {
-        // return ClassType::all()->toResourceCollection();
         $classType = ClassType::with([
             'classes' => function ($query) {
                 $query->withTrashed();

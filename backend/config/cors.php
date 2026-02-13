@@ -11,6 +11,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:4200',
+        'https://ceramicapangea.es'
     ],
 
     'allowed_headers' => ['*'],

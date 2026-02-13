@@ -67,6 +67,7 @@
   opacity: 1;
 }
 
+/* --- Responsividad (Móviles y Tablets) --- */
 @media (max-width: 600px) {
 
   ::ng-deep .cal-month-view .cal-cell-row {

@@ -1,5 +1,5 @@
-import { Component, inject, Inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Component, inject, Inject } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule, MatSelect, MatOption } from '@angular/material/select';
 import { MatDialogContent, MatDialogActions, MatDialog } from '@angular/material/dialog';
@@ -20,7 +20,9 @@ import { WarningDialog } from '../../warning-dialog/warning-dialog';
   templateUrl: './edit-event.html',
   styleUrl: './edit-event.css',
 })
+
 export class EditEvent {
+  // Variables
   event: CalendarEvent;
   editEventForm: FormGroup;
   readonly #formBuilder = inject(FormBuilder);
@@ -33,18 +35,23 @@ export class EditEvent {
   errorMessage = "";
   errorAlumnosMessage = "Mínimo 1, máximo 20";
 
-
+  // Constructor
   constructor(
     private classService: ClassesService,
     public dialogRef: MatDialogRef<EditEvent>,
-    @Inject(MAT_DIALOG_DATA) public data: { event: CalendarEvent, classType: ClassType[] }
+    @Inject(MAT_DIALOG_DATA) public data: {
+      event: CalendarEvent, classType: ClassType[] // Nos traemos el evento y los tipos de clase del padre
+    }
   ) {
     this.event = data.event;
     this.typeClassNames = data.classType;
     this.dateBegin = formatDate(this.event.start, "yyyy-MM-dd'T'HH:mm");
+    // Definimos la duración de la clase
     if (this.event.start && this.event.end) {
       this.duration = (this.event.end?.getTime() - this.event.start.getTime()) / (1000 * 60 * 60);
     }
+
+    // Formulario de edición de clase con validadores
     this.editEventForm = this.#formBuilder.group({
       beginDate: [this.dateBegin, Validators.required],
       duration: [this.duration?.toString(), Validators.required],
@@ -52,22 +59,34 @@ export class EditEvent {
       class_type_id: [this.event.meta.classTypeID, Validators.required]
     });
   }
+
+
+  // Submit de Edicion de clase
   onSubmit() {
+
+    // Comprobamos que los datos del formulario son válidos
     if (this.editEventForm.valid) {
+      // Definimos el endDate a través de la duracion y el beginDate del formulario
       const startDate: Date = new Date(this.editEventForm.value.beginDate);
       const endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + Number(this.editEventForm.value.duration));
+
+      //Guardamos el eventID
       const eventID: number = Number(this.event.id);
 
+      // Definimos el json para enviarlo
       const scheduleJson = {
         beginDate: formatDate(startDate, "yyyy-MM-dd'T'HH:mm"),
         endDate: formatDate(endDate, "yyyy-MM-dd'T'HH:mm"),
         maxStudents: this.editEventForm.value.maxStudents,
         class_type_id: this.editEventForm.value.class_type_id
       }
+
+      // Revisamos que el ID es válido
       if (eventID !== undefined) {
+        // Guardamos la clase con una llamada a la api
         this.classService.put(eventID, scheduleJson).subscribe({
-          next: (response) => {
+          next: () => {
             this.dialogRef.close({ created: true });
           },
           error: (error) => {
@@ -78,6 +97,7 @@ export class EditEvent {
         this.dialog.open(WarningDialog, { data: { message: 'Error, ID no válido' } });
       }
     } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
       this.errorForm = true;
 
       const controls = this.editEventForm.controls;
@@ -92,12 +112,11 @@ export class EditEvent {
         }
       }
 
-      // Definimos el mensaje estándar según lo encontrado
       if (hasRequiredError) {
-        this.errorAlumnos=false;
+        this.errorAlumnos = false;
         this.errorMessage = "Por favor, completa todos los campos obligatorios.";
       } else if (hasFormatError) {
-        this.errorAlumnos=true;
+        this.errorAlumnos = true;
         this.errorMessage = "Hay campos con formato inválido";
       } else {
         this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";

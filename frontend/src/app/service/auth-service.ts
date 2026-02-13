@@ -23,9 +23,9 @@ export class AuthService {
 
   login(credentials: any): Observable<any> {
     console.log(this.baseUrl);
-    return this.http.get(`${this.baseUrl}/sanctum/csrf-cookie`, { withCredentials: true }).pipe(
+    return this.http.get(`${this.baseUrl}/${apiConstants.CSRFCOOKIE}`, { withCredentials: true }).pipe(
       switchMap(() =>
-        this.http.post<any>(`${this.baseUrl}/api/${apiConstants.LOGIN}`, credentials, { withCredentials: true })
+        this.http.post<any>(`${this.baseUrl}/${apiConstants.LOGIN}`, credentials, { withCredentials: true })
       ),
       tap((response) => {
         const userToSave = response.resultado?.data;
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/${apiConstants.LOGOUT}`, {}, { withCredentials: true }
+    return this.http.post(`${this.baseUrl}/${apiConstants.LOGOUT}`, {}, { withCredentials: true }
     ).pipe(
       tap(() => {
         this.currentUser.set(null);
@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   sesionCheck(): Observable<boolean> {
-    return this.http.get<{ authenticated: boolean }>(`${this.baseUrl}/api/session-check`, { withCredentials: true }).pipe(
+    return this.http.get<{ authenticated: boolean }>(`${this.baseUrl}/${apiConstants.SESSIONCHECK}`, { withCredentials: true }).pipe(
       map(response => response.authenticated),
       catchError(() => of(false))
     );

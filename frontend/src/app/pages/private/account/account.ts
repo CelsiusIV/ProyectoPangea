@@ -16,15 +16,18 @@ import { PaymentTable } from "../../../component/payment-table/payment-table";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { WarningDialog } from '../../../component/warning-dialog/warning-dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { formatDate } from 'date-fns';
 
 
 @Component({
   selector: 'app-edit-user-dialog',
-  imports: [MatTabsModule, MatCheckboxModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule, PaymentTable],
+  imports: [MatDatepickerModule, MatTabsModule, MatCheckboxModule, MatFormFieldModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatDialogModule, MatIconModule, MatButtonModule, PaymentTable],
   templateUrl: './account.html',
   styleUrl: './account.css'
 })
 export class Account {
+  // Variables
   readonly #formBuilder = inject(FormBuilder);
   user: any;
   editUserForm: FormGroup;
@@ -35,11 +38,18 @@ export class Account {
   paymentsPending = new MatTableDataSource<Payments>();
   paymentsHistory = new MatTableDataSource<Payments>();
   readonly dialog = inject(MatDialog);
+  errorForm = false;
+  errorPass = false;
+  errorMessage = "";
+  errorPassMessage = "Mínimo 8 caracteres y 1 número";
 
+  // Constructor
   constructor(
     private userService: UserService, public authService: AuthService, private classTypeService: ClassTypeService, private paymentService: PaymentService
   ) {
     this.user = authService.currentUser();
+
+    // Formulario de edición de usuario, con validaciones y rellenado con info de usuario autenticado
     this.editUserForm = new FormGroup({
       password: new FormControl(''),
       first_name: new FormControl(this.user.first_name, Validators.required),
@@ -51,19 +61,24 @@ export class Account {
       role_id: new FormControl<number>({ value: this.user.role.id, disabled: true })
     });
 
+    // Formulario de pago de usuario, con validacion
     this.paymentForm = new FormGroup({
       classType_id: new FormControl('', Validators.required)
     })
   }
 
+  // Funcion que realiza acciones justo al iniciar el componente
   ngOnInit(): void {
     this.getPaymentList(this.user.id);
   }
 
+  // Funcion para obtener el listado de tipos de clases que existen
   getClassList() {
+    // Filtramos por las clases activas que tiene el usuario para las diferentes tipos de clase
     const activeClass: number[] = this.paymentsPending.data.map(p => p.class_type.id);
     this.classTypeService.getClassTypes().subscribe({
       next: (response) => {
+        // Filtramos por las clases que NO tienen clases activas.
         this.classNames = response.data.filter((classes: ClassType) => !activeClass.includes(classes.id));
       },
       error: () => {
@@ -71,23 +86,33 @@ export class Account {
       }
     })
   }
+
+  // Funcion para obtener el listado de pagos realizados
   getPaymentList(id: number) {
     this.paymentService.getUserPayment(id).subscribe({
       next: (response) => {
+        // Aqui guardamos los pagos con clases pendientes de consumir
         this.paymentsPending.data = [...response.data].filter(p => p.availableClasses > 0);
+        // Aqui guardamos los pagos historicos con clases ya consumidas
         this.paymentsHistory.data = [...response.data].filter(p => p.availableClasses == 0);
+        // Recargamos
         this.getClassList();
-      },
-      error: () => {
-
       }
     })
   }
+
+  // Submit de Edicion de usuario
   onSubmitEdit() {
     if (this.editUserForm.valid) {
       const payload = { ...this.editUserForm.getRawValue() };
+      // Ignoramos la contraseña si no se ha cambiado
       if (!payload.password) {
         delete payload.password;
+      }
+
+      //Formateamos la fecha de nacimiento
+      if (payload.birth_date) {
+        payload.birth_date = formatDate(payload.birth_date, 'yyyy-MM-dd');
       }
       this.userService.put(this.user.id, payload).subscribe({
         next: (response) => {
@@ -98,15 +123,36 @@ export class Account {
           this.dialog.open(WarningDialog, { data: { message: 'Error al editar el perfil: ' + error.error.message } });
         }
       })
-    } /*else {
-      Object.entries(this.editUserForm.controls).forEach(([key, control]) => {
-        if (control.invalid) {
-          console.warn(`Control inválido: ${key}`, control.errors, control.value);
+    } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
+      this.errorForm = true;
+
+      const controls = this.editUserForm.controls;
+      let hasRequiredError = false;
+      let hasFormatError = false;
+
+      for (const name in controls) {
+        const errors = controls[name].errors;
+        if (errors) {
+          if (errors['required']) hasRequiredError = true;
+          if (errors['pattern'] || errors['minlength'] || errors['email']) hasFormatError = true;
         }
-      });
-    }*/
+      }
+
+      // Definimos el mensaje estándar según lo encontrado
+      if (hasRequiredError) {
+        this.errorPass = false;
+        this.errorMessage = "Por favor, completa todos los campos obligatorios.";
+      } else if (hasFormatError) {
+        this.errorPass = true;
+        this.errorMessage = "La contraseña o el email no tienen un formato válido.";
+      } else {
+        this.errorMessage = "Hay errores en el formulario. Por favor, revísalo.";
+      }
+    }
   }
 
+  // Submit de Pagos de usuario
   onSubmitPay() {
     const now = new Date();
     const fechaFormateada = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;

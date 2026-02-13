@@ -32,17 +32,19 @@
   </div>
   <div class="cal-events mt-1 mb-1 ">
     <div *ngFor="let event of day.events" class="event-container">
+      <!--Boton que muestra la clase reservada-->
       <button [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ event: event }" (click)="$event.stopPropagation()"
         class="btn btn-sm w-100" [style.backgroundColor]="event.color?.primary" style="color: white;" >
         <span class="d-none d-md-inline">{{ event.title }}</span>
       </button>
     </div>
-
+    <!-- Desplegable del boton-->
     <mat-menu #menu="matMenu">
       <ng-template matMenuContent let-event="event">
         <button mat-menu-item (click)="showList(event)">
           <i class="fa-solid fa-pen-to-square"></i> Ver listado
         </button>
+        <!-- Solo muestra algunas opciones si eres admin/profe-->
         @if (authService.currentUser()?.role?.role_name === 'admin' || authService.currentUser()?.role?.role_name ===
         'profesor') {
         <button mat-menu-item (click)="handleEvent(event)">

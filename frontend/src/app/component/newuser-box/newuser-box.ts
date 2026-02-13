@@ -24,6 +24,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   styleUrl: './newuser-box.css'
 })
 export class NewuserBox {
+
+  // Variablñes
   readonly #formBuilder = inject(FormBuilder);
   readonly dialog = inject(MatDialog);
   roleNames: Role[] = [];
@@ -31,6 +33,8 @@ export class NewuserBox {
   errorPass = false;
   errorMessage = "";
   errorPassMessage = "Mínimo 8 caracteres y 1 número";
+
+  // Formulario de nuevo usuario con sus validaciones
   newUserForm: FormGroup = this.#formBuilder.group({
     password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[0-9]).*$')]],
     first_name: ['', Validators.required],
@@ -41,12 +45,14 @@ export class NewuserBox {
     role_id: [4, Validators.required]
   })
 
+  // Constructor
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<NewuserBox>,
     public authService: AuthService,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { roles: Role[] }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { roles: Role[] } // Nos traemos los roles del padre
   ) {
+    // Comprobacion para saber si trae roles o no y mostrarlos en consecuencia.
     if (data && data.roles && data.roles.length > 0) {
       this.roleNames = data.roles;
     } else {
@@ -57,12 +63,16 @@ export class NewuserBox {
   }
 
 
+  // Submit de Añadir usuario
   onSubmit() {
+    // Validamos formulario
     if (this.newUserForm.valid) {
       const payload = { ...this.newUserForm.value };
+      // Formateamos fecha de nacimiento
       if (payload.birth_date) {
         payload.birth_date = formatDate(payload.birth_date, 'yyyy-MM-dd');
       }
+      // Creamos el usuario
       this.userService.post(payload).subscribe({
         next: () => {
           this.dialogRef.close({ created: true });
@@ -73,8 +83,8 @@ export class NewuserBox {
 
       });
     } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
       this.errorForm = true;
-
       const controls = this.newUserForm.controls;
       let hasRequiredError = false;
       let hasFormatError = false;

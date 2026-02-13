@@ -44,6 +44,7 @@
     <ng-template #noUsers>
         <p>No hay alumnos inscritos en esta clase.</p>
     </ng-template>
+    <!-- Interfaz si eres admin o profesor-->
     @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name
     ==='profesor'){
     <mat-accordion>
@@ -76,6 +77,7 @@
         </mat-expansion-panel>
 
     </mat-accordion>
+    <!-- Interfaz de alumno -->
     }@else{
     <form [formGroup]="newUserBooking" (ngSubmit)="onSubmit()">
         <button mat-raised-button type="submit" [hidden]="amIBooked">Reservar</button>

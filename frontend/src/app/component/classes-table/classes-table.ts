@@ -18,11 +18,16 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 })
 export class ClassesTable {
 
+  // Variables
   classTypes = input.required<MatTableDataSource<ClassType>>();
   displayedColumns: string[] = ['className', 'classLimit', 'price', 'availableClasses', 'actions'];
   readonly dialog = inject(MatDialog)
-  @Output() refresh = new EventEmitter<void>();
+  @Output() refresh = new EventEmitter<void>(); // Permite la recarga de las clases
 
+  // Constructor
+  constructor(private classTypeService: ClassTypeService) { }
+
+  // Funcion que abre la edicion de las clases
   editClassType(classType: ClassType) {
     const dialogEdit = this.dialog.open(EditClassDialog, {
       data: {
@@ -36,7 +41,7 @@ export class ClassesTable {
 
   }
 
-  constructor(private classTypeService: ClassTypeService) { }
+  // Función para el borrado de las clases
   deleteClass(id: number) {
     const dialogDEL = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar esta clase?' } });
 

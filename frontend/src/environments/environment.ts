@@ -1,1 +1,1 @@
-export const environment = { apiDomain: "api.ceramicapangea.es"};
+export const environment = { apiDomain: "https://api.ceramicapangea.es"};

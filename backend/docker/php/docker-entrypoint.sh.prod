@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+if [ -f .env ]; then
+    php artisan config:cache
+fi
+php artisan migrate --force --no-interaction
+
+exec docker-php-entrypoint "$@"

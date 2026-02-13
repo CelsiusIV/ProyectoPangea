@@ -26,29 +26,21 @@ Route::post('/users', [UserController::class, 'store']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users/{user_id}/payments', [PaymentsController::class, 'userPayment']);
     Route::get('/classes/{class_id}/bookings', [BookingClassController::class, 'classBooking']);
-    //Route::apiResource('users', UserController::class);
+
+    // Usuarios
     Route::apiResource('users', UserController::class)
         ->except(['store'])
         ->middleware('role:admin|profesor|alumno');
-    // =================================================================
-    // 2. ZONA CLASES (Classes)
-    // =================================================================
-
-    // A. Métodos de Lectura (Index, Show): Todos
+    
+    // Clases
     Route::apiResource('classes', ClassController::class)
         ->only(['index', 'show'])
         ->middleware('role:alumno|admin|profesor|registrado');
-
-    // B. Métodos de Escritura (Store, Update, Delete): Solo Admin/Profe
     Route::apiResource('classes', ClassController::class)
         ->except(['index', 'show'])
         ->middleware('role:admin|profesor');
 
-
-    // =================================================================
-    // 3. ZONA TIPOS DE CLASE (Class Types)
-    // =================================================================
-
+    // Tipos de clase
     Route::apiResource('class_types', ClassTypeController::class)
         ->only(['index', 'show'])
         ->middleware('role:profesor|alumno|admin|registrado');
@@ -57,16 +49,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         ->except(['index', 'show'])
         ->middleware('role:admin');
 
-
-    // =================================================================
-    // 4. RESTO DE RUTAS
-    // =================================================================
-
+    // Roles
     Route::apiResource('roles', RoleController::class)
         ->middleware('role:admin|profesor');
 
+    // Pagos
     Route::apiResource('payments', PaymentsController::class);
 
+    // Reservas
     Route::apiResource('booking', BookingClassController::class)
         ->middleware('role:admin|profesor|alumno');
 });

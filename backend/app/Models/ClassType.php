@@ -11,7 +11,7 @@ class ClassType extends Model
 {
     use HasFactory , SoftDeletes;
 
-    protected $table = 'class_types'; // QUITARLO POR CONVENCION NOSEQUE
+    protected $table = 'class_types'; 
     
     protected $fillable = [
         'className',

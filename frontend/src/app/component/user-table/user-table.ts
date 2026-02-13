@@ -20,14 +20,14 @@ import { WarningDialog } from '../warning-dialog/warning-dialog';
   styleUrl: './user-table.css'
 })
 export class UserTable {
+  // Variables
   refresh = output<void>();
   users = input.required<MatTableDataSource<User>>();
   roleNames = input.required<Role[]>();
-  //displayedColumns: string[] = ['first_name', 'last_name', 'email', 'phone', 'role', 'actions'];
   displayedColumns: string[] = ['first_name', 'last_name', 'role', 'actions'];
-
-
   readonly dialog = inject(MatDialog)
+
+  // Funcion de editar usuario, que llama al objeto EditUserDialog y le envia los datos
   editUser(user: User) {
     const dialogEdit = this.dialog.open(EditUserDialog, { data: { user, roleNames: this.roleNames() } });
     dialogEdit.afterClosed().subscribe(result => {
@@ -38,7 +38,10 @@ export class UserTable {
 
   }
 
+  // Constructor
   constructor(private userService: UserService) { }
+
+  // Funcion de borrar usuario
   deleteUser(id: number) {
     const dialogDEL = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar este usuario?' } });
 

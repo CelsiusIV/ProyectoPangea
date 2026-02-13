@@ -17,7 +17,6 @@ class BookingClassController extends Controller
      */
     public function index()
     {
-        // return BookingClass::all()->toResourceCollection();
         $bookingClass = BookingClass::with([
             'user' => function ($query) {
                 $query->withTrashed();
@@ -38,7 +37,6 @@ class BookingClassController extends Controller
         $bookClass = $request->validated();
         $classSelected = Classes::findOrFail($bookClass['class_id']);
         $pruebaClass = ClassType::where('className', 'prueba')->value('id');
-        $userClassPrueba = BookingClass::where('user_id', $bookClass['user_id'])->where('class_id');
 
         // Comprobar si el usuario ya ha consumido una clase de prueba
         if ($classSelected->class_type_id == $pruebaClass) {

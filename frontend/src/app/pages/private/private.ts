@@ -22,13 +22,16 @@ import { MatButtonModule } from "@angular/material/button";
 
 export class Private implements OnDestroy, AfterViewInit {
 
+    // Variables
     private _mobileQueryListener: () => void;
     mobileQuery: MediaQueryList;
     isAuth = false;
 
+    // Constructor
     constructor(private changeDetectorRef: ChangeDetectorRef,
         private media: MediaMatcher, public authService: AuthService, private router: Router) {
 
+        // Estas opciones hacen que cambie el menu según el tamaño de la pantalla
         this.mobileQuery = this.media.matchMedia('(max-width: 800px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addEventListener('change', this._mobileQueryListener);
@@ -42,12 +45,14 @@ export class Private implements OnDestroy, AfterViewInit {
         this.changeDetectorRef.detectChanges();
     }
 
+    // Revisa si el usuario esta logueado
     checkAuth() {
         this.authService.sesionCheck().subscribe(response => {
             this.isAuth = response;
         });
     }
 
+    // Llama al servicio logout
     logout() {
         this.authService.logout().subscribe({
             next: () => {

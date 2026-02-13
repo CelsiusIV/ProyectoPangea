@@ -2,6 +2,7 @@
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Nuevo Usuario</h2>
+<!-- Si hay error de formulario se muestra un mensaje en rojo -->
 @if(errorForm){
 <mat-hint class="matIntPrincipal" style="color: var(--mat-sys-error)">
     {{errorMessage}}
@@ -51,6 +52,7 @@
                 <mat-label>Telefono</mat-label>
                 <input matInput placeholder="Telefono" required formControlName="phone" name="phone">
             </mat-form-field>
+            <!-- Mostramos esta parte SOLO si es un usuario autenticado, sino no-->
             @if(this.authService.currentUser()){
             <mat-form-field appearance="outline">
                 <mat-label>Rol</mat-label>

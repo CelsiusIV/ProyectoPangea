@@ -14,7 +14,6 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasApiTokens, HasRoles, SoftDeletes;
 
     /**
@@ -55,10 +54,6 @@ class User extends Authenticatable
         ];
     }
 
-    /*public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }*/
     public function bookingclass(): HasMany
     {
         return $this->hasMany(BookingClass::class);

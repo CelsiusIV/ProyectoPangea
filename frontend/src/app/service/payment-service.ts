@@ -8,29 +8,29 @@ import { apiConstants } from '../consts/api';
   providedIn: 'root',
 })
 export class PaymentService {
-  private apiURL = `${environment.apiDomain}/${apiConstants.PAYMENTS}`;
+  private apiURL = `${environment.apiDomain}`;
   constructor(private http: HttpClient) { }
   getPayments(): Observable<any> {
-    return this.http.get(`${this.apiURL}`, { withCredentials: true });
+    return this.http.get(`${this.apiURL}/${apiConstants.PAYMENTS}`, { withCredentials: true });
   }
 
   getPayment(id: number): Observable<any> {
-    return this.http.get(`${this.apiURL}/${id}`, { withCredentials: true })
+    return this.http.get(`${this.apiURL}/${apiConstants.PAYMENTS}/${id}`, { withCredentials: true })
   }
 
   getUserPayment(id: number): Observable<any>{
-    return this.http.get(`http://localhost:8080/api/users/${id}/payments`, { withCredentials: true })
+    return this.http.get(`${this.apiURL}/${apiConstants.USERS}/${id}/payments`, { withCredentials: true })
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.apiURL}/${id}`);
+    return this.http.delete(`${this.apiURL}/${apiConstants.PAYMENTS}/${id}`);
   }
 
   post(data: any): Observable<any> {
-    return this.http.post<any>(`${this.apiURL}`, data, { withCredentials: true });
+    return this.http.post<any>(`${this.apiURL}/${apiConstants.PAYMENTS}`, data, { withCredentials: true });
   }
   put(id: number, data: any): Observable<any> {
-    return this.http.put<any>(`${this.apiURL}/${id}`, data, {
+    return this.http.put<any>(`${this.apiURL}/${apiConstants.PAYMENTS}/${id}`, data, {
       headers: new HttpHeaders({
         'accept': 'application/json'
       })

@@ -21,6 +21,8 @@ import { WarningDialog } from '../warning-dialog/warning-dialog';
   styleUrl: './edit-class-dialog.css',
 })
 export class EditClassDialog implements OnInit {
+
+  //Variables
   classType: ClassType;
   readonly #formBuilder = inject(FormBuilder);
   editClassForm: FormGroup;
@@ -30,10 +32,13 @@ export class EditClassDialog implements OnInit {
   errorMessage = "";
   errorLimiteClasesMessage = "Mínimo 1, máximo 8";
 
+  // Constructor
   constructor(
     private classTypeService: ClassTypeService, public dialogRef: MatDialogRef<EditClassDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { classType: ClassType }) {
+    @Inject(MAT_DIALOG_DATA) public data: { classType: ClassType }) { // Nos traemos el classType del padre
     this.classType = data.classType;
+
+    // Formulario para la edición de la clase con sus validadores
     this.editClassForm = this.#formBuilder.group({
       className: ['', Validators.required],
       classLimit: ['', [Validators.required, Validators.min(1), Validators.max(8)]],
@@ -42,8 +47,10 @@ export class EditClassDialog implements OnInit {
     })
   }
 
+  // Funcion que realiza acciones justo al iniciar el componente
   ngOnInit(): void {
     if (this.classType) {
+      // Rellena los datos del formulario con los datos del padre
       this.editClassForm.patchValue({
         className: this.classType.className,
         classLimit: this.classType.classLimit,
@@ -52,7 +59,10 @@ export class EditClassDialog implements OnInit {
       });
     }
   }
+
+  // Submit de Edicion de clase
   onSubmit() {
+    // Revisa que el formulario es válido
     if (this.editClassForm.valid) {
       const payload = { ...this.editClassForm.value };
       this.classTypeService.put(this.classType.id, payload).subscribe({
@@ -64,6 +74,7 @@ export class EditClassDialog implements OnInit {
         }
       })
     } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
       this.errorForm = true;
 
       const controls = this.editClassForm.controls;

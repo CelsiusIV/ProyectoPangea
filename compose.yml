@@ -6,19 +6,16 @@ services:
             target: php_dev
         restart: unless-stopped
         volumes:
-            - ./backend:/var/www
+            - ./backend:/usr/share/nginx
     web:
         image: nginx:alpine
         container_name: laravel-web
         restart: unless-stopped
         ports:
-            - "80:80" 
-            - "443:443"
+            - "8080:80" 
         volumes:
-            - ./backend:/var/www
+            - ./backend:/usr/share/nginx
             - ./backend/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-            - ./backend/docker/nginx/certs:/etc/ssl/api.ceramicapangea.es
-
         depends_on:
             - app
     db:

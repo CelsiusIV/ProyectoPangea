@@ -16,7 +16,6 @@ class ClassController extends Controller
     public function index()
     {
 
-        //  return Classes::all()->toResourceCollection();
         $classes = Classes::with(['classType' => function ($query) {
             $query->withTrashed();
         }])->get();

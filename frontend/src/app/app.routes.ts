@@ -36,5 +36,5 @@ export const routes: Routes = [
 
         ]
     },
-    { path: '**', redirectTo: '' } /*Con esto si el usuario pone una ruta que no existe, lo lleva al inicio*/
+    { path: '**', redirectTo: '' } 
 ];

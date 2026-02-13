@@ -20,21 +20,29 @@ import { NewuserBox } from '../newuser-box/newuser-box';
   styleUrl: './login-box.css'
 })
 export class LoginBox {
+  // Variables
   readonly #formBuilder = inject(FormBuilder);
   private dialog = inject(MatDialog);
   errorLogin: boolean = false;
+
+  // Formulario de login con validaciones
   loginForm: FormGroup = this.#formBuilder.group({
-    email: ['', Validators.required],
-    password: ['', [Validators.required, Validators.minLength(6)]]
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]]
 
   })
 
+  // Constructor
   constructor(private authService: AuthService, private router: Router, private dialogRef: MatDialogRef<LoginBox>
   ) { }
+
+  // Abre el dialog de nuevo usuario para el registro
   navegarARegistro() {
     this.dialogRef.close();
     this.dialog.open(NewuserBox);
   }
+
+  // Submit de Login
   onSubmit() {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
@@ -42,11 +50,13 @@ export class LoginBox {
           this.dialogRef.close();
           this.router.navigate(['/privado']);
         },
-        error: (error) => {
+        error: () => {
           this.errorLogin = true;
         }
 
       })
+    } else {
+      this.errorLogin = true;
     }
   }
 }

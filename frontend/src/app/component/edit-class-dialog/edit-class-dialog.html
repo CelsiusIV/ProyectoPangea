@@ -2,6 +2,7 @@
     <mat-icon fontIcon="close" />
 </button>
 <h2 mat-dialog-title>Editar Clase</h2>
+<!-- Si hay error de formulario se muestra un mensaje en rojo -->
 @if(errorForm){
 <mat-hint class="matIntPrincipal" style="color: var(--mat-sys-error)">
     {{errorMessage}}
@@ -17,6 +18,7 @@
             <mat-form-field appearance="outline">
                 <mat-label>Limite de alumnos</mat-label>
                 <input matInput placeholder="Limite de alumnos" required formControlName="classLimit" name="classLimit">
+                <!-- Si hay error en el limite de alumnos se muestra un mensaje en rojo -->
                 @if(errorLimiteClases){
                 <mat-hint style="color: var(--mat-sys-error)">
                     {{errorLimiteClasesMessage}}

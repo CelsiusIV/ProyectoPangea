@@ -9,7 +9,6 @@ use App\Http\Resources\PaymentResource;
 use App\Models\ClassType;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class PaymentsController extends Controller
 {
@@ -18,7 +17,6 @@ class PaymentsController extends Controller
      */
     public function index()
     {
-        //  return Payment::all()->toResourceCollection();
         $payments = Payment::with(['classType' => function ($query) {
             $query->withTrashed();
         },
@@ -87,8 +85,6 @@ class PaymentsController extends Controller
 
     public function userPayment(string $user_id)
     {
-        /*   $payments = Payment::where('user_id', $user_id)->orderBy('availableClasses', 'desc')->get();
-        return PaymentResource::collection($payments);*/
         $payments = Payment::with(['classType' => function ($query) {
             $query->withTrashed();
         }])

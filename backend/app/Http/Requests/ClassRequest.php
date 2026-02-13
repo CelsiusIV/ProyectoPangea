@@ -25,7 +25,7 @@ class ClassRequest extends FormRequest
         return [
             'beginDate' => 'required | date_format:Y-m-d\TH:i',
             'endDate' => 'required |  date_format:Y-m-d\TH:i',
-            'maxStudents' => 'required | integer',
+            'maxStudents' => 'required | integer | min:1 | max:20',
             'class_type_id' => 'required | integer'
         ];
     }

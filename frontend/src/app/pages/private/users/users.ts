@@ -22,11 +22,14 @@ import { MatIcon } from "@angular/material/icon";
 })
 
 export class Users implements OnInit {
+
+  // Variables
   readonly dialog = inject(MatDialog);
   roleNames: Role[] = [];
   loading = true;
   users = new MatTableDataSource<User>();
 
+  // Funcion que lanza el newuserbox dialog
   newUser(): void {
     const dialogNew = this.dialog.open(NewuserBox, { data: { roles: this.roleNames } });
     dialogNew.afterClosed().subscribe(result => {
@@ -36,17 +39,17 @@ export class Users implements OnInit {
     })
   }
 
-
-
+  // Constructor
   constructor(private userService: UserService, private roleService: RoleService, private authService: AuthService) { }
 
+  // Funcion que ejecuta acciones al inicio del componente
   ngOnInit(): void {
-    this.getUsersList();
+    this.getUsersList(); // Carga usuarios
     this.roleService.getRoles().subscribe({
       next: (response) => {
         if (this.authService.currentUser()?.role?.role_name ===
           'profesor') {
-          this.roleNames = response.data.filter((r: any) => r.role_name != "admin");
+          this.roleNames = response.data.filter((r: any) => r.role_name != "admin"); // A los profesores no les muestra el rol de admin para elegirlo
         } else {
           this.roleNames = response.data;
         }
@@ -57,6 +60,7 @@ export class Users implements OnInit {
 
   }
 
+  // Funcion para mostrar la lista de usuarios
   getUsersList(): void {
     this.userService.getUsers().subscribe({
       next: (response) => {
@@ -69,6 +73,7 @@ export class Users implements OnInit {
     });
   }
 
+  // Funcion para filtrar 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.users.filter = filterValue.trim().toLowerCase();

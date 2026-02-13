@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('birth_date')->nullable();
             $table->string('phone');
             $table->string('email')->unique();
-        //    $table->foreignId('role_id')->constrained();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->boolean('is_active')->default(true);

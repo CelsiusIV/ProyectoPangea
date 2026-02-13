@@ -1,0 +1,45 @@
+services:
+    app:
+        mem_limit: 300m
+        image: celsiusiv/pangea:prod
+        restart: unless-stopped
+        volumes:
+            - ./.env.production:/usr/share/nginx/.env
+    web:
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./frontend:/usr/share/nginx/frontend
+            - ./public:/usr/share/nginx/public
+            - ./nginx.conf:/etc/nginx/conf.d/default.conf
+            - ./certs:/etc/ssl/api.ceramicapangea.es
+        depends_on:
+            - app
+    db:
+        image: mysql:latest
+        command: 
+            - --performance_schema=OFF
+            - --innodb_buffer_pool_size=128M
+            - --innodb_log_buffer_size=1M
+            - --max_connections=20
+            - --key_buffer_size=8M
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: pangea
+            MYSQL_ROOT_PASSWORD: pangea
+            MYSQL_USER: pangea
+            MYSQL_PASSWORD: pangea
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql/
+volumes:
+    dbdata:
+

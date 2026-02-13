@@ -6,6 +6,7 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <mat-dialog-content>
         <h3>Introduzca usuario y contraseña</h3>
+        <!-- Si hay error en el login se muestra un mensaje en rojo -->
         @if(errorLogin){
         <mat-hint style="color: var(--mat-sys-error)">
             Usuario o contraseña incorrectos.
@@ -29,7 +30,7 @@
 
     </mat-dialog-content>
     <mat-dialog-actions>
-        <span matTooltip="Completa los datos para continuar" [matTooltipDisabled]="!loginForm.invalid">
+        <span matTooltip="Completa los datos correctamente para continuar" [matTooltipDisabled]="!loginForm.invalid">
 
             <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">Login</button>
         </span>

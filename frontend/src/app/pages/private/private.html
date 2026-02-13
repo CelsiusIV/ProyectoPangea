@@ -47,6 +47,7 @@
 
 
         </div>
+        <!-- Zona solo para profesores y administradores -->
         @if (authService.currentUser()?.role?.role_name=== 'admin' || authService.currentUser()?.role?.role_name ===
         'profesor'){
         <div id="zonaAdmin">
@@ -60,6 +61,8 @@
             <span>Usuarios</span>
 
           </a>
+
+          <!-- Zona solo para administradores -->
           @if (authService.currentUser()?.role?.role_name=== 'admin' ){
           <mat-divider></mat-divider>
 

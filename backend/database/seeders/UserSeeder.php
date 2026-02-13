@@ -52,25 +52,25 @@ class UserSeeder extends Seeder
             'phone'=>'699831452',
             'email' => 'marina@test.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password3'),
         ]);
 
           $alumno2=User::create([
             'first_name' => 'Sergio',
             'last_name' => 'Castillo',
             'phone'=>'658841253',
-            'email' => 'sergioc@test.com',
+            'email' => 'sergio@test.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password4'),
         ]);
 
           $alumno3=User::create([
             'first_name' => 'Cristina',
             'last_name' => 'Aguilar',
             'phone'=>'664789325',
-            'email' => 'cristinaa@test.com',
+            'email' => 'cristina@test.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password5'),
         ]);
 
           $alumno4=User::create([
@@ -79,16 +79,16 @@ class UserSeeder extends Seeder
             'phone'=>'693256714',
             'email' => 'anabel@test.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password6'),
         ]);
 
           $alumno5=User::create([
             'first_name' => 'Marta',
             'last_name' => 'Serrano',
             'phone'=>'625874932',
-            'email' => 'martas@test.com',
+            'email' => 'marta@test.com',
             'is_active' => true,
-            'password' => Hash::make('password'),
+            'password' => Hash::make('password7'),
         ]);
 
         $alumno1->assignRole('alumno'); 
@@ -96,5 +96,16 @@ class UserSeeder extends Seeder
         $alumno3->assignRole('alumno'); 
         $alumno4->assignRole('alumno'); 
         $alumno5->assignRole('alumno'); 
+
+        $registrado1=User::create([
+            'first_name' => 'Freya',
+            'last_name' => 'Lozano',
+            'phone'=>'621964232',
+            'email' => 'freya@test.com',
+            'is_active' => true,
+            'password' => Hash::make('password8'),
+        ]);
+
+        $registrado1->assignRole('registrado'); 
     }
 }

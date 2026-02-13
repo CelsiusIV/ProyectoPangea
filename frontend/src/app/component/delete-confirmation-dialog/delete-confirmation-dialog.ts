@@ -14,7 +14,7 @@ export class DeleteConfirmationDialog {
   private dialogRef = inject(MatDialogRef<boolean>);
   message: string;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Inject(MAT_DIALOG_DATA) public data: { message: string } // Se trae los datos del padre
   ) {
     this.message = data.message;
   }

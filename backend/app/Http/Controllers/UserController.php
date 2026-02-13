@@ -17,7 +17,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        // return User::all()->toResourceCollection();
         $users = User::with([
             'payment' => function ($query) {
                 $query->withTrashed();

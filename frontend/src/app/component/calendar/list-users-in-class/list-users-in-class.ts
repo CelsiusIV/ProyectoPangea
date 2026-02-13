@@ -1,4 +1,4 @@
-import { Component, inject, Inject, output } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogClose, MatDialog } from "@angular/material/dialog";
 import { MatIcon } from "@angular/material/icon";
 import { CalendarEvent } from 'angular-calendar';
@@ -17,7 +17,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DeleteConfirmationDialog } from '../../delete-confirmation-dialog/delete-confirmation-dialog';
 import { AuthService } from '../../../service/auth-service';
 import { UserService } from '../../../service/user-service';
-import { PaymentService } from '../../../service/payment-service';
 import { Payments } from '../../../shared/models/classes.interface';
 import { WarningDialog } from '../../warning-dialog/warning-dialog';
 
@@ -28,7 +27,9 @@ import { WarningDialog } from '../../warning-dialog/warning-dialog';
   templateUrl: './list-users-in-class.html',
   styleUrl: './list-users-in-class.css',
 })
+
 export class ListUsersInClass {
+  // Variables
   event: CalendarEvent;
   userList: User[] = [];
   allUserList: User[] = [];
@@ -38,19 +39,24 @@ export class ListUsersInClass {
   myBooking: any = null;
   payments: Payments[] = [];
 
-
+  // Formulario de nueva reserva
   readonly #formBuilder = inject(FormBuilder);
   newUserBooking: FormGroup = this.#formBuilder.group({
     userBooking: [null as User | null, Validators.required]
   })
-  constructor(private dialog: MatDialog, private paymentService: PaymentService, private userService: UserService, private bookingService: BookingClassService, public authService: AuthService,
+
+  // Constructor
+  constructor(private dialog: MatDialog, private userService: UserService, private bookingService: BookingClassService, public authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: { event: CalendarEvent }
   ) {
     this.event = data.event;
   }
 
+  // Funcion que realiza acciones justo al iniciar el componente
   ngOnInit(): void {
+    // Recarga la lista de usuarios
     this.getUsersBookingList();
+    // Según si es admin/profe o no muestra solo los nombres de usuarios y quita validadores o no.
     const role = this.authService.currentUser()?.role?.role_name;
     if (role !== 'admin' && role !== 'profesor') {
       this.displayedColumns = ['name'];
@@ -58,6 +64,8 @@ export class ListUsersInClass {
       this.newUserBooking.get('userBooking')?.updateValueAndValidity();
     }
   }
+
+  // Funcion que actualiza la asistencia a clase de un alumno
   toggleAttendance(user: any) {
     const status = !user.attendance;
     this.bookingService.put(user.bookingId, { user_id: user.id, class_id: user.classId, attendance: status }).subscribe({
@@ -65,13 +73,15 @@ export class ListUsersInClass {
       error: (error) => this.dialog.open(WarningDialog, { data: { message: 'Error actualizando la asistencia: ' + error.error.message } })
     });
   }
+
+  // Funcion para borrar la reserva de un usuario a una clase
   deleteUserBooking(bookingID: any) {
     const dialogRef = this.dialog.open(DeleteConfirmationDialog, { data: { message: '¿Estas seguro de querer borrar el usuario de esta reserva?' } });
     dialogRef.afterClosed().subscribe(confirmed => {
       if (confirmed) {
         this.bookingService.delete(bookingID).subscribe({
           next: () => {
-            this.getUsersBookingList();
+            this.getUsersBookingList(); // Recarga la lista 
           },
           error: (error) => {
             this.dialog.open(WarningDialog, { data: { message: error.error.message } });
@@ -81,6 +91,7 @@ export class ListUsersInClass {
     });
   }
 
+  // Obtiene la lista de usuario (solo alumnos) para que los admin/profesores puedan apuntarlos a la clase. Solo muestra alumnos que no esten ya apuntados
   getUserList(): void {
     const bookedIDs: number[] = this.userList.map(u => u.id);
     this.userService.getUsers().subscribe({
@@ -97,6 +108,8 @@ export class ListUsersInClass {
       }
     });
   }
+
+  // Obtiene la lista de usuarios que han reservado la clase seleccionada
   getUsersBookingList(): void {
     const myId = this.authService.currentUser()?.id;
     const eventID: number = Number(this.event.id);
@@ -113,9 +126,9 @@ export class ListUsersInClass {
             attendance: booking.attendance
           }
         });
-        this.amIBooked = this.userList.some(user => user.id === myId);
-        this.myBooking = this.userList.find(user => user.id === myId);
-        this.getUserList();
+        this.amIBooked = this.userList.some(user => user.id === myId); // Mira si ya estoy reservado
+        this.myBooking = this.userList.find(user => user.id === myId); 
+        this.getUserList(); // Recarga la lista de usuarios
       },
       error: () => {
         this.userList = [];
@@ -124,6 +137,8 @@ export class ListUsersInClass {
         this.loading = false
     })
   }
+
+  // Submit de Reserva de nuevo usuario
   onSubmit() {
     if (this.newUserBooking.invalid) {
       return;
@@ -136,7 +151,7 @@ export class ListUsersInClass {
     }
     this.bookingService.post(bookingJson).subscribe({
       next: () => {
-        this.getUsersBookingList();
+        this.getUsersBookingList(); //Recarga la lista
       },
       error: (error) => {
         this.dialog.open(WarningDialog, { data: { message: error.error.message } });

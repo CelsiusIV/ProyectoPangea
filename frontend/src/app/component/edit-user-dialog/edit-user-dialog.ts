@@ -11,7 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDatepickerModule } from '@angular/material/datepicker'; import { formatDate } from 'date-fns';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { formatDate } from 'date-fns';
 import { WarningDialog } from '../warning-dialog/warning-dialog';
 
 
@@ -22,6 +23,7 @@ import { WarningDialog } from '../warning-dialog/warning-dialog';
   styleUrl: './edit-user-dialog.css'
 })
 export class EditUserDialog {
+  //Variables
   user: User;
   editUserForm: FormGroup;
   roleNames: Role[] = [];
@@ -31,15 +33,16 @@ export class EditUserDialog {
   errorMessage = "";
   errorPassMessage= "Mínimo 8 caracteres y 1 número";
 
-
+  // Constructor
   constructor(
     private userService: UserService,
     public dialogRef: MatDialogRef<EditUserDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: User, roleNames: Role[] }
+    @Inject(MAT_DIALOG_DATA) public data: { user: User, roleNames: Role[] } // Nos traemos el usuario y la lista de roles del padre
   ) {
     this.user = data.user;
     this.roleNames = data.roleNames;
 
+    // Formulario de edición con sus validadores
     this.editUserForm = new FormGroup({
       password: new FormControl('', [Validators.minLength(8), Validators.pattern('^(?=.*[0-9]).*$')]),
       first_name: new FormControl(this.user.first_name, Validators.required),
@@ -52,17 +55,21 @@ export class EditUserDialog {
     });
   }
 
+  // Submit de edicion de usuario
   onSubmit() {
     if (this.editUserForm.valid) {
       const payload = { ...this.editUserForm.value };
+      // Si no se define nueva contraseña no se envia, se deja como estaba
       if (!payload.password) {
         delete payload.password;
       }
+      // Si se añade fecha de nacimiento, se formatea
       if (payload.birth_date) {
         payload.birth_date = formatDate(payload.birth_date, 'yyyy-MM-dd');
       }
+      // Editamos el usuario
       this.userService.put(this.user.id, payload).subscribe({
-        next: (response) => {
+        next: () => {
           this.dialogRef.close({ created: true });
         },
         error: (error) => {
@@ -70,6 +77,7 @@ export class EditUserDialog {
         }
       })
     } else {
+      // Si los datos no son válidos se generan diferentes mensajes según el problema
       this.errorForm = true;
 
       const controls = this.editUserForm.controls;

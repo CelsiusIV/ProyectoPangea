@@ -24,7 +24,7 @@ class ClassTypeRequest extends FormRequest
         return [
             'className' => 'required | string',
             'classLimit' => 'required | integer |min:1',
-            'price' => 'required | numeric',
+            'price' => 'required | numeric | min:0',
             'is_available' => 'required | boolean'
         ];
     }
