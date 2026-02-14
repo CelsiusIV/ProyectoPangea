@@ -22,7 +22,6 @@ export class AuthService {
   }
 
   login(credentials: any): Observable<any> {
-    console.log(this.baseUrl);
     return this.http.get(`${this.baseUrl}/${apiConstants.CSRFCOOKIE}`, { withCredentials: true }).pipe(
       switchMap(() =>
         this.http.post<any>(`${this.baseUrl}/${apiConstants.LOGIN}`, credentials, { withCredentials: true })
