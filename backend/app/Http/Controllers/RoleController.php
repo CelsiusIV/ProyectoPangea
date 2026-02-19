@@ -25,15 +25,5 @@ class RoleController extends Controller
         return Role::findOrFail($id)->toResource();
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(RoleRequest $request, string $id)
-    {
-        $role = Role::findOrFail($id);
-        $updateData = $request->validated();
-        $role->update($updateData);
-        return response()->json($role,200);
-    }
 
 }

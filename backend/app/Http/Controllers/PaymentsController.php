@@ -63,26 +63,6 @@ class PaymentsController extends Controller
         Payment::create($payment);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        return Payment::findOrFail($id)->toResource();
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(PaymentRequest $request, string $id)
-    {
-        $payment = Payment::finOrFail($id);
-        $updateData = $request->validated();
-        $payment->update($updateData);
-        return response()->json($payment, 200);
-    }
-
-
     public function userPayment(string $user_id)
     {
         $payments = Payment::with(['classType' => function ($query) {

@@ -9,6 +9,7 @@ use App\Http\Resources\BookingClassResource;
 use App\Models\Classes;
 use App\Models\ClassType;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
 
 class BookingClassController extends Controller
 {
@@ -93,6 +94,12 @@ class BookingClassController extends Controller
      */
     public function update(BookingClassRequest $request, string $id)
     {
+        $authUser = Auth::user();
+        if (!$authUser->hasRole('admin') && !$authUser->hasRole('profesor')) {
+            return response()->json([
+                'message' => 'No puedes actualizar una reserva'
+            ], 403);
+        }
         $bookClass = BookingClass::findOrFail($id);
         $updateData = $request->validated();
         $bookClass->update($updateData);

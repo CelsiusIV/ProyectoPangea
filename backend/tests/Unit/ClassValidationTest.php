@@ -30,7 +30,7 @@ class ClassValidationTest extends TestCase
             'price' => 25.0,
             'is_available' => true
         ]);
-        $datos = ['beginDate' => '2025-05-10T20:30', 'endDate' => '2025-05-10T22:30', 'maxStudents' => '10', 'class_type_id' => $tipoDeClase->id];
+        $datos = ['beginDate' => '2025-05-10T20:30', 'endDate' => '2025-05-10T22:30', 'maxStudents' => 10, 'class_type_id' => $tipoDeClase->id];
 
         // Comprueba que no falla
         $this->assertFalse($this->validarDatos($datos)->fails());
