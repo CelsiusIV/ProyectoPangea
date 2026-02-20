@@ -4,8 +4,6 @@ set -e
 if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'artisan' ]; then
 	php -r "file_exists('.env') || copy('.env.example', '.env');"
 	composer install --prefer-dist --no-progress --no-interaction
-	npm i
-	npm run build
 
 	echo "Waiting for database to be ready..."
 	ATTEMPTS_LEFT_TO_REACH_DATABASE=10
@@ -20,13 +18,7 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'artisan' ]; then
 		echo "$DATABASE_ERROR"
 	else
 		echo "The database is now ready and reachable"
-		if [ "$( find ./database/migrations -iname '*.php' -print -quit )" ]; then
-				php artisan migrate --no-interaction
-		fi
-		ENV=$(php artisan env | awk -F'[][]' '{print $2}')
-		if [ $ENV = "testing" ]; then
-			php artisan db:seed --env=testing
-		fi
+		php artisan migrate --no-interaction
 	fi
 fi
 
